@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИТ - Въпроси за матура по ИТ</title>
+    <!-- Google Fonts за по-модерен вид -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Основни стилове за тялото на страницата */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #ecf0f1;
+        }
+
+        /* Контейнер за викторината */
+        .quiz-container {
+            background-color: rgba(44, 62, 80, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .quiz-container:hover {
+            transform: scale(1.02);
+        }
+
+        /* Изход бутон */
+        .exit-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e74c3c;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 0.9em;
+            display: none; /* Първоначално скрит */
+        }
+
+        .exit-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        /* Заглавие на викторината */
+        h1 {
+            margin-bottom: 30px;
+            color: #ecf0f1;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* Секция за избор на брой въпроси */
+        .start-section {
+            margin-bottom: 30px;
+        }
+
+        .start-section label {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .start-section input {
+            width: 60px;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #ecf0f1;
+            border-radius: 5px;
+            text-align: center;
+            background-color: transparent;
+            color: #ecf0f1;
+            transition: border-color 0.3s;
+        }
+
+        .start-section input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .start-section button {
+            padding: 10px 25px;
+            font-size: 1em;
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-left: 10px;
+        }
+
+        .start-section button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        /* Въпросът */
+        #question {
+            font-size: 1.4em;
+            margin-bottom: 25px;
+            color: #ecf0f1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* Контейнер за опциите (отговорите) */
+        .options {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        /* Стилове за бутоните с опции */
+        .option {
+            background-color: transparent;
+            color: #ecf0f1;
+            border: 2px solid #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s;
+            font-size: 1.1em;
+            text-align: left;
+            position: relative;
+        }
+
+        /* Ховер ефект за бутоните с опции */
+        .option:hover {
+            background-color: rgba(236, 240, 241, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Стилове за "Не знам" бутон */
+        .dont-know-button {
+            background-color: #f1c40f;
+            color: #2c3e50;
+            border: 2px solid #f39c12;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s, transform 0.2s;
+            font-size: 1.1em;
+            text-align: center;
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .dont-know-button:hover {
+            background-color: #f39c12;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Стилове за резултата */
+        #result {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        /* Стилове за съобщенията за правилен/грешен отговор */
+        .correct {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .incorrect {
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        /* Стилове за бутона "Следващ въпрос" */
+        .next-button {
+            background-color: #8e44ad;
+            color: #ffffff;
+            border: none;
+            padding: 12px 25px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 1em;
+        }
+
+        .next-button:hover {
+            background-color: #732d91;
+            transform: translateY(-2px);
+        }
+
+        /* Стилове за финалния екран */
+        .final-result {
+            font-size: 1.5em;
+            color: #ecf0f1;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* Стилове за историята на опитите */
+        .history-section {
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .history-section h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .history-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .history-list li {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* Анимация за плавно показване */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Стилове за избрани верни и грешни отговори */
+        .option.correct-answer {
+            border-color: #27ae60;
+            background-color: #27ae60;
+            color: #ffffff;
+        }
+
+        .option.wrong-answer {
+            border-color: #c0392b;
+            background-color: #c0392b;
+            color: #ffffff;
+        }
+
+        /* Медиа заявки за по-добра отзивчивост */
+        @media (max-width: 600px) {
+            .quiz-container {
+                padding: 20px;
+            }
+
+            .start-section input {
+                width: 50px;
+            }
+
+            .option, .dont-know-button {
+                padding: 12px;
+                font-size: 1em;
+            }
+
+            .next-button {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            #question {
+                font-size: 1.2em;
+            }
+
+            .history-section h2 {
+                font-size: 1.3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container fade-in">
+        <!-- Изход бутон (скрит на началната страница) -->
+        <button class="exit-button" id="exit-button">Изход</button>
+
+        <h1>ИТ - Въпроси за матура по ИТ</h1>
+
+        <!-- Секция за избор на брой въпроси -->
+        <div class="start-section" id="start-section">
+            <label for="num-questions">Брой въпроси:</label>
+            <input type="number" id="num-questions" min="1" max="30" value="5">
+            <button id="start-button">Започни пробна матура</button>
+        </div>
+
+        <!-- Секция за викторината -->
+        <div id="quiz-section" style="display: none;">
+            <div id="question">Зареждане на въпроса...</div>
+            <div class="options">
+                <!-- Бутоните с отговори ще се генерират тук чрез JavaScript -->
+            </div>
+            <div id="result"></div>
+        </div>
+
+        <!-- Финален резултат -->
+        <div id="final-result" style="display: none;">
+            <div class="final-result">Вашият резултат: <span id="score"></span> от <span id="total"></span></div>
+            <button id="restart-button" class="next-button">Рестартирай Въпросите</button>
+        </div>
+
+        <!-- История на предишните опити -->
+        <div class="history-section" id="history-section">
+            <h2>История на предишните опити:</h2>
+            <ul class="history-list" id="history-list">
+                <!-- Историята ще се генерира тук чрез JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Масив с въпроси и отговори по ИТ за матура
+        const allQuestions = [
+            // Първоначални 20 въпроса
+            {
+                question: "Какво означава абревиатурата 'HTML'?",
+                options: ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Markup Language", "Hyper Transfer Markup Language"],
+                answer: "Hyper Text Markup Language",
+                explanation: "HTML е основният език за маркиране на уеб страници. Той описва структурата и съдържанието на уеб страницата."
+            },
+            {
+                question: "Кой е основният език за програмиране на уеб страници?",
+                options: ["Python", "Java", "C++", "JavaScript"],
+                answer: "JavaScript",
+                explanation: "JavaScript е основният език за програмиране на уеб страници, използван за добавяне на интерактивност и динамично съдържание."
+            },
+            {
+                question: "Какво е операционна система?",
+                options: ["Програма за редактиране на текст", "Програма за управление на хардуера на компютъра", "Програма за създаване на графики", "Програма за гледане на филми"],
+                answer: "Програма за управление на хардуера на компютъра",
+                explanation: "Операционната система управлява хардуера на компютъра и предоставя платформа за изпълнение на софтуерни приложения."
+            },
+            {
+                question: "Кой от следните е софтуерен пакет за офис приложения?",
+                options: ["Adobe Photoshop", "Microsoft Word", "AutoCAD", "Visual Studio"],
+                answer: "Microsoft Word",
+                explanation: "Microsoft Word е софтуерен пакет за офис приложения, използван за създаване и редактиране на текстови документи."
+            },
+            {
+                question: "Какво означава 'CPU'?",
+                options: ["Central Process Unit", "Central Processing Unit", "Computer Personal Unit", "Control Processing Unit"],
+                answer: "Central Processing Unit",
+                explanation: "CPU е абревиатурата за Central Processing Unit, който е основният процесор на компютъра, отговарящ за изпълнението на инструкции."
+            },
+            {
+                question: "Какво е 'брандмауер' (firewall)?",
+                options: ["Устройство за охлаждане на компютъра", "Софтуер за защита от вируси", "Система за контрол на достъпа до мрежата", "Дисково устройство за съхранение на данни"],
+                answer: "Система за контрол на достъпа до мрежата",
+                explanation: "Брандмауерът (firewall) е система за контрол на достъпа до мрежата, която защитава компютърната система от неоторизиран достъп."
+            },
+            {
+                question: "Коя от следните е основна част на компютърната мрежа?",
+                options: ["Монитор", "Клавиатура", "Рутер", "Принтер"],
+                answer: "Рутер",
+                explanation: "Рутерът е основна част от компютърната мрежа, която маршрутизира данните между различни устройства и мрежи."
+            },
+            {
+                question: "Какво е 'база данни'?",
+                options: ["Колекция от свързани данни, организирани за лесен достъп", "Тип памет на компютъра", "Графична карта", "Софтуер за редактиране на видео"],
+                answer: "Колекция от свързани данни, организирани за лесен достъп",
+                explanation: "Базата данни е колекция от свързани данни, които са организирани така, че да могат лесно да бъдат достъпвани, управлявани и актуализирани."
+            },
+            {
+                question: "Кой е разработчикът на операционната система Windows?",
+                options: ["Apple", "Google", "Microsoft", "IBM"],
+                answer: "Microsoft",
+                explanation: "Microsoft е компанията, която разработва и поддържа операционната система Windows."
+            },
+            {
+                question: "Какво представлява 'Cloud Computing' (облак изчисления)?",
+                options: ["Изчисления върху облаци в природата", "Изчисления, които се извършват локално на компютъра", "Използване на интернет за достъп до изчислителни ресурси", "Изчисления, свързани с метеорологията"],
+                answer: "Използване на интернет за достъп до изчислителни ресурси",
+                explanation: "Cloud Computing се отнася до използването на интернет за достъп до изчислителни ресурси като съхранение на данни, сървъри и приложения."
+            },
+            // Допълнителни въпроси
+            {
+                question: "Какво представлява 'API' в контекста на софтуерното развитие?",
+                options: ["Application Programming Interface", "Advanced Programming Interface", "Application Process Integration", "Automated Programming Interface"],
+                answer: "Application Programming Interface",
+                explanation: "API (Application Programming Interface) е интерфейс, който позволява на различни софтуерни приложения да комуникират помежду си."
+            },
+            {
+                question: "Коя е основната функция на 'DNS' в интернет?",
+                options: ["Криптиране на данни", "Разрешаване на домейн имена в IP адреси", "Управление на мрежовия трафик", "Осигуряване на сигурност на мрежата"],
+                answer: "Разрешаване на домейн имена в IP адреси",
+                explanation: "DNS (Domain Name System) превръща домейн имената (като example.com) в IP адреси, които компютрите използват за комуникация."
+            },
+            {
+                question: "Какъв тип памет е 'RAM'?",
+                options: ["Вечна памет", "Временна памет", "Секурна памет", "Високоскоростна памет"],
+                answer: "Временна памет",
+                explanation: "RAM (Random Access Memory) е вид временна памет, която съхранява данни и програми, които са активни по време на работа на компютъра."
+            },
+            {
+                question: "Коя технология се използва за създаване на динамични уеб страници?",
+                options: ["HTML", "CSS", "JavaScript", "SQL"],
+                answer: "JavaScript",
+                explanation: "JavaScript се използва за създаване на динамични уеб страници, добавяйки интерактивност и функционалности на клиентската страна."
+            },
+            {
+                question: "Какво е 'Big Data'?",
+                options: ["Малък обем данни", "Сурови данни", "Изключително голям обем данни, които изискват специфични методи за обработка", "Данни с висока точност"],
+                answer: "Изключително голям обем данни, които изискват специфични методи за обработка",
+                explanation: "Big Data се отнася до изключително големи и сложни набори от данни, които изискват специализирани методи за съхранение, обработка и анализ."
+            },
+            {
+                question: "Какво представлява 'Machine Learning'?",
+                options: ["Ръчно програмиране на алгоритми", "Процесът на обучение на машини да учат от данни без явна програмиране", "Създаване на хардуерни компоненти", "Разработка на мобилни приложения"],
+                answer: "Процесът на обучение на машини да учат от данни без явна програмиране",
+                explanation: "Machine Learning е област от изкуствения интелект, която се фокусира върху разработването на алгоритми, които позволяват на компютрите да учат и правят прогнози или решения без да бъдат явно програмирани за това."
+            },
+            {
+                question: "Какъв е основният протокол за сигурна комуникация в интернет?",
+                options: ["HTTP", "FTP", "SMTP", "HTTPS"],
+                answer: "HTTPS",
+                explanation: "HTTPS (HyperText Transfer Protocol Secure) е основният протокол за сигурна комуникация в интернет, използващ криптиране за защита на данните между браузъра и сървъра."
+            },
+            {
+                question: "Какво представлява 'Blockchain' технологията?",
+                options: ["Система за управление на бази данни", "Децентрализирана цифрова счетоводна система", "Технология за създаване на графики", "Софтуер за управление на проекти"],
+                answer: "Децентрализирана цифрова счетоводна система",
+                explanation: "Blockchain е децентрализирана цифрова счетоводна система, която записва транзакции в блокове, свързани последователно чрез криптографски методи."
+            },
+            {
+                question: "Коя е основната разлика между 'Frontend' и 'Backend' разработката?",
+                options: ["Frontend се занимава със сървърната част, Backend - с потребителския интерфейс", "Frontend се занимава с потребителския интерфейс, Backend - със сървърната част", "Frontend използва само HTML и CSS, Backend - JavaScript", "Frontend и Backend са едно и също"],
+                answer: "Frontend се занимава с потребителския интерфейс, Backend - със сървърната част",
+                explanation: "Frontend разработката се фокусира върху потребителския интерфейс и взаимодействието на потребителя с приложението, докато Backend разработката се занимава със сървърната логика, базите данни и управлението на данни."
+            },
+            {
+                question: "Какво е 'Virtualization' в контекста на компютърните системи?",
+                options: ["Създаване на виртуални машини, които симулират физически компютри", "Използване на виртуални реалности за игри", "Създаване на виртуални уеб страници", "Управление на виртуални проекти"],
+                answer: "Създаване на виртуални машини, които симулират физически компютри",
+                explanation: "Virtualization е технология, която позволява създаването на виртуални машини, които симулират физически компютри, позволявайки по-добро използване на хардуерните ресурси и гъвкавост в управлението на системите."
+            },
+            {
+                question: "Какво е 'Agile' методологията в софтуерното развитие?",
+                options: ["Методология за водопаден модел на разработка", "Методология за итеративно и инкрементално развитие на софтуер", "Методология за статично тестване на софтуер", "Методология за управление на бази данни"],
+                answer: "Методология за итеративно и инкрементално развитие на софтуер",
+                explanation: "Agile методологията е подход за разработка на софтуер, който акцентира върху итеративното и инкрементално развитие, гъвкавостта и сътрудничеството между екипите."
+            },
+            {
+                question: "Какво представлява 'Responsive Design'?",
+                options: ["Дизайн, който се адаптира към различни устройства и размери на екрана", "Дизайн, който е статичен и не се променя", "Дизайн, който използва само флексбокс", "Дизайн, който не е отзивчив към потребителски действия"],
+                answer: "Дизайн, който се адаптира към различни устройства и размери на екрана",
+                explanation: "Responsive Design е подход в уеб дизайна, който гарантира, че уеб страниците изглеждат и функционират добре на различни устройства и размери на екрана."
+            },
+            {
+                question: "Какво е 'SEO'?",
+                options: ["Search Engine Optimization", "Secure Email Option", "Software Engineering Operations", "System Error Output"],
+                answer: "Search Engine Optimization",
+                explanation: "SEO (Search Engine Optimization) е процесът на оптимизиране на уеб страници, за да се подобри тяхната видимост и класиране в резултатите от търсачките."
+            },
+            {
+                question: "Какво е 'Version Control'?",
+                options: ["Контрол на версията на документа", "Система за управление на промените в кода и документацията", "Контрол на версията на софтуера", "Система за управление на базите данни"],
+                answer: "Система за управление на промените в кода и документацията",
+                explanation: "Version Control е система, която позволява на разработчиците да проследяват промените в кода и документацията, да сътрудничат ефективно и да възстановяват предишни версии при необходимост."
+            },
+            {
+                question: "Какво е 'Docker'?",
+                options: ["Система за виртуализация", "Система за контейнеризация на приложения", "Софтуер за управление на бази данни", "Софтуер за разработка на мобилни приложения"],
+                answer: "Система за контейнеризация на приложения",
+                explanation: "Docker е платформа за разработка, доставка и изпълнение на приложения чрез използването на контейнери, които осигуряват изолация и преносимост."
+            },
+            {
+                question: "Какво е 'NoSQL' база данни?",
+                options: ["База данни, която не използва SQL", "База данни, която е само за текстови данни", "База данни, която използва само ключ-стойност структури", "База данни, която не поддържа транзакции"],
+                answer: "База данни, която не използва SQL",
+                explanation: "NoSQL базите данни са вид бази данни, които не използват традиционния SQL (Structured Query Language) за управление и достъп до данните. Те са оптимизирани за големи обеми данни и висока мащабируемост."
+            },
+            // Допълнителни въпроси
+            {
+                question: "Какво е 'Git'?",
+                options: ["Система за управление на бази данни", "Система за контрол на версиите", "Софтуерен редактор", "Софтуер за виртуализация"],
+                answer: "Система за контрол на версиите",
+                explanation: "Git е разпределена система за контрол на версиите, използвана за проследяване на промените в кода и улесняване на сътрудничеството между разработчиците."
+            },
+            {
+                question: "Какво е 'CSS'?",
+                options: ["Computer System Software", "Cascading Style Sheets", "Central Server System", "Creative Style Syntax"],
+                answer: "Cascading Style Sheets",
+                explanation: "CSS (Cascading Style Sheets) е език за стилове, използван за описване на външния вид и форматирането на уеб страниците, написани с HTML."
+            },
+            {
+                question: "Какво е 'SQL'?",
+                options: ["Structured Query Language", "Simple Query Language", "Standard Query Language", "Sequential Query Language"],
+                answer: "Structured Query Language",
+                explanation: "SQL (Structured Query Language) е стандартен език за управление и манипулиране на бази данни."
+            },
+            {
+                question: "Коя от следните е основна характеристика на 'Object-Oriented Programming' (ООП)?",
+                options: ["Функционална декомпозиция", "Инкапсулация", "Процедурно програмиране", "Императивно програмиране"],
+                answer: "Инкапсулация",
+                explanation: "Инкапсулацията е основна характеристика на Обектно-ориентираното програмиране, която позволява обединяване на данни и методи, които оперират върху тези данни, в една единствена структура - обект."
+            },
+            {
+                question: "Какво е 'Polymorphism' в ООП?",
+                options: ["Способността на обектите да се променят", "Способността на методите да имат същото име но различни реализации", "Способността на класовете да наследяват свойства", "Способността на обектите да са различни типове"],
+                answer: "Способността на методите да имат същото име но различни реализации",
+                explanation: "Polymorphism в Обектно-ориентираното програмиране означава способността на методите да имат същото име, но различни реализации в различни класове."
+            },
+            {
+                question: "Какво представлява 'Inheritance' в ООП?",
+                options: ["Процесът на създаване на нови класове от съществуващи", "Процесът на опаковане на данни", "Способността на обектите да имат множество форми", "Създаването на нови обекти"],
+                answer: "Процесът на създаване на нови класове от съществуващи",
+                explanation: "Inheritance в Обектно-ориентираното програмиране е механизъм, който позволява създаването на нови класове (подкласи) от съществуващи класове (суперкласове), наследявайки техните свойства и методи."
+            },
+            {
+                question: "Какво е 'Encapsulation' в ООП?",
+                options: ["Процесът на разделяне на сложни задачи на по-малки подзадачи", "Способността на обектите да се променят динамично", "Съхранение на данни в бази данни", "Прозрачността на даден обект за външни взаимодействия"],
+                answer: "Прозрачността на даден обект за външни взаимодействия",
+                explanation: "Encapsulation в Обектно-ориентираното програмиране е принципът за ограничаване на достъпа до някои компоненти на обектите, като се предпазва тяхното вътрешно състояние от външни промени."
+            },
+            {
+                question: "Какво е 'Abstraction' в ООП?",
+                options: ["Процесът на създаване на конкретни обекти от абстрактни класове", "Създаването на прости интерфейси за сложни системи", "Способността на обектите да имат множество форми", "Създаването на нови класове чрез наследяване"],
+                answer: "Създаването на прости интерфейси за сложни системи",
+                explanation: "Abstraction в Обектно-ориентираното програмиране е процесът на създаване на прости интерфейси за сложни системи, като се фокусира върху съществените характеристики и игнорира незначителните детайли."
+            },
+            {
+                question: "Какво е 'Constructor' в ООП?",
+                options: ["Метод за унищожаване на обекти", "Метод за инициализиране на нови обекти", "Метод за наследяване на свойства", "Метод за създаване на интерфейси"],
+                answer: "Метод за инициализиране на нови обекти",
+                explanation: "Constructor е специален метод в Обектно-ориентираното програмиране, използван за инициализиране на нови обекти с начални стойности."
+            },
+            {
+                question: "Какво е 'Destructor' в ООП?",
+                options: ["Метод за инициализиране на нови обекти", "Метод за разширяване на класове", "Метод за унищожаване на обекти", "Метод за използване на интерфейси"],
+                answer: "Метод за унищожаване на обекти",
+                explanation: "Destructor е специален метод в Обектно-ориентираното програмиране, използван за освобождаване на ресурси и извършване на почистване, когато обектът вече не е необходим."
+            },
+            {
+                question: "В електронна таблица трябва САМО някои избрани клетки да са достъпни за редакция. Каква защита ще приложите?",
+                options: [
+                    "Задаване на ограничение с Data Validation за избраните клетки",
+                    "Задаване на отметка Hidden за избраните клетки, след което избиране на Protect Workbook",
+                    "Премахване на отметка Locked за избраните клетки, след което избиране на Protect Sheet",
+                    "Задаване на Conditional Formatting за избраните клетки"
+                ],
+                answer: "Премахване на отметка Locked за избраните клетки, след което избиране на Protect Sheet",
+                explanation: "Премахването на отметка 'Locked' за избраните клетки и активирането на 'Protect Sheet' позволява само избраните клетки да бъдат редактирани."
+            },
+            {
+                question: "На кой етап от създаването на информационна система се извършва тестване за правилното ѝ функциониране според заложените изисквания?",
+                options: [
+                    "Разработване",
+                    "Проектиране",
+                    "Внедряване",
+                    "Поддръжка"
+                ],
+                answer: "Внедряване",
+                explanation: "Тестването за правилно функциониране на системата според изискванията обикновено се извършва на етапа на внедряване."
+            },
+            {
+                question: "Какъв е видът на заявка в дадена база данни?",
+                options: [
+                    "Параметрична заявка",
+                    "Заявка за обновяване на данни",
+                    "Кръстосана заявка",
+                    "Заявка за изтриване на данни"
+                ],
+                answer: "Кръстосана заявка",
+                explanation: "Кръстосаните заявки се използват за обобщаване и представяне на данни в табличен вид."
+            },
+            {
+                question: "Композиционната техника 'Правило на третините':",
+                options: [
+                    "Мислено разделя композицията на три равни части по вертикала или хоризонтала",
+                    "Мислено разделя изображението на девет еднакви части с помощта на две хоризонтални и две вертикални успоредни линии",
+                    "Мислено разделя композицията на девет части с помощта на линии в отношение приблизително 1.618",
+                    "Мислено разделя изображението с помощта на диагонални линии"
+                ],
+                answer: "Мислено разделя изображението на девет еднакви части с помощта на две хоризонтални и две вертикални успоредни линии",
+                explanation: "Техниката 'Правило на третините' е основен композиционен принцип, използван в дизайна и фотографията."
+            },
+            {
+                question: "Процесът на съхраняване на векторно изображение във формат PNG се нарича:",
+                options: [
+                    "Трасиране",
+                    "Архивиране",
+                    "Векторизиране",
+                    "Растеризиране"
+                ],
+                answer: "Растеризиране",
+                explanation: "Растеризирането е процес на преобразуване на векторно изображение в растерно (пикселно) изображение."
+            },
+            {
+                question: "Кой ефект при аудио обработка променя звуковата област към постепенно намаляване силата на звука?",
+                options: [
+                    "Reverse",
+                    "Echo",
+                    "Fade out",
+                    "Fade in"
+                ],
+                answer: "Fade out",
+                explanation: "Ефектът 'Fade out' намалява постепенно звука до тишина."
+            },
+            {
+                question: "Видеомонтаж, при който се използват повече от една видеопътечки, се нарича:",
+                options: [
+                    "Нелинеен монтаж",
+                    "Монтаж с преходи",
+                    "Монтаж с ефекти",
+                    "Линеен монтаж"
+                ],
+                answer: "Нелинеен монтаж",
+                explanation: "Нелинейният монтаж позволява редактиране с множество видеопътечки, давайки голяма гъвкавост."
+            },
+            {
+                question: "Коя от изброените дейности е етап при проектирането на мултимедийно приложение?",
+                options: [
+                    "Разработване на основна версия",
+                    "Написване на сценарий",
+                    "Тестване и отстраняване на грешки",
+                    "Пакетиране на приложението"
+                ],
+                answer: "Написване на сценарий",
+                explanation: "Написването на сценарий е основен етап при проектирането на мултимедийни приложения."
+            },
+            {
+                question: "Как се нарича визуалното представяне на уеб страница?",
+                options: [
+                    "Навигационна структура",
+                    "Цветова схема",
+                    "Графичен модел",
+                    "Схематичен дизайн"
+                ],
+                answer: "Схематичен дизайн",
+                explanation: "Схематичният дизайн представя основните елементи и структурата на уеб страницата."
+            },
+            {
+                question: "Уеб дизайн стандартите:",
+                options: [
+                    "Препоръчват използването на нестандартни решения",
+                    "Систематизират създаването на инсталационни програми",
+                    "Гарантират използваемост независимо от устройство и браузър",
+                    "Съдържат общи препоръчителни насоки за статични уеб сайтове"
+                ],
+                answer: "Гарантират използваемост независимо от устройство и браузър",
+                explanation: "Стандартите в уеб дизайна гарантират еднаква функционалност на различни устройства и браузъри."
+            },
+            {
+                question: "С кой инструмент в система за управление на съдържание се групират публикациите?",
+                options: [
+                    "Страница",
+                    "Категория",
+                    "Джаджа",
+                    "Тема"
+                ],
+                answer: "Категория",
+                explanation: "Категориите се използват за групиране на публикации в системи за управление на съдържание."
+            },
+            {
+                question: "В кой етап при изпълнението на софтуерен проект се извършва анализът на риска?",
+                options: [
+                    "Планиране",
+                    "Разработване",
+                    "Инициализиране",
+                    "Приключване"
+                ],
+                answer: "Планиране",
+                explanation: "Анализът на риска обикновено се извършва в началото, по време на етапа на планиране."
+            },
+            {
+                question: "Как се нарича хардуерът, който осигурява комуникацията между две устройства?",
+                options: [
+                    "Централен процесор",
+                    "Дънна платка",
+                    "Интерфейс",
+                    "Кеш памет"
+                ],
+                answer: "Интерфейс",
+                explanation: "Интерфейсът е хардуерен или софтуерен компонент, който осигурява комуникацията между различни устройства."
+            },
+            {
+                question: "Коя защитна функция на операционната система проверява кои програми имат достъп до интернет?",
+                options: [
+                    "Windows Firewall",
+                    "Account protection",
+                    "System restore",
+                    "Device security"
+                ],
+                answer: "Windows Firewall",
+                explanation: "Windows Firewall контролира и ограничава достъпа на програми до интернет."
+            },
+            {
+                question: "При създаване на софтуер, обект на авторско право е:",
+                options: [
+                    "Програмният език",
+                    "Ръководството за софтуера",
+                    "Графичният интерфейс",
+                    "Изходният и обектният код"
+                ],
+                answer: "Изходният и обектният код",
+                explanation: "Изходният и обектният код на софтуерния продукт са обект на авторско право."
+            },
+            {
+                question: "Какво представлява 'бекъп' в ИТ?",
+                options: [
+                    "Създаване на резервно копие на данни",
+                    "Премахване на ненужни файлове",
+                    "Обновяване на операционна система",
+                    "Оптимизация на бази данни"
+                ],
+                answer: "Създаване на резервно копие на данни",
+                explanation: "Бекъпът е процесът на създаване на резервно копие на данни, за да се защитят от загуба."
+            },
+            {
+                question: "Кой мрежов протокол осигурява сигурност чрез криптиране на данните?",
+                options: [
+                    "HTTP",
+                    "HTTPS",
+                    "FTP",
+                    "SMTP"
+                ],
+                answer: "HTTPS",
+                explanation: "HTTPS осигурява сигурност чрез криптиране на данните, предавани между браузър и сървър."
+            }
+        ];
+
+        let selectedQuestions = []; // Избраните въпроси за текущата сесия
+        let currentQuestionIndex = 0; // Индекс на текущия въпрос
+        let score = 0; // Брой правилни отговори
+
+        // Елементи от DOM
+        const startSection = document.getElementById('start-section');
+        const startButton = document.getElementById('start-button');
+        const numQuestionsInput = document.getElementById('num-questions');
+
+        const quizSection = document.getElementById('quiz-section');
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.querySelector('.options');
+        const resultElement = document.getElementById('result');
+
+        const finalResultSection = document.getElementById('final-result');
+        const scoreElement = document.getElementById('score');
+        const totalElement = document.getElementById('total');
+        const restartButton = document.getElementById('restart-button');
+
+        const historySection = document.getElementById('history-section');
+        const historyList = document.getElementById('history-list');
+
+        const exitButton = document.getElementById('exit-button');
+
+        // Функция за инициализиране на викторината
+        function startQuiz() {
+            let numQuestions = parseInt(numQuestionsInput.value);
+
+            // Валидация на въведения брой въпроси
+            if (isNaN(numQuestions) || numQuestions < 1) {
+                alert("Моля, въведете валиден брой въпроси (поне 1).");
+                return;
+            }
+
+            if (numQuestions > allQuestions.length) {
+                alert(`Можете да изберете максимум ${allQuestions.length} въпроса.`);
+                numQuestions = allQuestions.length;
+                numQuestionsInput.value = numQuestions;
+            }
+
+            // Рандомизиране и избиране на необходимия брой въпроси
+            selectedQuestions = shuffleArray([...allQuestions]).slice(0, numQuestions);
+            currentQuestionIndex = 0;
+            score = 0;
+
+            // Скриване на началната секция и показване на викторината
+            startSection.style.display = 'none';
+            historySection.style.display = 'none'; // Скриване на историята по време на викторината
+            finalResultSection.style.display = 'none';
+            quizSection.style.display = 'block';
+
+            // Показване на "Изход" бутон
+            exitButton.style.display = 'block';
+
+            loadQuestion();
+        }
+
+        // Функция за зареждане на текущия въпрос
+        function loadQuestion() {
+            const currentQuestion = selectedQuestions[currentQuestionIndex];
+            questionElement.textContent = `Въпрос ${currentQuestionIndex + 1}: ${currentQuestion.question}`;
+            optionsContainer.innerHTML = ''; // Изчистване на предишните опции
+            resultElement.textContent = '';
+            resultElement.classList.remove('correct', 'incorrect');
+
+            // Генериране на бутоните с опции
+            currentQuestion.options.forEach(optionText => {
+                const button = document.createElement('button');
+                button.classList.add('option');
+                button.textContent = optionText;
+                button.addEventListener('click', () => selectOption(button, currentQuestion.answer, currentQuestion.explanation));
+                optionsContainer.appendChild(button);
+            });
+
+            // Добавяне на "Не знам" бутон
+            const dontKnowButton = document.createElement('button');
+            dontKnowButton.classList.add('dont-know-button');
+            dontKnowButton.textContent = "Не знам";
+            dontKnowButton.addEventListener('click', () => showExplanation(currentQuestion.explanation, dontKnowButton));
+            optionsContainer.appendChild(dontKnowButton);
+        }
+
+        // Функция за обработка на избран опция
+        function selectOption(selectedButton, correctAnswer, explanation) {
+            const selectedAnswer = selectedButton.textContent;
+            const buttons = document.querySelectorAll('.option, .dont-know-button');
+
+            // Проверка дали отговорът е правилен
+            if (selectedAnswer === correctAnswer) {
+                resultElement.textContent = "Поздравления! Вярният отговор е правилен.";
+                resultElement.classList.add('correct');
+                score++;
+                selectedButton.classList.add('correct-answer');
+            } else {
+                resultElement.textContent = `Не е правилен. Вярният отговор е "${correctAnswer}".`;
+                resultElement.classList.add('incorrect');
+                selectedButton.classList.add('wrong-answer');
+
+                // Подчертаване на правилния отговор
+                buttons.forEach(btn => {
+                    if (btn.textContent === correctAnswer) {
+                        btn.classList.add('correct-answer');
+                    }
+                });
+            }
+
+            // Показване на обяснението и премахване на "Не знам" бутон
+            showExplanation(explanation);
+            const dontKnowBtn = document.querySelector('.dont-know-button');
+            if (dontKnowBtn) {
+                dontKnowBtn.style.display = 'none';
+            }
+
+            // Деактивиране на бутоните след избор
+            buttons.forEach(btn => btn.disabled = true);
+
+            // Добавяне на бутон за следващ въпрос или финализиране
+            if (currentQuestionIndex < selectedQuestions.length - 1) {
+                const nextButton = document.createElement('button');
+                nextButton.textContent = "Следващ въпрос";
+                nextButton.classList.add('next-button');
+                nextButton.addEventListener('click', () => {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                });
+                optionsContainer.appendChild(nextButton);
+            } else {
+                const finishButton = document.createElement('button');
+                finishButton.textContent = "Финализирай Викторината";
+                finishButton.classList.add('next-button');
+                finishButton.addEventListener('click', showFinalResult);
+                optionsContainer.appendChild(finishButton);
+            }
+        }
+
+        // Функция за показване на обяснението
+        function showExplanation(explanation, dontKnowBtn = null) {
+            resultElement.innerHTML += `<br><strong>Обяснение:</strong> ${explanation}`;
+            if (dontKnowBtn) {
+                dontKnowBtn.style.display = 'none';
+            }
+        }
+
+        // Функция за показване на финалния резултат
+        function showFinalResult() {
+            quizSection.style.display = 'none';
+            finalResultSection.style.display = 'block';
+            scoreElement.textContent = score;
+            totalElement.textContent = selectedQuestions.length;
+
+            // Добавяне на резултата към историята
+            addToHistory(score, selectedQuestions.length);
+            displayHistory();
+
+            // Скриване на "Изход" бутон след завършване на викторината
+            exitButton.style.display = 'none';
+        }
+
+        // Функция за рестартиране на викторината
+        function restartQuiz() {
+            finalResultSection.style.display = 'none';
+            startSection.style.display = 'block';
+            historySection.style.display = 'block'; // Показване на историята на началната страница
+            numQuestionsInput.value = 5;
+        }
+
+        // Функция за добавяне на резултат към историята
+        function addToHistory(score, total) {
+            let history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+            const timestamp = new Date().toLocaleString();
+            history.push({ score, total, timestamp });
+            localStorage.setItem('quizHistory', JSON.stringify(history));
+        }
+
+        // Функция за показване на историята
+        function displayHistory() {
+            let history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+            historyList.innerHTML = ''; // Изчистване на предишното съдържание
+
+            if (history.length === 0) {
+                historyList.innerHTML = '<li>Няма предишни опити.</li>';
+                return;
+            }
+
+            history.slice().reverse().forEach(entry => {
+                const li = document.createElement('li');
+                li.textContent = `Дата: ${entry.timestamp} - Резултат: ${entry.score} от ${entry.total}`;
+                historyList.appendChild(li);
+            });
+        }
+
+        // Функция за изход
+        function exitQuiz() {
+            window.location.href = 'index.html'; // Пренасочване към главната страница (можете да промените URL-то)
+        }
+
+        // Функция за рандомизиране на масив (Фишер-Йетс алгоритъм)
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Добавяне на слушатели за бутоните
+        startButton.addEventListener('click', startQuiz);
+        restartButton.addEventListener('click', restartQuiz);
+        exitButton.addEventListener('click', exitQuiz);
+
+        // Показване на историята при зареждане на страницата
+        window.onload = displayHistory;
+    </script>
+</body>
+</html>
