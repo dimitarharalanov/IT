@@ -112,6 +112,14 @@
             transform: translateY(-2px);
         }
 
+        /* Индикация за напредък */
+        #progress {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #ecf0f1;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
         /* Въпросът */
         #question {
             font-size: 1.4em;
@@ -294,6 +302,38 @@
                 font-size: 1.3em;
             }
         }
+
+        /* Стилове за пагинация в историята */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            font-size: 0.9em;
+        }
+
+        .pagination button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .pagination button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
     </style>
 </head>
 <body>
@@ -307,11 +347,14 @@
         <div class="start-section" id="start-section">
             <label for="num-questions">Брой въпроси:</label>
             <input type="number" id="num-questions" min="1" max="30" value="5">
-            <button id="start-button">Започни пробна матура</button>
+            <button id="start-button">Започни тест</button>
         </div>
 
         <!-- Секция за викторината -->
         <div id="quiz-section" style="display: none;">
+            <!-- Индикация за напредък -->
+            <div id="progress">Въпрос 1 от 5</div>
+
             <div id="question">Зареждане на въпроса...</div>
             <div class="options">
                 <!-- Бутоните с отговори ще се генерират тук чрез JavaScript -->
@@ -322,7 +365,7 @@
         <!-- Финален резултат -->
         <div id="final-result" style="display: none;">
             <div class="final-result">Вашият резултат: <span id="score"></span> от <span id="total"></span></div>
-            <button id="restart-button" class="next-button">Рестартирай Въпросите</button>
+            <button id="restart-button" class="next-button">Рестартирай</button>
         </div>
 
         <!-- История на предишните опити -->
@@ -331,6 +374,12 @@
             <ul class="history-list" id="history-list">
                 <!-- Историята ще се генерира тук чрез JavaScript -->
             </ul>
+            <!-- Пагинация контрол -->
+            <div class="pagination" id="history-pagination" style="display: none;">
+                <button id="prev-page">Предишна</button>
+                <span id="page-info"></span>
+                <button id="next-page">Следваща</button>
+            </div>
         </div>
     </div>
 
@@ -755,6 +804,7 @@
         const numQuestionsInput = document.getElementById('num-questions');
 
         const quizSection = document.getElementById('quiz-section');
+        const progressElement = document.getElementById('progress');
         const questionElement = document.getElementById('question');
         const optionsContainer = document.querySelector('.options');
         const resultElement = document.getElementById('result');
@@ -766,8 +816,18 @@
 
         const historySection = document.getElementById('history-section');
         const historyList = document.getElementById('history-list');
+        const historyPagination = document.getElementById('history-pagination');
+        const prevPageButton = document.getElementById('prev-page');
+        const nextPageButton = document.getElementById('next-page');
+        const pageInfo = document.getElementById('page-info');
 
         const exitButton = document.getElementById('exit-button');
+
+        // Параметри за странициране
+        const recordsPerPage = 5;
+        let currentPage = 1;
+        let totalPages = 1;
+        let historyData = [];
 
         // Функция за инициализиране на викторината
         function startQuiz() {
@@ -805,13 +865,19 @@
         // Функция за зареждане на текущия въпрос
         function loadQuestion() {
             const currentQuestion = selectedQuestions[currentQuestionIndex];
-            questionElement.textContent = `Въпрос ${currentQuestionIndex + 1}: ${currentQuestion.question}`;
+            questionElement.textContent = currentQuestion.question;
             optionsContainer.innerHTML = ''; // Изчистване на предишните опции
             resultElement.textContent = '';
             resultElement.classList.remove('correct', 'incorrect');
 
+            // Обновяване на индикацията за напредък
+            progressElement.textContent = `Въпрос ${currentQuestionIndex + 1} от ${selectedQuestions.length}`;
+
+            // Рандомизиране на опциите
+            const shuffledOptions = shuffleArray([...currentQuestion.options]);
+
             // Генериране на бутоните с опции
-            currentQuestion.options.forEach(optionText => {
+            shuffledOptions.forEach(optionText => {
                 const button = document.createElement('button');
                 button.classList.add('option');
                 button.textContent = optionText;
@@ -822,7 +888,7 @@
             // Добавяне на "Не знам" бутон
             const dontKnowButton = document.createElement('button');
             dontKnowButton.classList.add('dont-know-button');
-            dontKnowButton.textContent = "Не знам";
+            dontKnowButton.textContent = "Обяснение";
             dontKnowButton.addEventListener('click', () => showExplanation(currentQuestion.explanation, dontKnowButton));
             optionsContainer.appendChild(dontKnowButton);
         }
@@ -873,7 +939,7 @@
                 optionsContainer.appendChild(nextButton);
             } else {
                 const finishButton = document.createElement('button');
-                finishButton.textContent = "Финализирай Викторината";
+                finishButton.textContent = "Край";
                 finishButton.classList.add('next-button');
                 finishButton.addEventListener('click', showFinalResult);
                 optionsContainer.appendChild(finishButton);
@@ -897,7 +963,7 @@
 
             // Добавяне на резултата към историята
             addToHistory(score, selectedQuestions.length);
-            displayHistory();
+            displayHistory(); // Показване на първата страница от историята
 
             // Скриване на "Изход" бутон след завършване на викторината
             exitButton.style.display = 'none';
@@ -919,22 +985,58 @@
             localStorage.setItem('quizHistory', JSON.stringify(history));
         }
 
-        // Функция за показване на историята
-        function displayHistory() {
-            let history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+        // Функция за показване на историята с странициране
+        function displayHistory(page = 1) {
+            historyData = JSON.parse(localStorage.getItem('quizHistory')) || [];
+            totalPages = Math.ceil(historyData.length / recordsPerPage) || 1; // Минимално 1 страница
+            currentPage = typeof page === 'number' ? page : 1;
+
             historyList.innerHTML = ''; // Изчистване на предишното съдържание
 
-            if (history.length === 0) {
+            if (historyData.length === 0) {
                 historyList.innerHTML = '<li>Няма предишни опити.</li>';
+                historyPagination.style.display = 'none';
+                pageInfo.textContent = '';
                 return;
             }
 
-            history.slice().reverse().forEach(entry => {
+            // Определяне на индексите за текущата страница
+            const startIndex = (currentPage - 1) * recordsPerPage;
+            const endIndex = Math.min(startIndex + recordsPerPage, historyData.length);
+
+            // Генериране на списъка за текущата страница
+            for (let i = startIndex; i < endIndex; i++) {
+                const entry = historyData[i];
                 const li = document.createElement('li');
                 li.textContent = `Дата: ${entry.timestamp} - Резултат: ${entry.score} от ${entry.total}`;
                 historyList.appendChild(li);
-            });
+            }
+
+            // Обновяване на информацията за страница
+            pageInfo.textContent = `Страница ${currentPage} от ${totalPages}`;
+
+            // Показване или скриване на пагинацията
+            if (totalPages > 1) {
+                historyPagination.style.display = 'flex';
+                prevPageButton.disabled = currentPage === 1;
+                nextPageButton.disabled = currentPage === totalPages;
+            } else {
+                historyPagination.style.display = 'none';
+            }
         }
+
+        // Слушатели за бутоните за пагинация
+        prevPageButton.addEventListener('click', () => {
+            if (currentPage > 1) {
+                displayHistory(currentPage - 1);
+            }
+        });
+
+        nextPageButton.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                displayHistory(currentPage + 1);
+            }
+        });
 
         // Функция за изход
         function exitQuiz() {
@@ -956,7 +1058,7 @@
         exitButton.addEventListener('click', exitQuiz);
 
         // Показване на историята при зареждане на страницата
-        window.onload = displayHistory;
+        window.onload = () => displayHistory(); // Използвайте анонимна функция, за да не предавате събитие
     </script>
 </body>
 </html>
