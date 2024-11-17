@@ -11,336 +11,374 @@
     <style>
         /* Основни стилове за тялото на страницата */
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-            color: #ecf0f1;
-        }
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #2c3e50, #4ca1af);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    color: #ecf0f1;
+}
 
-        /* Контейнер за викторината */
-        .quiz-container {
-            background-color: rgba(44, 62, 80, 0.95);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-            position: relative;
-            transition: transform 0.3s ease;
-        }
+/* Контейнер за викторината */
+.quiz-container {
+    background-color: rgba(44, 62, 80, 0.9); /* По-тъмен фон за по-добър контраст */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    overflow: hidden; /* За по-добро управление на съдържанието */
+}
 
-        .quiz-container:hover {
-            transform: scale(1.02);
-        }
+/* Ховер ефект за контейнера */
+.quiz-container:hover {
+    transform: scale(1.02);
+    background-color: rgba(44, 62, 80, 0.95);
+}
 
-        /* Изход бутон */
-        .exit-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #e74c3c;
-            color: #ffffff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            font-size: 0.9em;
-            display: none; /* Първоначално скрит */
-        }
+/* Изход бутон */
+.exit-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 0.9em;
+    display: none; /* Първоначално скрит */
+}
 
-        .exit-button:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
-        }
+.exit-button:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
 
-        /* Заглавие на викторината */
-        h1 {
-            margin-bottom: 30px;
-            color: #ecf0f1;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
+/* Заглавие на викторината */
+h1 {
+    margin-bottom: 30px;
+    color: #ffffff;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
 
-        /* Секция за избор на категория и брой въпроси */
-        .start-section {
-            margin-bottom: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
+/* Секция за избор на категория и брой въпроси */
+.start-section {
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
 
-        .start-section label {
-            font-size: 1.2em;
-            margin-right: 10px;
-        }
+/* Стилове за етикетите */
+.start-section label {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
 
-        .start-section select,
-        .start-section input {
-            width: 200px;
-            padding: 10px;
-            font-size: 1em;
-            border: 2px solid #ecf0f1;
-            border-radius: 5px;
-            text-align: center;
-            background-color: transparent;
-            color: #ecf0f1;
-            transition: border-color 0.3s;
-        }
+/* Подобрени стилове за селект елемента */
+.start-section select,
+.start-section input {
+    width: 220px;
+    padding: 12px 40px 12px 15px; /* Добавен отстъп за стрелката */
+    font-size: 1em;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    appearance: none; /* Премахва стандартната стрелка */
+    -webkit-appearance: none; /* За Safari и Chrome */
+    -moz-appearance: none; /* За Firefox */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23ffffff" d="M6 9L1.5 3h9L6 9z"/></svg>'); /* Персонализирана стрелка */
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 12px;
+    cursor: pointer;
+    transition: border-color 0.3s, background-color 0.3s;
+}
 
-        .start-section select:focus,
-        .start-section input:focus {
-            border-color: #3498db;
-            outline: none;
-        }
+/* Стилове при ховер върху селекта и инпута */
+.start-section select:hover,
+.start-section input:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
 
-        .start-section button {
-            padding: 10px 25px;
-            font-size: 1em;
-            background-color: #3498db;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            margin-top: 10px;
-        }
+/* Стилове при фокус върху селекта и инпута */
+.start-section select:focus,
+.start-section input:focus {
+    border-color: #3498db;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.3);
+}
 
-        .start-section button:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-        }
+/* Ограничено стилизиране на option елементите */
+.start-section select option {
+    background-color: rgba(44, 62, 80, 0.9);
+    color: #ecf0f1;
+}
 
-        /* Индикация за напредък */
-        #progress {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            color: #ecf0f1;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
+/* Стилове за бутоните в старт секцията */
+.start-section button {
+    padding: 12px 30px;
+    font-size: 1em;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
 
-        /* Въпросът */
-        #question {
-            font-size: 1.4em;
-            margin-bottom: 25px;
-            color: #ecf0f1;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
+.start-section button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
 
-        /* Контейнер за опциите (отговорите) */
-        .options {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
+/* Индикация за напредък */
+#progress {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
 
-        /* Стилове за бутоните с опции */
-        .option {
-            background-color: transparent;
-            color: #ecf0f1;
-            border: 2px solid #ecf0f1;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.2s;
-            font-size: 1.1em;
-            text-align: left;
-            position: relative;
-        }
+/* Въпросът */
+#question {
+    font-size: 1.4em;
+    margin-bottom: 25px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
 
-        /* Ховер ефект за бутоните с опции */
-        .option:hover {
-            background-color: rgba(236, 240, 241, 0.2);
-            transform: translateY(-2px);
-        }
+/* Контейнер за опциите (отговорите) */
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    margin-bottom: 25px;
+}
 
-        /* Стилове за "Не знам" бутон */
-        .dont-know-button {
-            background-color: #f1c40f;
-            color: #2c3e50;
-            border: 2px solid #f39c12;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.2s;
-            font-size: 1.1em;
-            text-align: center;
-            position: relative;
-            margin-top: 10px;
-        }
+/* Стилове за бутоните с опции */
+.option {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    font-size: 1.1em;
+    text-align: left;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
 
-        .dont-know-button:hover {
-            background-color: #f39c12;
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
+.option:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
 
-        /* Стилове за резултата */
-        #result {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
+/* Стилове за "Не знам" бутон */
+.dont-know-button {
+    background-color: #f1c40f;
+    color: #2c3e50;
+    border: 2px solid #f39c12;
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, transform 0.2s;
+    font-size: 1.1em;
+    text-align: center;
+    position: relative;
+    margin-top: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
 
-        /* Стилове за съобщенията за правилен/грешен отговор */
-        .correct {
-            color: #27ae60;
-            font-weight: bold;
-        }
+.dont-know-button:hover {
+    background-color: #f39c12;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
 
-        .incorrect {
-            color: #c0392b;
-            font-weight: bold;
-        }
+/* Стилове за резултата */
+#result {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
 
-        /* Стилове за бутона "Следващ въпрос" */
-        .next-button {
-            background-color: #8e44ad;
-            color: #ffffff;
-            border: none;
-            padding: 12px 25px;
-            margin-top: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            font-size: 1em;
-        }
+/* Стилове за съобщенията за правилен/грешен отговор */
+.correct {
+    color: #27ae60;
+    font-weight: bold;
+}
 
-        .next-button:hover {
-            background-color: #732d91;
-            transform: translateY(-2px);
-        }
+.incorrect {
+    color: #c0392b;
+    font-weight: bold;
+}
 
-        /* Стилове за финалния екран */
-        .final-result {
-            font-size: 1.5em;
-            color: #ecf0f1;
-            margin-bottom: 20px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
+/* Стилове за бутона "Следващ въпрос" */
+.next-button {
+    background-color: #8e44ad;
+    color: #ffffff;
+    border: none;
+    padding: 12px 25px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 1em;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
 
-        /* Стилове за историята на опитите */
-        .history-section {
-            margin-top: 30px;
-            text-align: left;
-        }
+.next-button:hover {
+    background-color: #732d91;
+    transform: translateY(-2px);
+}
 
-        .history-section h2 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #ecf0f1;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
+/* Стилове за финалния екран */
+.final-result {
+    font-size: 1.5em;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
 
-        .history-list {
-            list-style-type: none;
-            padding: 0;
-        }
+/* Стилове за историята на опитите */
+.history-section {
+    margin-top: 30px;
+    text-align: left;
+}
 
-        .history-list li {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+.history-section h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
 
-        /* Анимация за плавно показване */
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
+.history-list {
+    list-style-type: none;
+    padding: 0;
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+.history-list li {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: background-color 0.3s, transform 0.2s;
+}
 
-        /* Стилове за избрани верни и грешни отговори */
-        .option.correct-answer {
-            border-color: #27ae60;
-            background-color: #27ae60;
-            color: #ffffff;
-        }
+.history-list li:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+}
 
-        .option.wrong-answer {
-            border-color: #c0392b;
-            background-color: #c0392b;
-            color: #ffffff;
-        }
+/* Анимация за плавно показване */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
 
-        /* Медиа заявки за по-добра отзивчивост */
-        @media (max-width: 600px) {
-            .quiz-container {
-                padding: 20px;
-            }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-            .start-section select,
-            .start-section input {
-                width: 150px;
-            }
+/* Стилове за избрани верни и грешни отговори */
+.option.correct-answer {
+    border-color: #27ae60;
+    background-color: #27ae60;
+    color: #ffffff;
+}
 
-            .option, .dont-know-button {
-                padding: 12px;
-                font-size: 1em;
-            }
+.option.wrong-answer {
+    border-color: #c0392b;
+    background-color: #c0392b;
+    color: #ffffff;
+}
 
-            .next-button {
-                padding: 10px 20px;
-                font-size: 0.95em;
-            }
+/* Медиа заявки за по-добра отзивчивост */
+@media (max-width: 600px) {
+    .quiz-container {
+        padding: 20px;
+    }
 
-            h1 {
-                font-size: 2em;
-            }
+    .start-section select,
+    .start-section input {
+        width: 150px;
+    }
 
-            #question {
-                font-size: 1.2em;
-            }
+    .option, .dont-know-button {
+        padding: 12px;
+        font-size: 1em;
+    }
 
-            .history-section h2 {
-                font-size: 1.3em;
-            }
-        }
+    .next-button {
+        padding: 10px 20px;
+        font-size: 0.95em;
+    }
 
-        /* Стилове за пагинация в историята */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
+    h1 {
+        font-size: 2em;
+    }
 
-        .pagination button {
-            padding: 8px 12px;
-            background-color: #3498db;
-            color: #ffffff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-            font-size: 0.9em;
-        }
+    #question {
+        font-size: 1.2em;
+    }
 
-        .pagination button:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-        }
+    .history-section h2 {
+        font-size: 1.3em;
+    }
+}
 
-        .pagination button:disabled {
-            background-color: #95a5a6;
-            cursor: not-allowed;
-            transform: none;
-        }
+/* Стилове за пагинация в историята */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
 
+.pagination button {
+    padding: 8px 12px;
+    background-color: #3498db;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 0.9em;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.pagination button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.pagination button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+    transform: none;
+}
     </style>
 </head>
 <body>
@@ -348,7 +386,7 @@
         <!-- Изход бутон (скрит на началната страница) -->
         <button class="exit-button" id="exit-button">Изход</button>
 
-        <h1>ИТ - Въпроси за матура по ИТ</h1>
+        <h1>Въпроси по <i>ИТ</i></h1>
 
         <!-- Секция за избор на категория и брой въпроси -->
         <div class="start-section" id="start-section">
