@@ -1,1986 +1,1757 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ИТ - Въпроси за матура по ИТ</title>
-    <!-- Google Fonts за по-модерен вид -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="icon.png" type="image/png">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ИТ - Въпроси за матура по ИТ</title>
+  <!-- Примерен шрифт, който може да смените -->
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <link rel="icon" href="icon.png" type="image/png"/>
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      margin: 0;
+      padding: 20px;
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-    <style>
-        /* Основни стилове за тялото на страницата */
-        body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    padding: 20px;
-    color: #ecf0f1;
-}
-
-/* Контейнер за викторината */
-.quiz-container {
-    background-color: rgba(44, 62, 80, 0.9); /* По-тъмен фон за по-добър контраст */
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    max-width: 800px;
-    text-align: center;
-    position: relative;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    overflow: hidden; /* За по-добро управление на съдържанието */
-}
-
-/* Ховер ефект за контейнера */
-.quiz-container:hover {
-    transform: scale(1.02);
-    background-color: rgba(44, 62, 80, 0.95);
-}
-
-/* Изход бутон */
-.exit-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background-color: #e74c3c;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    font-size: 0.9em;
-    display: none; /* Първоначално скрит */
-}
-
-.exit-button:hover {
-    background-color: #c0392b;
-    transform: translateY(-2px);
-}
-
-/* Заглавие на викторината */
-h1 {
-    margin-bottom: 30px;
-    color: #ffffff;
-    font-size: 2.5em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-}
-
-/* Секция за избор на категория и брой въпроси */
-.start-section {
-    margin-bottom: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-/* Стилове за етикетите */
-.start-section label {
-    font-size: 1.2em;
-    margin-right: 10px;
-}
-
-/* Подобрени стилове за селект елемента */
-.start-section select,
-.start-section input {
-    width: 220px;
-    padding: 12px 40px 12px 15px; /* Добавен отстъп за стрелката */
-    font-size: 1em;
-    border: 2px solid #ffffff;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    appearance: none; /* Премахва стандартната стрелка */
-    -webkit-appearance: none; /* За Safari и Chrome */
-    -moz-appearance: none; /* За Firefox */
-    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><path fill="%23ffffff" d="M6 9L1.5 3h9L6 9z"/></svg>'); /* Персонализирана стрелка */
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 12px;
-    cursor: pointer;
-    transition: border-color 0.3s, background-color 0.3s;
-}
-
-/* Стилове при ховер върху селекта и инпута */
-.start-section select:hover,
-.start-section input:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-}
-
-/* Стилове при фокус върху селекта и инпута */
-.start-section select:focus,
-.start-section input:focus {
-    border-color: #3498db;
-    outline: none;
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Ограничено стилизиране на option елементите */
-.start-section select option {
-    background-color: rgba(44, 62, 80, 0.9);
-    color: #ecf0f1;
-}
-
-/* Стилове за бутоните в старт секцията */
-.start-section button {
-    padding: 12px 30px;
-    font-size: 1em;
-    background-color: #3498db;
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    margin-top: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-.start-section button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-}
-
-/* Индикация за напредък */
-#progress {
-    font-size: 1.1em;
-    margin-bottom: 15px;
-    color: #ffffff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-}
-
-/* Въпросът */
-#question {
-    font-size: 1.4em;
-    margin-bottom: 25px;
-    color: #ffffff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-}
-
-/* Контейнер за опциите (отговорите) */
-.options {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-/* Стилове за бутоните с опции */
-.option {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, transform 0.2s;
-    font-size: 1.1em;
-    text-align: left;
-    position: relative;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-.option:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-/* Стилове за "Не знам" бутон */
-.dont-know-button {
-    background-color: #f1c40f;
-    color: #2c3e50;
-    border: 2px solid #f39c12;
-    padding: 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, transform 0.2s;
-    font-size: 1.1em;
-    text-align: center;
-    position: relative;
-    margin-top: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-.dont-know-button:hover {
-    background-color: #f39c12;
-    color: #ffffff;
-    transform: translateY(-2px);
-}
-
-/* Стилове за резултата */
-#result {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    color: #ffffff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-}
-
-/* Стилове за съобщенията за правилен/грешен отговор */
-.correct {
-    color: #27ae60;
-    font-weight: bold;
-}
-
-.incorrect {
-    color: #c0392b;
-    font-weight: bold;
-}
-
-/* Стилове за бутона "Следващ въпрос" */
-.next-button {
-    background-color: #8e44ad;
-    color: #ffffff;
-    border: none;
-    padding: 12px 25px;
-    margin-top: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    font-size: 1em;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-}
-
-.next-button:hover {
-    background-color: #732d91;
-    transform: translateY(-2px);
-}
-
-/* Стилове за финалния екран */
-.final-result {
-    font-size: 1.5em;
-    color: #ffffff;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-}
-
-/* Стилове за историята на опитите */
-.history-section {
-    margin-top: 30px;
-    text-align: left;
-}
-
-.history-section h2 {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-    color: #ffffff;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-}
-
-.history-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-.history-list li {
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.history-list li:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
-}
-
-/* Анимация за плавно показване */
-.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Стилове за избрани верни и грешни отговори */
-.option.correct-answer {
-    border-color: #27ae60;
-    background-color: #27ae60;
-    color: #ffffff;
-}
-
-.option.wrong-answer {
-    border-color: #c0392b;
-    background-color: #c0392b;
-    color: #ffffff;
-}
-
-/* Медиа заявки за по-добра отзивчивост */
-@media (max-width: 600px) {
     .quiz-container {
-        padding: 20px;
+      background-color: rgba(32, 58, 67, 0.9);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 800px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .start-section select,
-    .start-section input {
-        width: 150px;
+    .exit-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #e74c3c;
+      color: #ffffff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      font-size: 0.9em;
+      display: none;
     }
-
-    .option, .dont-know-button {
-        padding: 12px;
-        font-size: 1em;
-    }
-
-    .next-button {
-        padding: 10px 20px;
-        font-size: 0.95em;
+    .exit-button:hover {
+      background-color: #c0392b;
+      transform: translateY(-2px);
     }
 
     h1 {
-        font-size: 2em;
+      margin-bottom: 30px;
+      color: #ffffff;
+      font-size: 2.5em;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
     }
 
+    .start-section {
+      margin-bottom: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+    .start-section label {
+      font-size: 1.2em;
+    }
+    .start-section input {
+      width: 220px;
+      padding: 12px;
+      font-size: 1em;
+      border: 2px solid #ffffff;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transition: border-color 0.3s, background-color 0.3s;
+    }
+    .start-section input:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+    .start-section input:focus {
+      border-color: #3498db;
+      outline: none;
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    .start-section button {
+      padding: 12px 30px;
+      font-size: 1em;
+      background-color: #3498db;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      margin-top: 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .start-section button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+
+    #quiz-section {
+      text-align: center;
+    }
+    #progress {
+      font-size: 1.1em;
+      margin-bottom: 15px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    }
     #question {
-        font-size: 1.2em;
+      font-size: 1.4em;
+      margin-bottom: 25px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
     }
 
+    .options {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .option {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 2px solid #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, transform 0.2s;
+      font-size: 1.1em;
+      text-align: left;
+      position: relative;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .option:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Класове при верен/грешен отговор */
+    .correct-answer {
+      border-color: #27ae60;
+      background-color: #27ae60;
+      color: #ffffff;
+    }
+    .wrong-answer {
+      border-color: #c0392b;
+      background-color: #c0392b;
+      color: #ffffff;
+    }
+
+    /* Показване на резултат за даден въпрос */
+    #result {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+      min-height: 40px;
+    }
+
+    .explanation {
+      margin-top: 10px;
+      font-size: 0.9em;
+      opacity: 0.9;
+      background-color: rgba(255, 255, 255, 0.2);
+      border-left: 4px solid #f1c40f;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .next-button {
+      background-color: #8e44ad;
+      color: #ffffff;
+      border: none;
+      padding: 12px 25px;
+      margin-top: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      font-size: 1em;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .next-button:hover {
+      background-color: #732d91;
+      transform: translateY(-2px);
+    }
+
+    #final-result {
+      display: none;
+      text-align: center;
+    }
+    .final-result {
+      font-size: 1.5em;
+      color: #ffffff;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+    }
+
+    .history-section {
+      margin-top: 30px;
+      text-align: left;
+    }
     .history-section h2 {
-        font-size: 1.3em;
+      font-size: 1.5em;
+      margin-bottom: 15px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
     }
-}
+    .history-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .history-list li {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .history-list li:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
+    }
 
-/* Стилове за пагинация в историята */
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 15px;
-}
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-.pagination button {
-    padding: 8px 12px;
-    background-color: #3498db;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    font-size: 0.9em;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-}
-
-.pagination button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-}
-
-.pagination button:disabled {
-    background-color: #95a5a6;
-    cursor: not-allowed;
-    transform: none;
-}
-    </style>
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .pagination button {
+      padding: 8px 12px;
+      background-color: #3498db;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+      font-size: 0.9em;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    .pagination button:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+    .pagination button:disabled {
+      background-color: #95a5a6;
+      cursor: not-allowed;
+      transform: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="quiz-container fade-in">
-        <!-- Изход бутон (скрит на началната страница) -->
-        <button class="exit-button" id="exit-button">Изход</button>
+  <div class="quiz-container fade-in">
+    <button class="exit-button" id="exit-button">Изход</button>
+    <h1>Въпроси по <i>ИТ</i></h1>
 
-        <h1>Въпроси по <i>ИТ</i></h1>
-
-        <!-- Секция за избор на категория и брой въпроси -->
-        <div class="start-section" id="start-section">
-            <label for="category">Категория:</label>
-            <select id="category">
-                <option value="Excel">Excel</option>
-                <option value="Word">Word</option>
-                <option value="Networks">Мрежи</option>
-                <option value="Computer">Компютър</option>
-                <option value="General">Общи въпроси за матурата</option>
-            </select>
-
-            <label for="num-questions">Брой въпроси:</label>
-            <input type="number" id="num-questions" min="1" max="30" value="5">
-
-            <button id="start-button">Започни тест</button>
-        </div>
-
-        <!-- Секция за викторината -->
-        <div id="quiz-section" style="display: none;">
-            <!-- Индикация за напредък -->
-            <div id="progress">Въпрос 1 от 5</div>
-
-            <div id="question">Зареждане на въпроса...</div>
-            <div class="options">
-                <!-- Бутоните с отговори ще се генерират тук чрез JavaScript -->
-            </div>
-            <div id="result"></div>
-        </div>
-
-        <!-- Финален резултат -->
-        <div id="final-result" style="display: none;">
-            <div class="final-result">Вашият резултат: <span id="score"></span> от <span id="total"></span></div>
-            <button id="restart-button" class="next-button">Рестартирай</button>
-        </div>
-
-        <!-- История на предишните опити -->
-        <div class="history-section" id="history-section">
-            <h2>История на предишните опити:</h2>
-            <ul class="history-list" id="history-list">
-                <!-- Историята ще се генерира тук чрез JavaScript -->
-            </ul>
-            <!-- Пагинация контрол -->
-            <div class="pagination" id="history-pagination" style="display: none;">
-                <button id="prev-page">Предишна</button>
-                <span id="page-info"></span>
-                <button id="next-page">Следваща</button>
-            </div>
-        </div>
+    <div class="start-section" id="start-section">
+      <label for="num-questions">Брой въпроси:</label>
+      <input type="number" id="num-questions" min="1" max="30" value="5">
+      <button id="start-button">Започни тест</button>
     </div>
 
-    <script>
-        // Обект с категории и въпроси по ИТ за матура
-// Обект с категории и въпроси по ИТ за матура
-const allQuestions = {
-    "Excel": [
-        {
-            question: "Каква функция в Excel се използва за изчисляване на средната стойност на набор от числа?",
-            options: ["SUM()", "AVERAGE()", "COUNT()", "MAX()"],
-            answer: "AVERAGE()",
-            explanation: "Функцията AVERAGE() изчислява средната стойност на набор от числа."
-        },
-        {
-            question: "Каква е функцията на 'VLOOKUP' в Excel?",
-            options: ["Търси стойност в таблица по вертикал", "Сумира стойностите", "Брои броя на клетките", "Създава диаграма"],
-            answer: "Търси стойност в таблица по вертикал",
-            explanation: "VLOOKUP търси стойност в първата колона на таблица и връща съответстваща стойност от друга колона."
-        },
-        {
-            question: "Как да заключите клетка в Excel, за да не може да се променя съдържанието й?",
-            options: ["Използвайте функцията LOCK CELL", "Заключете работния лист и разрешете само определени клетки", "Скрийте клетката", "Използвайте парола за файла"],
-            answer: "Заключете работния лист и разрешете само определени клетки",
-            explanation: "В Excel можете да заключите целия работен лист и да разрешите промени само в определени клетки."
-        },
-        {
-            question: "Какво прави функцията 'IF' в Excel?",
-            options: ["Извършва математически изчисления", "Прави условна проверка и връща стойности в зависимост от резултата", "Сумира клетки", "Брои клетки с данни"],
-            answer: "Прави условна проверка и връща стойности в зависимост от резултата",
-            explanation: "Функцията IF прави условна проверка и връща различни стойности въз основа на това дали условието е вярно или невярно."
-        },
-        {
-            question: "Каква е разликата между относителни и абсолютни препратки в Excel?",
-            options: ["Няма разлика", "Относителните препратки се променят при копиране, докато абсолютните остават фиксирани", "Абсолютните препратки се променят при копиране, докато относителните остават фиксирани", "Използват се само в диаграмите"],
-            answer: "Относителните препратки се променят при копиране, докато абсолютните остават фиксирани",
-            explanation: "Относителните препратки се променят при копиране на формулите, докато абсолютните препратки (с $) остават фиксирани към определени клетки."
-        },
-        {
-            question: "Каква функция в Excel се използва за събиране на стойности, които отговарят на дадено условие?",
-            options: ["SUM()", "SUMIF()", "COUNTIF()", "AVERAGEIF()"],
-            answer: "SUMIF()",
-            explanation: "Функцията SUMIF() събира стойностите в диапазон, които отговарят на дадено условие."
-        },
-        {
-            question: "Каква функция в Excel се използва за броене на клетките, които отговарят на дадено условие?",
-            options: ["SUM()", "AVERAGE()", "COUNTIF()", "MAX()"],
-            answer: "COUNTIF()",
-            explanation: "Функцията COUNTIF() брои клетките в диапазон, които отговарят на дадено условие."
-        },
-        {
-            question: "Какво представлява PivotTable в Excel?",
-            options: ["Инструмент за създаване на графики", "Инструмент за анализ и обобщение на големи набори от данни", "Функция за сортиране на данни", "Формула за изчисление на средна стойност"],
-            answer: "Инструмент за анализ и обобщение на големи набори от данни",
-            explanation: "PivotTable позволява лесен анализ и обобщение на големи набори от данни чрез динамично сортиране, филтриране и групиране."
-        },
-        {
-            question: "Какво прави Conditional Formatting в Excel?",
-            options: ["Форматира текста ръчно", "Автоматично променя формата на клетките въз основа на зададени условия", "Създава диаграми", "Изчислява стойности"],
-            answer: "Автоматично променя формата на клетките въз основа на зададени условия",
-            explanation: "Conditional Formatting позволява автоматично променяне на формата на клетките (например, цвят) въз основа на зададени условия."
-        },
-        {
-            question: "Каква функция в Excel се използва за съединяване на текст от различни клетки?",
-            options: ["CONCATENATE()", "SPLIT()", "JOIN()", "MERGE()"],
-            answer: "CONCATENATE()",
-            explanation: "Функцията CONCATENATE() се използва за съединяване на текст от различни клетки в една клетка."
-        },
-        {
-            question: "Какво прави Data Validation в Excel?",
-            options: ["Ограничава типа на данните, които могат да се въведат в клетка", "Сумира данни", "Създава графики", "Изчислява средна стойност"],
-            answer: "Ограничава типа на данните, които могат да се въведат в клетка",
-            explanation: "Data Validation ограничава типовете данни, които могат да се въведат в клетка, като например число, дата или списък от изброени опции."
-        },
-        {
-            question: "Каква функция в Excel се използва за намиране на стойност по ред и колона в таблица?",
-            options: ["VLOOKUP()", "HLOOKUP()", "INDEX()", "MATCH()"],
-            answer: "INDEX()",
-            explanation: "Функцията INDEX() връща стойност от таблица, базирана на посочени ред и колона."
-        },
-        {
-            question: "Каква функция в Excel се използва за намиране на позицията на дадена стойност в диапазон?",
-            options: ["VLOOKUP()", "HLOOKUP()", "INDEX()", "MATCH()"],
-            answer: "MATCH()",
-            explanation: "Функцията MATCH() намира позицията на дадена стойност в диапазон."
-        },
-        {
-            question: "Каква е разликата между VLOOKUP и HLOOKUP в Excel?",
-            options: ["VLOOKUP търси по вертикал, а HLOOKUP по хоризонтал", "VLOOKUP търси по хоризонтал, а HLOOKUP по вертикал", "Няма разлика", "VLOOKUP е по-бърз от HLOOKUP"],
-            answer: "VLOOKUP търси по вертикал, а HLOOKUP по хоризонтал",
-            explanation: "VLOOKUP търси стойности по вертикал (в колони), докато HLOOKUP търси по хоризонтал (в редове)."
-        },
-        {
-            question: "Какво е Power Query в Excel?",
-            options: ["Инструмент за създаване на графики", "Инструмент за извличане, трансформиране и зареждане на данни от различни източници", "Функция за форматиране на текст", "Функция за изчисляване на стойности"],
-            answer: "Инструмент за извличане, трансформиране и зареждане на данни от различни източници",
-            explanation: "Power Query е инструмент в Excel, който позволява извличане, трансформиране и зареждане на данни от различни източници за анализ."
-        },
-        {
-            question: "В електронна таблица трябва САМО някои избрани клетки да са достъпни за редакция. Каква защита ще приложите?",
-            options: [
-                "Задаване на ограничение с Data Validation за избраните клетки",
-                "Премахване на отметка Locked за избраните клетки, след което избиране на Protect Sheet",
-                "Задаване на отметка Hidden за избраните клетки, след което избиране на Protect Workbook",
-                "Задаване на Conditional Formatting за избраните клетки"
-            ],
-            answer: "Премахване на отметка Locked за избраните клетки, след което избиране на Protect Sheet",
-            explanation: "За да позволите редакция само на избрани клетки, трябва да премахнете отметката Locked за тях и да защитите листа."
-        },
-        {
-            question: "Как да зададете ограничение за въвеждане на данни в клетки в Excel?",
-            options: [
-                "Използване на функцията Data Validation",
-                "Заключване на клетките",
-                "Скриване на клетките",
-                "Използване на Conditional Formatting"
-            ],
-            answer: "Използване на функцията Data Validation",
-            explanation: "Data Validation позволява да зададете правила за данните, които могат да бъдат въведени в клетките."
-        },
-        {
-            question: "Какво прави функцията 'MAX()' в Excel?",
-            options: ["Намира максималната стойност в диапазон", "Намира минималната стойност", "Изчислява средната стойност", "Брои клетките с данни"],
-            answer: "Намира максималната стойност в диапазон",
-            explanation: "Функцията MAX() връща най-голямата стойност от избран диапазон."
-        },
-        {
-            question: "Каква е целта на функцията 'SUM()' в Excel?",
-            options: ["Събира стойностите в диапазон", "Изважда стойностите", "Умножава стойностите", "Дели стойностите"],
-            answer: "Събира стойностите в диапазон",
-            explanation: "Функцията SUM() събира всички числови стойности в даден диапазон от клетки."
-        },
-        {
-            question: "Как да създадете диаграма в Excel?",
-            options: [
-                "Изберете данните и отидете в Insert > Chart",
-                "Използвайте функцията VLOOKUP",
-                "Заключете работния лист",
-                "Използвайте Data Validation"
-            ],
-            answer: "Изберете данните и отидете в Insert > Chart",
-            explanation: "За да създадете диаграма, изберете данните и използвайте опцията за вмъкване на диаграма от менюто Insert."
-        },
-        {
-            question: "Какво представлява функцията 'HLOOKUP' в Excel?",
-            options: [
-                "Търси стойност в таблица по хоризонтал",
-                "Търси стойност в таблица по вертикал",
-                "Сумира стойностите",
-                "Брои броя на клетките"
-            ],
-            answer: "Търси стойност в таблица по хоризонтал",
-            explanation: "HLOOKUP търси стойност в първия ред на таблица и връща съответстваща стойност от друг ред."
-        },
-        {
-            question: "Как да обедините клетки в Excel?",
-            options: [
-                "Изберете клетките и кликнете 'Merge & Center'",
-                "Използвайте функцията CONCATENATE()",
-                "Заключете клетките",
-                "Използвайте Data Validation"
-            ],
-            answer: "Изберете клетките и кликнете 'Merge & Center'",
-            explanation: "За обединяване на клетки, изберете ги и използвайте опцията 'Merge & Center' от раздела Home."
-        },
-        {
-            question: "Какво прави функцията 'COUNT()' в Excel?",
-            options: ["Брои броя на клетките с числови данни", "Сумира стойностите", "Намира максималната стойност", "Изчислява средната стойност"],
-            answer: "Брои броя на клетките с числови данни",
-            explanation: "Функцията COUNT() брои клетките, които съдържат числови данни в даден диапазон."
-        },
-        {
-            question: "Как да защитите цялата работна книга в Excel?",
-            options: [
-                "Изберете 'Protect Workbook' от менюто Review",
-                "Заключете всички клетки",
-                "Използвайте Data Validation",
-                "Изтрийте работната книга"
-            ],
-            answer: "Изберете 'Protect Workbook' от менюто Review",
-            explanation: "За да защитите структурата и прозорците на работната книга, използвайте опцията 'Protect Workbook' от менюто Review."
-        },
-        {
-            question: "Какво е макрос в Excel?",
-            options: ["Серия от команди за автоматизиране на задачи", "Функция за изчисление", "Тип диаграма", "Стил на форматиране"],
-            answer: "Серия от команди за автоматизиране на задачи",
-            explanation: "Макросите са серии от команди, които могат да се записват и изпълняват за автоматизиране на повтарящи се задачи."
-        },
-        {
-            question: "Какво прави функцията 'LEN()' в Excel?",
-            options: ["Връща дължината на текстов низ", "Променя текста на главни букви", "Обединява текстови низове", "Изрязва част от текста"],
-            answer: "Връща дължината на текстов низ",
-            explanation: "Функцията LEN() връща броя на символите в текстов низ."
-        },
-        {
-            question: "Как да приложите филтър към данни в Excel?",
-            options: [
-                "Изберете данните и кликнете 'Filter' в раздела Data",
-                "Използвайте функцията VLOOKUP",
-                "Заключете работния лист",
-                "Използвайте Conditional Formatting"
-            ],
-            answer: "Изберете данните и кликнете 'Filter' в раздела Data",
-            explanation: "За да приложите филтър, изберете данните и кликнете върху 'Filter' в раздела Data."
-        },
-        {
-            question: "Какво прави функцията 'ROUND()' в Excel?",
-            options: ["Закръгля число до определен брой десетични знаци", "Намира остатъка при деление", "Генерира случайно число", "Проверява условие"],
-            answer: "Закръгля число до определен брой десетични знаци",
-            explanation: "Функцията ROUND() закръгля число до посочения брой десетични знаци."
-        },
-        {
-            question: "Как да прехвърлите данни от Excel към Word?",
-            options: [
-                "Копирайте данните и ги поставете в Word",
-                "Използвайте функцията VLOOKUP",
-                "Изтрийте данните",
-                "Използвайте Data Validation"
-            ],
-            answer: "Копирайте данните и ги поставете в Word",
-            explanation: "Можете да копирате данните от Excel и да ги поставите директно в Word документ."
-        },
-        {
-            question: "Какво представлява функцията 'TEXT()' в Excel?",
-            options: ["Форматира число като текст", "Проверява текстово условие", "Превръща текст в число", "Обединява клетки"],
-            answer: "Форматира число като текст",
-            explanation: "Функцията TEXT() форматира число и го преобразува в текстов низ с посочен формат."
-        },
-        {
-            question: "Какво е 'Freeze Panes' в Excel?",
-            options: [
-                "Функция за фиксиране на редове и колони при превъртане",
-                "Заключване на работния лист",
-                "Скриване на клетки",
-                "Използване на Conditional Formatting"
-            ],
-            answer: "Функция за фиксиране на редове и колони при превъртане",
-            explanation: "Опцията 'Freeze Panes' позволява да фиксирате определени редове или колони, така че те да остават видими при превъртане."
-        }
+    <div id="quiz-section" style="display: none;">
+      <div id="progress">Въпрос 1 от 5</div>
+      <div id="question">Зареждане на въпроса...</div>
+      <div class="options"></div>
+      <div id="result"></div>
+    </div>
+
+    <div id="final-result">
+      <div class="final-result">Вашият резултат: <span id="score"></span> от <span id="total"></span></div>
+      <button id="restart-button" class="next-button">Рестартирай</button>
+    </div>
+
+    <div class="history-section" id="history-section">
+      <h2>История на предишните опити:</h2>
+      <ul class="history-list" id="history-list"></ul>
+      <div class="pagination" id="history-pagination" style="display: none;">
+        <button id="prev-page">Предишна</button>
+        <span id="page-info"></span>
+        <button id="next-page">Следваща</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Масив с примерни въпроси (можете да добавяте/редактирате)
+    const questions = [
+  {
+    question: "Кой от следните файлови формати е най-подходящ за запазване на изображение с прозрачност?",
+    options: ["JPEG", "BMP", "PNG", "TIFF"],
+    correctIndex: 2,
+    explanation: "PNG поддържа прозрачност и е подходящ за изображения със зони на прозрачност."
+  },
+  {
+    question: "Коя функция в Excel се използва за преброяване на клетките, отговарящи на определено условие?",
+    options: ["COUNT", "COUNTA", "COUNTIF", "SUMIF"],
+    correctIndex: 2,
+    explanation: "COUNTIF брои клетките, които отговарят на дадено условие."
+  },
+  {
+    question: "Кой от следните протоколи е предназначен за сигурно прехвърляне на файлове през интернет?",
+    options: ["FTP", "HTTP", "SFTP", "SMTP"],
+    correctIndex: 2,
+    explanation: "SFTP използва сигурна връзка за прехвърляне на файлове."
+  },
+  {
+    question: "Кой от изброените е тип операционна система?",
+    options: ["BIOS", "Linux", "HDMI", "HTTP"],
+    correctIndex: 1,
+    explanation: "Linux е операционна система."
+  },
+  {
+    question: "Коя от следните технологии е предназначена за създаване на динамични уеб сайтове?",
+    options: ["HTML", "PHP", "CSS", "JPEG"],
+    correctIndex: 1,
+    explanation: "PHP е скриптов език за сървърна страна, използван за динамични уебсайтове."
+  },
+  {
+    question: "Какво представлява IP адресът?",
+    options: [
+      "Уникален идентификатор на устройство в мрежа",
+      "Идентификационен номер на операционната система",
+      "Протокол за криптиране на данни",
+      "Софтуер за управление на мрежи"
     ],
-    "Word": [
-        {
-            question: "Каква е основната функция на раздела 'References' в Microsoft Word?",
-            options: ["Форматиране на текст", "Добавяне на източници и библиография", "Създаване на таблици", "Вмъкване на изображения"],
-            answer: "Добавяне на източници и библиография",
-            explanation: "Разделът 'References' позволява добавяне на източници, цитати и генериране на библиография."
-        },
-        {
-            question: "Как да създадете автоматичен номер на страници в Word документ?",
-            options: ["Вмъкнете текст ръчно в края на всяка страница", "Използвайте раздела 'Insert' и изберете 'Page Number'", "Използвайте раздела 'Home' и изберете 'Numbering'", "Използвайте функцията 'Find and Replace'"],
-            answer: "Използвайте раздела 'Insert' и изберете 'Page Number'",
-            explanation: "За да добавите автоматични номера на страници, отидете в раздела 'Insert' и изберете 'Page Number'."
-        },
-        {
-            question: "Какво прави функцията 'Track Changes' в Word?",
-            options: ["Прилага стилове към текста", "Проследява и показва промените, направени в документа", "Проверява правописа", "Създава съдържание"],
-            answer: "Проследява и показва промените, направени в документа",
-            explanation: "Функцията 'Track Changes' проследява и визуално показва всички промени, направени в документа."
-        },
-        {
-            question: "Как да вмъкнете заглавие на документа в Word?",
-            options: ["Използвайте функцията 'Header'", "Използвайте раздела 'References'", "Напишете го ръчно в началото", "Използвайте функцията 'Footer'"],
-            answer: "Използвайте функцията 'Header'",
-            explanation: "За да вмъкнете заглавие, можете да използвате функцията 'Header', която се намира в раздела 'Insert'."
-        },
-        {
-            question: "Как да приложите стил на заглавие в Word?",
-            options: ["Изберете текста и използвайте падащото меню с стилове в раздела 'Home'", "Изберете текста и го направете удебелен", "Изберете текста и го копирайте от друг документ", "Използвайте функцията 'Find and Replace'"],
-            answer: "Изберете текста и използвайте падащото меню с стилове в раздела 'Home'",
-            explanation: "За да приложите стил на заглавие, изберете текста и изберете подходящ стил от падащото меню със стилове в раздела 'Home'."
-        },
-        {
-            question: "Каква функция в Word се използва за създаване на автоматично съдържание на документа?",
-            options: ["Table of Contents", "Index", "Footnotes", "Headers"],
-            answer: "Table of Contents",
-            explanation: "Функцията 'Table of Contents' автоматично генерира съдържание на документа, базирано на заглавията."
-        },
-        {
-            question: "Какво прави функцията 'Footnotes' в Word?",
-            options: ["Добавя бележки в края на документа", "Добавя бележки под линия към текста", "Сумира съдържанието", "Създава заглавие"],
-            answer: "Добавя бележки под линия към текста",
-            explanation: "Функцията 'Footnotes' добавя бележки под линия към текста, предоставяйки допълнителна информация или източници."
-        },
-        {
-            question: "Какво представлява функцията 'Mail Merge' в Word?",
-            options: ["Създаване на автоматични таблици", "Събиране и комбиниране на данни от различни източници за масово изпращане на документи", "Добавяне на изображения към документа", "Създаване на графики"],
-            answer: "Събиране и комбиниране на данни от различни източници за масово изпращане на документи",
-            explanation: "Mail Merge позволява събиране и комбиниране на данни от различни източници, като Excel таблици, за масово генериране и изпращане на персонализирани документи."
-        },
-        {
-            question: "Какво прави функцията 'Macros' в Word?",
-            options: ["Запазва документа", "Автоматизира повтарящи се задачи чрез записване и изпълнение на серии от команди", "Добавя специални символи", "Променя езика на документа"],
-            answer: "Автоматизира повтарящи се задачи чрез записване и изпълнение на серии от команди",
-            explanation: "Macros позволява автоматизиране на повтарящи се задачи чрез записване и изпълнение на серии от команди и действия."
-        },
-        {
-            question: "Какво прави разделът 'Comments' в Word?",
-            options: ["Добавя бележки към документа", "Променя формата на текста", "Изтрива съдържание", "Създава нова страница"],
-            answer: "Добавя бележки към документа",
-            explanation: "Разделът 'Comments' позволява добавяне на бележки към документа, което е полезно за ревизии и обратна връзка."
-        },
-        {
-            question: "Какво представлява функцията 'Themes' в Word?",
-            options: ["Избира цветова схема и стилове за целия документ", "Създава таблици", "Добавя изображения", "Променя размера на шрифта"],
-            answer: "Избира цветова схема и стилове за целия документ",
-            explanation: "Функцията 'Themes' позволява избор на цветови схеми, шрифтове и стилове, които се прилагат към целия документ за консистентен и професионален вид."
-        },
-        {
-            question: "Какво прави функцията 'Formatting Paragraphs' в Word?",
-            options: ["Форматира текста в параграфи чрез задаване на отстъпи, междуредие и подравняване", "Добавя таблици", "Изтрива параграфи", "Създава графики"],
-            answer: "Форматира текста в параграфи чрез задаване на отстъпи, междуредие и подравняване",
-            explanation: "Функцията 'Formatting Paragraphs' позволява форматиране на текста в параграфи чрез задаване на отстъпи, междуредие и подравняване за по-добра четимост и оформление."
-        },
-        {
-            question: "Как да вмъкнете фигура (Shape) в Word документ?",
-            options: ["Използвайте раздела 'Insert' и изберете 'Shapes'", "Напишете ръчно символи", "Използвайте раздела 'Home'", "Използвайте функцията 'Find and Replace'"],
-            answer: "Използвайте раздела 'Insert' и изберете 'Shapes'",
-            explanation: "За да вмъкнете фигура, отидете в раздела 'Insert' и изберете 'Shapes', след което изберете желаната фигура от падащото меню."
-        },
-        {
-            question: "Какво са 'Section Breaks' в Word?",
-            options: ["Раздели, които разделят документа на различни секции с отделни оформления", "Изтриват съдържание", "Добавят нови параграфи", "Създават таблици"],
-            answer: "Раздели, които разделят документа на различни секции с отделни оформления",
-            explanation: "Section Breaks разделят документа на различни секции, позволявайки различни оформления като различни колони, страници с различен номер на страница или различни хедъри и футъри."
-        },
-        {
-            question: "Какво представлява 'SmartArt' в Word?",
-            options: ["Инструмент за създаване на сложни графики и диаграми", "Функция за проверка на правописа", "Метод за вмъкване на изображения", "Функция за форматиране на текст"],
-            answer: "Инструмент за създаване на сложни графики и диаграми",
-            explanation: "SmartArt позволява създаване на визуално атрактивни графики и диаграми за представяне на информация по структурирани начини."
-        },
-        {
-            question: "Какво представлява функцията 'Watermark' в Word?",
-            options: ["Добавя воден знак или фонов текст към страниците", "Изтрива съдържание", "Променя цвета на текста", "Добавя бележки под линия"],
-            answer: "Добавя воден знак или фонов текст към страниците",
-            explanation: "Функцията 'Watermark' позволява добавяне на воден знак или фонов текст/изображение към страниците на документа."
-        },
-        {
-            question: "Как да създадете таблица в Word?",
-            options: [
-                "Използвайте раздела 'Insert' и изберете 'Table'",
-                "Нарисувайте таблицата с инструмента 'Draw'",
-                "Използвайте функцията 'Find and Replace'",
-                "Поставете таблица от Excel"
-            ],
-            answer: "Използвайте раздела 'Insert' и изберете 'Table'",
-            explanation: "За да създадете таблица, отидете в раздела 'Insert' и изберете 'Table', след което изберете размера на таблицата."
-        },
-        {
-            question: "Какво прави функцията 'Find and Replace' в Word?",
-            options: [
-                "Търси и заменя конкретен текст в документа",
-                "Добавя нова страница",
-                "Проверява правописа",
-                "Създава таблица"
-            ],
-            answer: "Търси и заменя конкретен текст в документа",
-            explanation: "Функцията 'Find and Replace' позволява търсене на конкретен текст и замяната му с друг в целия документ."
-        },
-        {
-            question: "Как да добавите хипервръзка в Word документ?",
-            options: [
-                "Изберете текста и натиснете Ctrl+K",
-                "Използвайте функцията 'Track Changes'",
-                "Изберете текста и го направете удебелен",
-                "Използвайте раздела 'References'"
-            ],
-            answer: "Изберете текста и натиснете Ctrl+K",
-            explanation: "За да добавите хипервръзка, изберете текста и натиснете Ctrl+K или отидете в раздела 'Insert' и изберете 'Hyperlink'."
-        },
-        {
-            question: "Какво представлява функцията 'Styles' в Word?",
-            options: [
-                "Предварително дефинирани формати за текст и абзаци",
-                "Създава таблици",
-                "Добавя изображения",
-                "Изтрива съдържание"
-            ],
-            answer: "Предварително дефинирани формати за текст и абзаци",
-            explanation: "Функцията 'Styles' предоставя набор от предварително дефинирани формати за текст и абзаци за консистентен външен вид на документа."
-        },
-        {
-            question: "Какво прави функцията 'Split' в Word?",
-            options: [
-                "Разделя прозореца на документа на две части за едновременен преглед",
-                "Разделя абзаци",
-                "Изтрива страници",
-                "Обединява документи"
-            ],
-            answer: "Разделя прозореца на документа на две части за едновременен преглед",
-            explanation: "Функцията 'Split' позволява да разделите прозореца на две части, за да можете да гледате различни части на документа едновременно."
-        },
-        {
-            question: "Как да добавите номериране на линии в Word?",
-            options: [
-                "Използвайте раздела 'Layout' и изберете 'Line Numbers'",
-                "Напишете ги ръчно",
-                "Използвайте функцията 'Track Changes'",
-                "Добавете ги чрез 'Header and Footer'"
-            ],
-            answer: "Използвайте раздела 'Layout' и изберете 'Line Numbers'",
-            explanation: "За да добавите номера на линии, отидете в раздела 'Layout' и изберете опцията 'Line Numbers'."
-        },
-        {
-            question: "Какво е 'Macro' в Word?",
-            options: [
-                "Серия от действия, записани за автоматизиране на задачи",
-                "Стил на форматиране",
-                "Тип шрифт",
-                "Графично изображение"
-            ],
-            answer: "Серия от действия, записани за автоматизиране на задачи",
-            explanation: "Макросите са серии от записани действия, които могат да се изпълняват автоматично за ускоряване на повтарящи се задачи."
-        },
-        {
-            question: "Как да промените ориентацията на страницата в Word?",
-            options: [
-                "Отидете в раздела 'Layout' и изберете 'Orientation'",
-                "Завъртете монитора",
-                "Използвайте раздела 'Home'",
-                "Променете размера на шрифта"
-            ],
-            answer: "Отидете в раздела 'Layout' и изберете 'Orientation'",
-            explanation: "За да промените ориентацията на страницата, отидете в раздела 'Layout' и изберете 'Orientation' (Portrait или Landscape)."
-        },
-        {
-            question: "Какво представлява функцията 'Equation' в Word?",
-            options: [
-                "Позволява вмъкване и редактиране на математически уравнения",
-                "Създава таблици",
-                "Добавя изображения",
-                "Изтрива съдържание"
-            ],
-            answer: "Позволява вмъкване и редактиране на математически уравнения",
-            explanation: "Функцията 'Equation' позволява вмъкване и редактиране на сложни математически уравнения в документа."
-        },
-        {
-            question: "Как да добавите съдържание към Quick Parts в Word?",
-            options: [
-                "Изберете текста и отидете в 'Insert' > 'Quick Parts' > 'Save Selection to Quick Part Gallery'",
-                "Копирайте и поставете текста",
-                "Използвайте функцията 'Find and Replace'",
-                "Напишете го ръчно всеки път"
-            ],
-            answer: "Изберете текста и отидете в 'Insert' > 'Quick Parts' > 'Save Selection to Quick Part Gallery'",
-            explanation: "Quick Parts позволява съхранение на често използвани текстови блокове за бързо вмъкване в документа."
-        },
-        {
-            question: "Какво е 'Template' в Word?",
-            options: [
-                "Предварително форматиран документ, който служи като основа за нови документи",
-                "Създава нов шрифт",
-                "Добавя изображения",
-                "Изтрива съдържание"
-            ],
-            answer: "Предварително форматиран документ, който служи като основа за нови документи",
-            explanation: "Template е предварително създаден документ с определен формат и стил, който може да се използва за създаване на нови документи със същия дизайн."
-        },
-        {
-            question: "Как да прегледате документ в различни режими на изглед в Word?",
-            options: [
-                "Използвайте раздела 'View' и изберете желания режим",
-                "Променете размера на шрифта",
-                "Използвайте раздела 'Home'",
-                "Завъртете монитора"
-            ],
-            answer: "Използвайте раздела 'View' и изберете желания режим",
-            explanation: "В раздела 'View' можете да превключвате между различни режими на изглед като 'Read Mode', 'Print Layout', 'Web Layout' и др."
-        },
-        {
-            question: "Какво прави функцията 'Restrict Editing' в Word?",
-            options: [
-                "Ограничава възможностите за редактиране на документа",
-                "Проверява правописа",
-                "Добавя изображения",
-                "Създава таблици"
-            ],
-            answer: "Ограничава възможностите за редактиране на документа",
-            explanation: "Функцията 'Restrict Editing' позволява да ограничите кой може да редактира документа и кои части могат да бъдат редактирани."
-        },
-        {
-            question: "Как да вмъкнете обект (например Excel таблица) в Word документ?",
-            options: [
-                "Използвайте 'Insert' > 'Object' и изберете типа на обекта",
-                "Копирайте и поставете",
-                "Използвайте 'Find and Replace'",
-                "Напишете го ръчно"
-            ],
-            answer: "Използвайте 'Insert' > 'Object' и изберете типа на обекта",
-            explanation: "За да вмъкнете обект, отидете в раздела 'Insert', кликнете на 'Object' и изберете желания обект за вмъкване."
-        }
+    correctIndex: 0,
+    explanation: "IP адресът е уникален идентификатор на устройство в мрежа."
+  },
+  {
+    question: "Коя от следните функции в Excel изчислява сумата на даден диапазон от клетки?",
+    options: ["COUNT", "SUM", "MAX", "IF"],
+    correctIndex: 1,
+    explanation: "SUM изчислява сумата на указаните клетки."
+  },
+  {
+    question: "Коя е основната цел на нормализацията на база данни?",
+    options: [
+      "Да увеличи броя на таблиците",
+      "Да намали излишъка на данни",
+      "Да оптимизира скоростта на заявки",
+      "Да създаде повече релации"
     ],
-    "Networks": [
-        {
-            question: "Какво е IP адрес?",
-            options: ["Уникален идентификатор на устройство в мрежа", "Протокол за криптиране на данни", "Тип на кабел за мрежови връзки", "Софтуер за управление на мрежа"],
-            answer: "Уникален идентификатор на устройство в мрежа",
-            explanation: "IP адресът е уникален идентификатор, който се използва за разпознаване и комуникация между устройства в мрежа."
-        },
-        {
-            question: "Какво прави рутерът (router) в компютърната мрежа?",
-            options: ["Предоставя безжична връзка", "Маршрутизира данните между различни мрежи", "Съхранява файлове", "Криптира данните"],
-            answer: "Маршрутизира данните между различни мрежи",
-            explanation: "Рутерът управлява маршрутизацията на данните между различни мрежи, като насочва пакети към правилните дестинации."
-        },
-        {
-            question: "Какво представлява протоколът TCP/IP?",
-            options: ["Протокол за прехвърляне на файлове", "Комплекс от комуникационни протоколи, използвани в интернет", "Протокол за криптиране на данни", "Протокол за безжична връзка"],
-            answer: "Комплекс от комуникационни протоколи, използвани в интернет",
-            explanation: "TCP/IP е набор от протоколи, които определят как данните се предават в интернет и други мрежи."
-        },
-        {
-            question: "Какво е DNS?",
-            options: ["Система за управление на мрежовия трафик", "Domain Name System - система за превеждане на домейн имена в IP адреси", "Директория на компютърната мрежа", "Протокол за сигурност"],
-            answer: "Domain Name System - система за превеждане на домейн имена в IP адреси",
-            explanation: "DNS превежда лесно запомнящите се домейн имена (като example.com) в техните съответстващи IP адреси."
-        },
-        {
-            question: "Какво е VPN?",
-            options: ["Virtual Private Network - технология за създаване на защитена мрежова връзка през публичната интернет", "Very Private Network", "Virtual Protocol Network", "Виртуален хардуер"],
-            answer: "Virtual Private Network - технология за създаване на защитена мрежова връзка през публичната интернет",
-            explanation: "VPN позволява сигурно свързване към мрежата чрез криптиране на данните и създаване на виртуален тунел през интернет."
-        },
-        {
-            question: "Какво е субнетинг (Subnetting)?",
-            options: ["Разделяне на голяма мрежа на по-малки подмрежи", "Обединяване на мрежи", "Маршрутизиране на данни", "Криптиране на данни"],
-            answer: "Разделяне на голяма мрежа на по-малки подмрежи",
-            explanation: "Субнетингът разделя голяма мрежа на по-малки подмрежи за по-добро управление и оптимизация на мрежовия трафик."
-        },
-        {
-            question: "Какво е DHCP?",
-            options: ["Dynamic Host Configuration Protocol - протокол за автоматично присвояване на IP адреси на устройства в мрежа", "Domain Host Control Protocol", "Direct Host Connection Protocol", "Dynamic Host Control Protocol"],
-            answer: "Dynamic Host Configuration Protocol - протокол за автоматично присвояване на IP адреси на устройства в мрежа",
-            explanation: "DHCP автоматично присвоява IP адреси на устройства в мрежа, улеснявайки управлението и конфигурирането на мрежови устройства."
-        },
-        {
-            question: "Какво е NAT?",
-            options: ["Network Address Translation - технология за преобразуване на частни IP адреси в публични и обратно", "Network Access Technology", "Network Application Transfer", "Network Address Tracking"],
-            answer: "Network Address Translation - технология за преобразуване на частни IP адреси в публични и обратно",
-            explanation: "NAT позволява множество устройства в локална мрежа да споделят един публичен IP адрес, като преобразува частните адреси в публични и обратно."
-        },
-        {
-            question: "Какво е Ethernet?",
-            options: ["Протокол за безжична мрежа", "Технология за локални мрежи, използваща кабели", "Мобилна мрежа", "Спътникова комуникация"],
-            answer: "Технология за локални мрежи, използваща кабели",
-            explanation: "Ethernet е стандартна технология за свързване на устройства в локална мрежа чрез кабели, осигурявайки стабилна и бърза комуникация."
-        },
-        {
-            question: "Какво е Firewall?",
-            options: ["Система за охлаждане на компютъра", "Софтуер или хардуер, който контролира мрежовия трафик", "Програма за създаване на резервни копия", "Антивирусен софтуер"],
-            answer: "Софтуер или хардуер, който контролира мрежовия трафик",
-            explanation: "Firewall контролира входящия и изходящия мрежов трафик въз основа на зададени правила за сигурност, предпазвайки мрежата от неоторизиран достъп."
-        },
-        {
-            question: "Какви стандарти за безжични мрежи съществуват?",
-            options: ["802.11a/b/g/n/ac/ax", "Ethernet 1.0-5.0", "TCP/UDP", "IPv4/IPv6"],
-            answer: "802.11a/b/g/n/ac/ax",
-            explanation: "Стандартите 802.11a/b/g/n/ac/ax определят различни версии на безжични мрежи Wi-Fi, с различни скорости и диапазони."
-        },
-        {
-            question: "Каква е разликата между LAN и WAN?",
-            options: ["LAN е локална мрежа, а WAN е глобална мрежа", "LAN е глобална мрежа, а WAN е локална мрежа", "Няма разлика", "LAN използва безжична връзка, а WAN - кабелна"],
-            answer: "LAN е локална мрежа, а WAN е глобална мрежа",
-            explanation: "LAN (Local Area Network) обхваща ограничена географска област като офис или дом, докато WAN (Wide Area Network) свързва мрежи в по-големи географски разстояния."
-        },
-        {
-            question: "Какво е Bandwidth?",
-            options: ["Размерът на хард диска", "Скоростта на интернет връзката и капацитета за пренос на данни", "Тип на мрежов кабел", "Количество IP адреси"],
-            answer: "Скоростта на интернет връзката и капацитета за пренос на данни",
-            explanation: "Bandwidth определя колко данни могат да бъдат пренесени през мрежата за единица време, което влияе на скоростта на интернет връзката."
-        },
-        {
-            question: "Какво е MAC адрес?",
-            options: ["Маршрутизиращ адрес", "Уникален хардуерен идентификатор на мрежов интерфейс", "Публичен IP адрес", "Протокол за сигурност"],
-            answer: "Уникален хардуерен идентификатор на мрежов интерфейс",
-            explanation: "MAC адресът е уникален хардуерен идентификатор, присвоен на мрежовия интерфейс на устройството, използван за комуникация в локалната мрежа."
-        },
-        {
-            question: "Какво е Proxy Server?",
-            options: ["Сървър за съхранение на данни", "Сървър, който посредничи между потребителите и интернет ресурсите", "Маршрутизатор", "Сървър за електронна поща"],
-            answer: "Сървър, който посредничи между потребителите и интернет ресурсите",
-            explanation: "Proxy Server действа като посредник между потребителите и интернет ресурсите, осигурявайки анонимност, кеширане на съдържание и контрол върху достъпа."
-        },
-        {
-            question: "Какво е SSL/TLS?",
-            options: ["Протоколи за сигурна комуникация в интернет", "Тип мрежов кабел", "Операционна система", "Антивирусен софтуер"],
-            answer: "Протоколи за сигурна комуникация в интернет",
-            explanation: "SSL (Secure Sockets Layer) и TLS (Transport Layer Security) са криптографски протоколи, които осигуряват сигурна комуникация през интернет."
-        },
-        {
-            question: "На кой етап от създаването на една информационна система се извършва тестване за правилното ѝ функциониране според заложените изисквания?",
-            options: [
-                "Разработване",
-                "Внедряване",
-                "Проектиране",
-                "Поддръжка"
-            ],
-            answer: "Внедряване",
-            explanation: "Тестването на системата се извършва по време на внедряването, за да се гарантира, че тя отговаря на изискванията."
-        },
-        {
-            question: "Какво е основното предназначение на комутатора (switch) в мрежата?",
-            options: [
-                "Свързва устройства в локална мрежа и препраща данни между тях",
-                "Маршрутизира трафика между различни мрежи",
-                "Осигурява безжична връзка",
-                "Управлява IP адресите"
-            ],
-            answer: "Свързва устройства в локална мрежа и препраща данни между тях",
-            explanation: "Комутаторът свързва устройства в една локална мрежа и препраща данни към правилното устройство."
-        },
-        {
-            question: "Какво е Ping командата?",
-            options: [
-                "Инструмент за проверка на свързаността между две устройства в мрежа",
-                "Команда за изтриване на файлове",
-                "Протокол за прехвърляне на файлове",
-                "Приложение за чат"
-            ],
-            answer: "Инструмент за проверка на свързаността между две устройства в мрежа",
-            explanation: "Ping изпраща ICMP Echo Request пакети до целевия хост, за да провери дали е достъпен."
-        },
-        {
-            question: "Какво е основното предназначение на протокола FTP?",
-            options: [
-                "Прехвърляне на файлове между клиент и сървър",
-                "Изпращане на електронна поща",
-                "Сърфиране в уеб страници",
-                "Управление на мрежови устройства"
-            ],
-            answer: "Прехвърляне на файлове между клиент и сървър",
-            explanation: "FTP (File Transfer Protocol) се използва за прехвърляне на файлове между компютри в мрежа."
-        },
-        {
-            question: "Какво е основното предназначение на протокола SMTP?",
-            options: [
-                "Изпращане на електронна поща",
-                "Получаване на електронна поща",
-                "Прехвърляне на файлове",
-                "Достъп до уеб страници"
-            ],
-            answer: "Изпращане на електронна поща",
-            explanation: "SMTP (Simple Mail Transfer Protocol) се използва за изпращане на електронни писма от клиент към сървър."
-        },
-        {
-            question: "Какво е основното предназначение на протокола POP3?",
-            options: [
-                "Получаване на електронна поща от сървъра",
-                "Изпращане на електронна поща",
-                "Прехвърляне на файлове",
-                "Управление на мрежови устройства"
-            ],
-            answer: "Получаване на електронна поща от сървъра",
-            explanation: "POP3 (Post Office Protocol version 3) се използва за изтегляне на електронни писма от сървъра към клиента."
-        },
-        {
-            question: "Какво представлява терминът 'топология на мрежа'?",
-            options: [
-                "Физическата или логическа подредба на мрежовите устройства",
-                "Скоростта на мрежата",
-                "Типът на кабелите",
-                "Марка на мрежовите устройства"
-            ],
-            answer: "Физическата или логическа подредба на мрежовите устройства",
-            explanation: "Топологията описва как устройствата в мрежата са свързани помежду си."
-        },
-        {
-            question: "Какво е основното предназначение на протокола HTTP?",
-            options: [
-                "Пренасяне на хипертекстови данни в мрежата",
-                "Изпращане на електронна поща",
-                "Прехвърляне на файлове",
-                "Управление на мрежови устройства"
-            ],
-            answer: "Пренасяне на хипертекстови данни в мрежата",
-            explanation: "HTTP (HyperText Transfer Protocol) е основният протокол за пренасяне на данни в интернет, използван при уеб страници."
-        },
-        {
-            question: "Какво е 'порт' в контекста на компютърните мрежи?",
-            options: [
-                "Номер, който идентифицира конкретно приложение или услуга на устройство",
-                "Физически конектор за кабели",
-                "Тип мрежов кабел",
-                "Маршрутизатор"
-            ],
-            answer: "Номер, който идентифицира конкретно приложение или услуга на устройство",
-            explanation: "Портовете позволяват на един компютър да управлява множество услуги и приложения едновременно."
-        },
-        {
-            question: "Какво е основното предназначение на протокола UDP?",
-            options: [
-                "Предоставя небезопасна, но бърза комуникация без установяване на връзка",
-                "Осигурява сигурна комуникация",
-                "Прехвърляне на файлове",
-                "Управление на електронна поща"
-            ],
-            answer: "Предоставя небезопасна, но бърза комуникация без установяване на връзка",
-            explanation: "UDP (User Datagram Protocol) е протокол, който позволява бързо пренасяне на данни без потвърждение."
-        },
-        {
-            question: "Какво е 'packet' в компютърните мрежи?",
-            options: [
-                "Малка единица данни, пренасяна през мрежата",
-                "Мрежово устройство",
-                "Тип кабел",
-                "Протокол за сигурност"
-            ],
-            answer: "Малка единица данни, пренасяна през мрежата",
-            explanation: "Данните се разделят на пакети за по-ефективно пренасяне и управление в мрежата."
-        },
-        {
-            question: "Какво е основното предназначение на протокола IMAP?",
-            options: [
-                "Достъп и управление на електронна поща директно на сървъра",
-                "Изпращане на електронна поща",
-                "Прехвърляне на файлове",
-                "Достъп до уеб страници"
-            ],
-            answer: "Достъп и управление на електронна поща директно на сървъра",
-            explanation: "IMAP (Internet Message Access Protocol) позволява на клиентите да достъпват и управляват електронната си поща на сървъра."
-        },
-        {
-            question: "Какво е 'latency' в мрежите?",
-            options: [
-                "Забавянето при пренос на данни от източника до получателя",
-                "Скоростта на мрежата",
-                "Типът на кабелите",
-                "Размерът на пакета"
-            ],
-            answer: "Забавянето при пренос на данни от източника до получателя",
-            explanation: "Latency измерва времето, което отнема на данните да достигнат до дестинацията."
-        },
-        {
-            question: "Какво представлява 'трафикът' в мрежата?",
-            options: [
-                "Обемът на данни, които се предават през мрежата",
-                "Скоростта на мрежата",
-                "Типът на кабелите",
-                "Броят на устройствата в мрежата"
-            ],
-            answer: "Обемът на данни, които се предават през мрежата",
-            explanation: "Трафикът отразява количеството данни, които се пренасят през мрежата в даден момент."
-        },
-        {
-            question: "Какво е основното предназначение на протокола ICMP?",
-            options: [
-                "Използва се за диагностика и отчитане на грешки в мрежата",
-                "Прехвърляне на файлове",
-                "Управление на електронна поща",
-                "Достъп до уеб страници"
-            ],
-            answer: "Използва се за диагностика и отчитане на грешки в мрежата",
-            explanation: "ICMP (Internet Control Message Protocol) се използва за изпращане на съобщения за грешки и друга оперативна информация."
-        }
+    correctIndex: 1,
+    explanation: "Нормализацията намалява излишъка от данни, като разделя данните на по-малки, логически свързани таблици."
+  },
+  {
+    question: "Кое от следните е най-бързото средство за предаване на данни в локална мрежа?",
+    options: ["Wi-Fi", "Ethernet", "Bluetooth", "USB"],
+    correctIndex: 1,
+    explanation: "Ethernet обикновено предлага по-високи скорости и стабилност в локални мрежи."
+  },
+  {
+    question: "Кой файлов формат е най-подходящ за съхраняване на растерни изображения с много цветове?",
+    options: ["BMP", "PNG", "GIF", "JPEG"],
+    correctIndex: 3,
+    explanation: "JPEG използва компресия, подходяща за растерни изображения с много цветове."
+  },
+  {
+    question: "Кой от изброените протоколи се използва за изпращане на електронна поща?",
+    options: ["FTP", "SMTP", "HTTP", "SFTP"],
+    correctIndex: 1,
+    explanation: "SMTP е протокол за изпращане на електронна поща."
+  },
+  {
+    question: "Коя е основната цел на RAID системите?",
+    options: [
+      "Компресия на файлове",
+      "Подобряване на сигурността и производителността на дисковете",
+      "Оптимизация на интернет връзката",
+      "Създаване на резервни копия"
     ],
-    "Computer": [
-        {
-            question: "Какво е BIOS?",
-            options: ["Софтуерен компонент за управление на операционната система", "Основен входно-изходен системен софтуер, който стартира при включване на компютъра", "Хардуерен компонент за съхранение на данни", "Протокол за мрежова сигурност"],
-            answer: "Основен входно-изходен системен софтуер, който стартира при включване на компютъра",
-            explanation: "BIOS (Basic Input/Output System) е софтуерен компонент, който инициализира хардуера и зарежда операционната система при стартиране на компютъра."
-        },
-        {
-            question: "Какво е RAM?",
-            options: ["Read-Only Memory", "Random Access Memory - вид временна памет за съхранение на данни, които се използват активно", "Romantic Access Memory", "Rapid Access Memory"],
-            answer: "Random Access Memory - вид временна памет за съхранение на данни, които се използват активно",
-            explanation: "RAM е вид временна памет, която компютърът използва за съхранение на данни и програми, които са активни по време на работа."
-        },
-        {
-            question: "Какво прави SSD дискът в компютъра?",
-            options: ["Служи за оперативната памет", "Предоставя бързо съхранение на данни чрез флаш памет, без подвижни части", "Използва се само за видео игри", "Криптира файловете на компютъра"],
-            answer: "Предоставя бързо съхранение на данни чрез флаш памет, без подвижни части",
-            explanation: "SSD (Solid State Drive) дисковете използват флаш памет за съхранение на данни, което осигурява по-бързо четене и запис в сравнение с традиционните HDD дискове."
-        },
-        {
-            question: "Какво е GPU?",
-            options: ["General Processing Unit", "Graphics Processing Unit - хардуер, отговарящ за обработката на графики и изображения", "Global Processing Unit", "Graphics Programming Utility"],
-            answer: "Graphics Processing Unit - хардуер, отговарящ за обработката на графики и изображения",
-            explanation: "GPU се използва за обработка на графики и изображения, като ускорява рендерирането на визуални елементи и поддържа високо качество на визуализацията."
-        },
-        {
-            question: "Какво представлява операционната система?",
-            options: ["Програма за редактиране на текст", "Софтуер, който управлява хардуера на компютъра и предоставя платформа за изпълнение на софтуерни приложения", "Вид антивирусен софтуер", "Файлов формат за съхранение на данни"],
-            answer: "Софтуер, който управлява хардуера на компютъра и предоставя платформа за изпълнение на софтуерни приложения",
-            explanation: "Операционната система управлява хардуера, предоставя ресурси за софтуерните приложения и осигурява интерфейс за взаимодействие с потребителя."
-        },
-        {
-            question: "Какво е CPU?",
-            options: ["Central Process Unit", "Central Processing Unit", "Computer Personal Unit", "Control Processing Unit"],
-            answer: "Central Processing Unit",
-            explanation: "CPU е абревиатурата за Central Processing Unit, който е основният процесор на компютъра, отговарящ за изпълнението на инструкции."
-        },
-        {
-            question: "Какво представлява дънната платка (Motherboard) в компютъра?",
-            options: ["Основният хардуерен компонент, който свързва всички други компоненти и позволява комуникация между тях", "Хард диск за съхранение на данни", "Периферно устройство", "Мощностен блок"],
-            answer: "Основният хардуерен компонент, който свързва всички други компоненти и позволява комуникация между тях",
-            explanation: "Дънната платка е основният хардуерен компонент, който свързва всички други компоненти на компютъра и позволява комуникация между тях."
-        },
-        {
-            question: "Какво е захранващ блок (Power Supply) в компютъра?",
-            options: ["Устройство за охлаждане", "Хардуерен компонент, който преобразува електрическата енергия от електрическата мрежа в необходимите напрежения за компонентите на компютъра", "Протокол за мрежова сигурност", "Софтуерен компонент"],
-            answer: "Хардуерен компонент, който преобразува електрическата енергия от електрическата мрежа в необходимите напрежения за компонентите на компютъра",
-            explanation: "Захранващият блок преобразува електрическата енергия от електрическата мрежа в необходимите напрежения за компонентите на компютъра, осигурявайки стабилно захранване."
-        },
-        {
-            question: "Какво представляват периферните устройства?",
-            options: ["Основни компоненти на компютъра като CPU и RAM", "Устройства, които се свързват към компютъра за разширяване на функционалността, като клавиатура, мишка, принтер и скенер", "Софтуерни приложения", "Мрежови протоколи"],
-            answer: "Устройства, които се свързват към компютъра за разширяване на функционалността, като клавиатура, мишка, принтер и скенер",
-            explanation: "Периферните устройства са външни устройства, които се свързват към компютъра за разширяване на неговите функционалности, като въвеждане на данни, изход на информация и други."
-        },
-        {
-            question: "Какво е виртуализация (Virtualization) в контекста на компютърните системи?",
-            options: ["Създаване на виртуални машини, които симулират физически компютри", "Използване на виртуални реалности за игри", "Създаване на виртуални уеб страници", "Управление на виртуални проекти"],
-            answer: "Създаване на виртуални машини, които симулират физически компютри",
-            explanation: "Virtualization е технология, която позволява създаването на виртуални машини, които симулират физически компютри, осигурявайки по-добро използване на хардуерните ресурси и гъвкавост в управлението на системите."
-        },
-        {
-            question: "Какво е хладилник (Heat Sink) в компютърната система?",
-            options: ["Устройство за съхранение на данни", "Хардуерен компонент, който отстранява излишното топлина от процесора и други компоненти чрез разсейване", "Протокол за мрежова сигурност", "Софтуерен инструмент за управление на температурите"],
-            answer: "Хардуерен компонент, който отстранява излишното топлина от процесора и други компоненти чрез разсейване",
-            explanation: "Heat Sink е хардуерен компонент, който помага за отстраняване на излишната топлина от процесора и други компоненти чрез разсейване, предотвратявайки прегряване."
-        },
-        {
-            question: "Какво е периферно устройство за вход (Input Device)?",
-            options: ["Устройство за изход на данни като монитор", "Устройство за въвеждане на данни като клавиатура и мишка", "Софтуерен компонент", "Мрежови кабел"],
-            answer: "Устройство за въвеждане на данни като клавиатура и мишка",
-            explanation: "Периферните устройства за вход са устройства, които позволяват въвеждане на данни в компютъра, като клавиатура, мишка, скенер и други."
-        },
-        {
-            question: "Какво е периферно устройство за изход (Output Device)?",
-            options: ["Устройство за въвеждане на данни", "Устройство за изход на данни като монитор и принтер", "Софтуерен компонент", "Мрежови протокол"],
-            answer: "Устройство за изход на данни като монитор и принтер",
-            explanation: "Периферните устройства за изход са устройства, които показват или извеждат данни от компютъра, като монитор, принтер, колони и други."
-        },
-        {
-            question: "Какво е фърмуер (Firmware)?",
-            options: ["Програма за обработка на текст", "Вграден софтуер, който контролира хардуера на устройството", "Хардуерен компонент", "Мрежов протокол"],
-            answer: "Вграден софтуер, който контролира хардуера на устройството",
-            explanation: "Фърмуер е вграден софтуер, който управлява и контролира хардуера на устройството, като например BIOS на компютъра или фърмуера на рутер."
-        },
-        {
-            question: "Какво е оверклокване (Overclocking) в компютърните системи?",
-            options: ["Увеличаване на оперативната памет", "Увеличаване на тактовата скорост на процесора над стандартните спецификации за повишаване на производителността", "Увеличаване на капацитета на твърдия диск", "Увеличаване на скоростта на интернет връзката"],
-            answer: "Увеличаване на тактовата скорост на процесора над стандартните спецификации за повишаване на производителността",
-            explanation: "Overclocking е процесът на увеличаване на тактовата скорост на процесора над стандартните спецификации, за да се повиши производителността, но може да доведе до по-високо генериране на топлина и намалена стабилност."
-        },
-        {
-            question: "В компютърна конфигурация хардуерът, който осигурява комуникацията между две устройства, се нарича:",
-            options: [
-                "Централен процесор",
-                "Интерфейс",
-                "Дънна платка",
-                "Кеш памет"
-            ],
-            answer: "Интерфейс",
-            explanation: "Интерфейсът е хардуерът, който позволява комуникацията между различни устройства в компютърната система."
-        },
-        {
-            question: "Коя защитна функция на операционната система трябва да се използва, за да се провери кои програми имат достъп до външни мрежи (интернет)?",
-            options: [
-                "Windows Firewall",
-                "Account protection",
-                "System restore",
-                "Device security"
-            ],
-            answer: "Windows Firewall",
-            explanation: "Windows Firewall контролира достъпа на програми до мрежата и може да се използва за проверка и управление на тези връзки."
-        },
-        {
-            question: "Какво е 'Cache Memory' в компютъра?",
-            options: [
-                "Бърза памет, която съхранява често използвани данни за бърз достъп",
-                "Основната оперативна памет",
-                "Памет на твърдия диск",
-                "Паметта на графичната карта"
-            ],
-            answer: "Бърза памет, която съхранява често използвани данни за бърз достъп",
-            explanation: "Cache Memory е малка, но бърза памет, която съхранява често използвани данни, за да ускори достъпа до тях."
-        },
-        {
-            question: "Какво представлява 'Hyper-Threading' технологията?",
-            options: [
-                "Технология, която позволява на един физически процесор да се държи като два логически процесора",
-                "Удвояване на тактовата честота",
-                "Увеличаване на размера на RAM",
-                "Технология за охлаждане"
-            ],
-            answer: "Технология, която позволява на един физически процесор да се държи като два логически процесора",
-            explanation: "Hyper-Threading позволява на един процесор да обработва повече от една задача едновременно чрез симулиране на допълнителни ядра."
-        },
-        {
-            question: "Какво е 'RAID' в контекста на съхранение на данни?",
-            options: [
-                "Технология за комбиниране на множество твърди дискове за повишаване на производителността или надеждността",
-                "Антивирусен софтуер",
-                "Тип RAM памет",
-                "Протокол за мрежова комуникация"
-            ],
-            answer: "Технология за комбиниране на множество твърди дискове за повишаване на производителността или надеждността",
-            explanation: "RAID (Redundant Array of Independent Disks) е технология за комбиниране на дискове с цел подобряване на производителността или надеждността."
-        },
-        {
-            question: "Какво е 'POST' при стартиране на компютъра?",
-            options: [
-                "Процес на самотестуване на хардуера преди зареждане на операционната система",
-                "Тип оперативна памет",
-                "Протокол за мрежова комуникация",
-                "Приложение за текстообработка"
-            ],
-            answer: "Процес на самотестуване на хардуера преди зареждане на операционната система",
-            explanation: "POST (Power-On Self-Test) е процесът, при който компютърът проверява хардуерните компоненти при стартиране."
-        },
-        {
-            question: "Какво представлява 'Многоядрен процесор'?",
-            options: [
-                "Процесор с повече от едно физическо ядро за изпълнение на инструкции",
-                "Процесор с повишена тактова честота",
-                "Процесор с вграден графичен чип",
-                "Процесор с по-голям размер"
-            ],
-            answer: "Процесор с повече от едно физическо ядро за изпълнение на инструкции",
-            explanation: "Многоядреният процесор има няколко физически ядра, които могат да обработват инструкции паралелно."
-        },
-        {
-            question: "Какво е 'ROM' в компютърните системи?",
-            options: [
-                "Read-Only Memory - постоянна памет, която съдържа неизменим софтуер",
-                "Random Access Memory",
-                "Памет на твърдия диск",
-                "Памет на графичната карта"
-            ],
-            answer: "Read-Only Memory - постоянна памет, която съдържа неизменим софтуер",
-            explanation: "ROM е вид памет, която съхранява данни, които не могат да бъдат променяни и остават след изключване на захранването."
-        },
-        {
-            question: "Какво представлява 'SATA' интерфейсът?",
-            options: [
-                "Интерфейс за свързване на твърди дискове и SSD към дънната платка",
-                "Мрежов протокол",
-                "Тип RAM памет",
-                "Графичен интерфейс"
-            ],
-            answer: "Интерфейс за свързване на твърди дискове и SSD към дънната платка",
-            explanation: "SATA (Serial ATA) е стандартен интерфейс за свързване на устройства за съхранение като твърди дискове и SSD."
-        },
-        {
-            question: "Какво е 'UPS' в контекста на компютърните системи?",
-            options: [
-                "Uninterruptible Power Supply - устройство за непрекъсваемо захранване",
-                "Протокол за прехвърляне на файлове",
-                "Тип процесор",
-                "Софтуер за архивиране"
-            ],
-            answer: "Uninterruptible Power Supply - устройство за непрекъсваемо захранване",
-            explanation: "UPS е устройство, което осигурява резервно захранване при прекъсване на електричеството, предпазвайки хардуера от повреди."
-        },
-        {
-            question: "Какво представлява 'SSD' дискът?",
-            options: [
-                "Solid State Drive - устройство за съхранение без подвижни части, използващо флаш памет",
-                "Standard Storage Device",
-                "Тип оперативна памет",
-                "Графична карта"
-            ],
-            answer: "Solid State Drive - устройство за съхранение без подвижни части, използващо флаш памет",
-            explanation: "SSD дисковете използват флаш памет за съхранение, което ги прави по-бързи и надеждни от традиционните твърди дискове."
-        },
-        {
-            question: "Какво е 'Overheating' в компютърните системи?",
-            options: [
-                "Прегряване на хардуерните компоненти поради недостатъчно охлаждане",
-                "Увеличаване на производителността",
-                "Обновяване на софтуера",
-                "Инсталиране на нови компоненти"
-            ],
-            answer: "Прегряване на хардуерните компоненти поради недостатъчно охлаждане",
-            explanation: "Overheating може да доведе до намалена производителност или повреди в хардуера."
-        },
-        {
-            question: "Какво представлява 'Dual Channel' технологията в RAM паметта?",
-            options: [
-                "Метод за увеличаване на скоростта на RAM чрез използване на две паметови модули едновременно",
-                "Двойна оперативна памет",
-                "Тип графична памет",
-                "Софтуер за управление на паметта"
-            ],
-            answer: "Метод за увеличаване на скоростта на RAM чрез използване на две паметови модули едновременно",
-            explanation: "Dual Channel позволява на системата да достъпва два паметови модула паралелно, увеличавайки пропускателната способност."
-        },
-        {
-            question: "Какво е 'Мултитаскинг' в операционните системи?",
-            options: [
-                "Способността да изпълнява множество задачи или процеси едновременно",
-                "Увеличаване на скоростта на процесора",
-                "Инсталиране на повече оперативна памет",
-                "Обновяване на софтуера"
-            ],
-            answer: "Способността да изпълнява множество задачи или процеси едновременно",
-            explanation: "Мултитаскингът позволява на операционната система да управлява и изпълнява няколко задачи едновременно."
-        },
-        {
-            question: "При създаване на софтуер обект на авторско право е:",
-            options: [
-                "Изходният и обектният код на софтуера",
-                "Програмният език, на който е написан софтуерът",
-                "Графичният интерфейс на софтуера",
-                "Ръководството, което съпътства софтуера"
-            ],
-            answer: "Изходният и обектният код на софтуера",
-            explanation: "Авторското право защитава изходния и обектния код като литературно произведение."
-        }
+    correctIndex: 1,
+    explanation: "RAID системите комбинират множество физически дискове за увеличаване на производителността и/или сигурността на данните."
+  },
+  {
+    question: "Какво прави командата \"ping\" в мрежова среда?",
+    options: [
+      "Изтегля файлове от отдалечен сървър",
+      "Проверява мрежовата свързаност с друго устройство",
+      "Създава архив на данни",
+      "Инсталира драйвери"
     ],
-    "General": [
-        {
-            question: "Какво представлява интернет протоколът HTTP?",
-            options: ["Протокол за прехвърляне на файлове", "Протокол за сигурна комуникация", "HyperText Transfer Protocol - протокол за прехвърляне на хипертекст между уеб сървъри и клиенти", "Протокол за управление на бази данни"],
-            answer: "HyperText Transfer Protocol - протокол за прехвърляне на хипертекст между уеб сървъри и клиенти",
-            explanation: "HTTP е протокол, който се използва за прехвърляне на уеб страници и други ресурси между уеб сървъри и браузъри."
-        },
-        {
-            question: "Какво е 'Cloud Computing'?",
-            options: ["Съхранение на данни на локален компютър", "Използване на интернет за достъп до изчислителни ресурси и услуги", "Изчисления върху физически сървъри в офиса", "Тип операционна система"],
-            answer: "Използване на интернет за достъп до изчислителни ресурси и услуги",
-            explanation: "Cloud Computing се отнася до предоставянето на изчислителни ресурси и услуги през интернет, което позволява гъвкаво използване на сървъри, съхранение и приложения."
-        },
-        {
-            question: "Какво е 'Agile' методологията в софтуерното развитие?",
-            options: ["Методология за водопаден модел на разработка", "Методология за итеративно и инкрементално развитие на софтуер", "Методология за статично тестване на софтуер", "Методология за управление на бази данни"],
-            answer: "Методология за итеративно и инкрементално развитие на софтуер",
-            explanation: "Agile методологията се фокусира върху итеративното и инкрементално развитие на софтуер, позволявайки гъвкавост и бърза адаптация към променящите се изисквания."
-        },
-        {
-            question: "Какво означава 'SEO'?",
-            options: ["Search Engine Optimization - процес на оптимизиране на уеб страници за по-добро класиране в търсачките", "Secure Email Option", "Software Engineering Operations", "System Error Output"],
-            answer: "Search Engine Optimization - процес на оптимизиране на уеб страници за по-добро класиране в търсачките",
-            explanation: "SEO (Search Engine Optimization) включва различни техники за подобряване на видимостта на уеб страници в резултатите от търсачките."
-        },
-        {
-            question: "Какво е 'Machine Learning'?",
-            options: ["Ръчно програмиране на алгоритми", "Процесът на обучение на машини да учат от данни без явна програмиране", "Създаване на хардуерни компоненти", "Разработка на мобилни приложения"],
-            answer: "Процесът на обучение на машини да учат от данни без явна програмиране",
-            explanation: "Machine Learning е област от изкуствения интелект, която се фокусира върху разработването на алгоритми, позволяващи на компютрите да учат и правят прогнози или решения въз основа на данни."
-        },
-        {
-            question: "Какво е 'IoT'?",
-            options: ["Internet of Things - мрежа от физически устройства, свързани в интернет и способни да обменят данни", "Input/Output Technology", "Internet over Time", "International Organization for Telecommunication"],
-            answer: "Internet of Things - мрежа от физически устройства, свързани в интернет и способни да обменят данни",
-            explanation: "IoT (Internet of Things) се отнася до мрежата от физически устройства, които са свързани в интернет и могат да обменят данни за автоматизация и подобряване на ежедневните процеси."
-        },
-        {
-            question: "Какво представлява 'Blockchain' технологията?",
-            options: ["Система за управление на бази данни", "Децентрализирана цифрова счетоводна система", "Технология за създаване на графики", "Софтуер за управление на проекти"],
-            answer: "Децентрализирана цифрова счетоводна система",
-            explanation: "Blockchain е децентрализирана цифрова счетоводна система, която записва транзакции в блокове, свързани последователно чрез криптографски методи."
-        },
-        {
-            question: "Какво е API?",
-            options: ["Application Programming Interface - интерфейс, който позволява на различни софтуерни приложения да комуникират помежду си", "Advanced Programming Interface", "Application Process Integration", "Automated Programming Interface"],
-            answer: "Application Programming Interface - интерфейс, който позволява на различни софтуерни приложения да комуникират помежду си",
-            explanation: "API (Application Programming Interface) е интерфейс, който позволява на различни софтуерни приложения да комуникират и обменят данни помежду си."
-        },
-        {
-            question: "Какво е 'Big Data'?",
-            options: ["Малки количества данни", "Данни, които са трудни за обработка поради своя обем и сложност", "Данни, съхранявани на хартиен носител", "Данни с ниска стойност"],
-            answer: "Данни, които са трудни за обработка поради своя обем и сложност",
-            explanation: "Big Data се отнася до големи и сложни набори от данни, които изискват специализирани методи за обработка."
-        },
-        {
-            question: "Какво е 'Responsive Design'?",
-            options: ["Дизайн, който се адаптира към различни устройства и размери на екрана", "Дизайн, който е статичен и не се променя", "Дизайн, който използва само флексбокс", "Дизайн, който не е отзивчив към потребителски действия"],
-            answer: "Дизайн, който се адаптира към различни устройства и размери на екрана",
-            explanation: "Responsive Design е подход в уеб дизайна, който гарантира, че уеб страниците изглеждат и функционират добре на различни устройства и размери на екрана."
-        },
-        {
-            question: "Какво е 'Data Encryption'?",
-            options: ["Процес на компресиране на данни", "Метод за защита на данни чрез преобразуване в кодирана форма", "Процес на съхранение на данни", "Метод за сортиране на данни"],
-            answer: "Метод за защита на данни чрез преобразуване в кодирана форма",
-            explanation: "Data Encryption е метод за защита на данните, като ги преобразува в кодирана форма, която може да бъде декриптирана само от упълномощени потребители."
-        },
-        {
-            question: "Какво е 'Social Engineering' в контекста на киберсигурността?",
-            options: ["Технология за социални медии", "Измамна практика за получаване на чувствителна информация чрез подвеждане на потребителите", "Програма за управление на социални мрежи", "Метод за криптиране на данни"],
-            answer: "Измамна практика за получаване на чувствителна информация чрез подвеждане на потребителите",
-            explanation: "Social Engineering е кибератака, при която нападателите се опитват да получат чувствителна информация чрез манипулиране и подвеждане на потребителите."
-        },
-        {
-            question: "Какво е 'Cryptocurrency'?",
-            options: ["Вид цифрова валута, която използва криптография за сигурност", "Традиционна държавна валута", "Физически монети", "Метод за съхранение на данни"],
-            answer: "Вид цифрова валута, която използва криптография за сигурност",
-            explanation: "Cryptocurrency е вид цифрова валута, която използва криптография за осигуряване на транзакциите и контрол върху създаването на нови единици."
-        },
-        {
-            question: "Какво е 'Cybersecurity'?",
-            options: ["Система за управление на бази данни", "Процес на защита на компютърни системи и мрежи от кражба или повреждане на хардуер, софтуер или данни", "Метод за създаване на графики", "Функция за контрол на достъпа"],
-            answer: "Процес на защита на компютърни системи и мрежи от кражба или повреждане на хардуер, софтуер или данни",
-            explanation: "Cybersecurity включва практиките и технологиите, използвани за защита на компютърни системи и мрежи от атаки, неоторизиран достъп и повреда на данни."
-        },
-        {
-            question: "Какво е 'Data Backup'?",
-            options: ["Съхранение на данни на локален диск", "Създаване на резервни копия на данни за защита от загуба", "Процес на изтриване на данни", "Процес на сортиране на данни"],
-            answer: "Създаване на резервни копия на данни за защита от загуба",
-            explanation: "Data Backup е процесът на създаване на резервни копия на данни, за да се предпази от загуба при повреди, атаки или други инциденти."
-        },
-        {
-            question: "Коя от изброените дейности е етап при проектирането на мултимедийно приложение?",
-            options: [
-                "Написване на сценарий",
-                "Разработване на основна версия",
-                "Тестване и отстраняване на грешки",
-                "Пакетиране на приложението"
-            ],
-            answer: "Написване на сценарий",
-            explanation: "Написването на сценарий е начален етап в проектирането на мултимедийно приложение, където се планира съдържанието."
-        },
-        {
-            question: "В кой етап при изпълнението на софтуерен проект се извършва анализът на риска?",
-            options: [
-                "Планиране",
-                "Разработване",
-                "Инициализиране",
-                "Приключване"
-            ],
-            answer: "Планиране",
-            explanation: "Анализът на риска е ключов компонент в етапа на планиране на софтуерен проект."
-        },
-        {
-            question: "Какво представлява 'UX Design'?",
-            options: [
-                "Дизайн, който се фокусира върху потребителското преживяване и удобство",
-                "Дизайн на бази данни",
-                "Дизайн на хардуерни компоненти",
-                "Дизайн на мрежова инфраструктура"
-            ],
-            answer: "Дизайн, който се фокусира върху потребителското преживяване и удобство",
-            explanation: "UX (User Experience) Design се фокусира върху създаването на продукти, които предоставят значими и релевантни преживявания на потребителите."
-        },
-        {
-            question: "Какво е 'Open Source' софтуер?",
-            options: [
-                "Софтуер с отворен код, който може да се променя и разпространява свободно",
-                "Софтуер, който е безплатен, но с ограничен достъп до кода",
-                "Софтуер, който е достъпен само за определени потребители",
-                "Софтуер, който работи само на определени операционни системи"
-            ],
-            answer: "Софтуер с отворен код, който може да се променя и разпространява свободно",
-            explanation: "Open Source софтуерът предоставя достъп до своя изходен код, позволявайки на потребителите да го променят и разпространяват."
-        },
-        {
-            question: "Какво е 'VR' технология?",
-            options: [
-                "Virtual Reality - технология, която създава изкуствена среда, симулираща реалност",
-                "Video Rendering",
-                "Voice Recognition",
-                "Virtual Routing"
-            ],
-            answer: "Virtual Reality - технология, която създава изкуствена среда, симулираща реалност",
-            explanation: "VR технологията позволява на потребителите да се потопят в виртуална среда чрез специални устройства."
-        },
-        {
-            question: "Какво е 'Phishing' атака?",
-            options: [
-                "Кибератака, при която нападателите се опитват да измамят потребителите да предоставят лична информация",
-                "Вирусна инфекция на компютъра",
-                "Физическа кражба на устройства",
-                "Пробив в мрежовата сигурност"
-            ],
-            answer: "Кибератака, при която нападателите се опитват да измамят потребителите да предоставят лична информация",
-            explanation: "Phishing е измамна практика, при която се използват фалшиви имейли или сайтове, за да се подведат потребителите да разкрият чувствителна информация."
-        },
-        {
-            question: "Какво представлява 'Artificial Intelligence' (AI)?",
-            options: [
-                "Способността на машините да изпълняват задачи, които изискват човешки интелект",
-                "Програмиране на уеб страници",
-                "Създаване на графики",
-                "Управление на бази данни"
-            ],
-            answer: "Способността на машините да изпълняват задачи, които изискват човешки интелект",
-            explanation: "AI се отнася до системи или машини, които имитират човешкия интелект за изпълнение на задачи и могат да се самообучават въз основа на събраната информация."
-        },
-        {
-            question: "Какво е 'SaaS' моделът в облачните услуги?",
-            options: [
-                "Software as a Service - предоставяне на софтуерни приложения през интернет",
-                "Security as a Service",
-                "Storage as a Service",
-                "Support as a Service"
-            ],
-            answer: "Software as a Service - предоставяне на софтуерни приложения през интернет",
-            explanation: "SaaS позволява на потребителите да достъпват софтуерни приложения през интернет без необходимост от инсталация."
-        },
-        {
-            question: "Какво е 'Multimedia'?",
-            options: [
-                "Комбинация от различни форми на съдържание като текст, аудио, изображения, анимации и видео",
-                "Само видео съдържание",
-                "Само аудио съдържание",
-                "Само текстово съдържание"
-            ],
-            answer: "Комбинация от различни форми на съдържание като текст, аудио, изображения, анимации и видео",
-            explanation: "Мултимедията включва използването на разнообразни медийни формати за представяне на информация."
-        },
-        {
-            question: "Какво представлява 'Ethernet' технологията?",
-            options: [
-                "Технология за локални мрежи, използваща кабели за свързване на устройства",
-                "Безжична мрежова технология",
-                "Мобилна мрежова технология",
-                "Спътникова комуникация"
-            ],
-            answer: "Технология за локални мрежи, използваща кабели за свързване на устройства",
-            explanation: "Ethernet е стандарт за кабелна локална мрежа, който позволява високоскоростна комуникация между устройства."
-        },
-        {
-            question: "Какво е 'CMS' в уеб разработката?",
-            options: [
-                "Content Management System - система за управление на съдържанието на уеб сайтове",
-                "Computer Management Software",
-                "Customer Management System",
-                "Cloud Management Service"
-            ],
-            answer: "Content Management System - система за управление на съдържанието на уеб сайтове",
-            explanation: "CMS позволява лесно създаване, управление и модифициране на съдържание на уеб сайтове без нужда от технически познания."
-        },
-        {
-            question: "Какво представлява 'DNS' в интернет?",
-            options: [
-                "Domain Name System - система, която превежда домейн имена в IP адреси",
-                "Data Network Service",
-                "Digital Number System",
-                "Direct Network Switch"
-            ],
-            answer: "Domain Name System - система, която превежда домейн имена в IP адреси",
-            explanation: "DNS позволява на потребителите да използват лесно запомнящи се домейн имена вместо сложни IP адреси."
-        },
-        {
-            question: "Какво е 'SSD' устройство?",
-            options: [
-                "Solid State Drive - устройство за съхранение без подвижни части, използващо флаш памет",
-                "Standard Storage Device",
-                "Secure Software Download",
-                "System Support Device"
-            ],
-            answer: "Solid State Drive - устройство за съхранение без подвижни части, използващо флаш памет",
-            explanation: "SSD дисковете са по-бързи и надеждни от традиционните твърди дискове, тъй като нямат механични части."
-        },
-        {
-            question: "Какво представлява 'HTML' в уеб разработката?",
-            options: [
-                "HyperText Markup Language - език за структуриране и представяне на съдържание в уеб",
-                "High Transmission Mobile Line",
-                "Hyperlink Text Management Language",
-                "Home Tool Markup Language"
-            ],
-            answer: "HyperText Markup Language - език за структуриране и представяне на съдържание в уеб",
-            explanation: "HTML е стандартният език за създаване на уеб страници и уеб приложения."
-        },
-        {
-            question: "С кой инструмент в система за управление на съдържание се групират публикациите?",
-            options: [
-                "Категория",
-                "Страница",
-                "Джаджа",
-                "Тема"
-            ],
-            answer: "Категория",
-            explanation: "Категориите се използват за групиране и организиране на публикациите в CMS системи."
+    correctIndex: 1,
+    explanation: "Командата ping проверява връзката между вашата машина и друго устройство в мрежата."
+  },
+  {
+    question: "Кое от изброените е основна функция на операционната система?",
+    options: [
+      "Управление на хардуерните ресурси",
+      "Разработка на софтуерни приложения",
+      "Дизайн на потребителски интерфейс",
+      "Създаване на мрежови протоколи"
+    ],
+    correctIndex: 0,
+    explanation: "Основната функция на ОС е управлението на хардуера и ресурсите."
+  },
+  {
+    question: "Кой от следните файлови формати е предназначен за съхранение на растерни изображения?",
+    options: ["MP3", "WAV", "BMP", "AVI"],
+    correctIndex: 2,
+    explanation: "BMP е формат за съхранение на растерни изображения."
+  },
+  {
+    question: "Каква е основната цел на нормализацията в релационните бази данни?",
+    options: [
+      "Увеличаване на излишъка от данни",
+      "Намаляване на излишъка от данни",
+      "Оптимизация на мрежовия трафик",
+      "Подобряване на графичния интерфейс"
+    ],
+    correctIndex: 1,
+    explanation: "Намаляването на излишъка от данни чрез нормализацията води до по-ефективно съхранение и управление."
+  },
+  {
+    question: "Коя от следните технологии се използва за създаване на уеб страници?",
+    options: ["SQL", "HTML", "C++", "Python"],
+    correctIndex: 1,
+    explanation: "HTML е основната технология за създаване на уеб страници."
+  },
+  {
+    question: "Какво представлява IP адресът?",
+    options: [
+      "Хардуерен идентификатор на мрежова карта",
+      "Уникален адрес на устройство в мрежа",
+      "Протокол за сигурност в интернет",
+      "Формат за компресия на изображения"
+    ],
+    correctIndex: 1,
+    explanation: "IP адресът е уникален адрес на устройство в мрежа."
+  },
+  {
+    question: "Коя от следните команди в операционната система Windows се използва за проверка на мрежова свързаност?",
+    options: ["tracert", "ipconfig", "ping", "netstat"],
+    correctIndex: 2,
+    explanation: "Командата ping проверява мрежовата свързаност."
+  },
+  {
+    question: "Каква е функцията на протокола HTTP?",
+    options: [
+      "Прехвърляне на електронна поща",
+      "Прехвърляне на хипертекстови документи",
+      "Управление на домейн имена",
+      "Осигуряване на сигурна комуникация"
+    ],
+    correctIndex: 1,
+    explanation: "HTTP е протокол за прехвърляне на хипертекстови документи (уеб страници)."
+  },
+  {
+    question: "Кой от следните софтуерни продукти е текстов редактор?",
+    options: ["Microsoft Excel", "Adobe Photoshop", "Microsoft Word", "AutoCAD"],
+    correctIndex: 2,
+    explanation: "Microsoft Word е текстов редактор."
+  },
+  {
+    question: "Какво е основното предназначение на RAM паметта в компютърната система?",
+    options: [
+      "Дългосрочно съхранение на данни",
+      "Временно съхранение на данни за бърз достъп",
+      "Управление на периферни устройства",
+      "Контрол на мрежовите връзки"
+    ],
+    correctIndex: 1,
+    explanation: "RAM е памет за бърз достъп, която съхранява данни временно."
+  },
+  {
+    question: "Коя от следните услуги предоставя възможност за съхранение на файлове в облака?",
+    options: ["Dropbox", "Skype", "WhatsApp", "Firefox"],
+    correctIndex: 0,
+    explanation: "Dropbox е услуга за облачно съхранение на файлове."
+  },
+  {
+    question: "Кой от следните е протокол за сигурна комуникация в интернет?",
+    options: ["FTP", "HTTP", "HTTPS", "SMTP"],
+    correctIndex: 2,
+    explanation: "HTTPS е версия на HTTP с криптиране за сигурна комуникация."
+  },
+  {
+    question: "Коя от следните команди в операционната система Windows показва мрежовите настройки на системата?",
+    options: ["tracert", "ipconfig", "ping", "netstat"],
+    correctIndex: 1,
+    explanation: "Командата ipconfig показва мрежовите настройки на Windows системи."
+  },
+  {
+    question: "Кой от следните е формат за компресия на видео файлове?",
+    options: ["MP3", "JPEG", "MP4", "PNG"],
+    correctIndex: 2,
+    explanation: "MP4 е видео формат, който използва компресия за съхранение на видео."
+  },
+  {
+    question: "Какво е основното предназначение на функцията VLOOKUP в Excel?",
+    options: ["Сумиране на стойности", "Търсене на стойност в таблица", "Броене на клетки с данни", "Намиране на максимална стойност"],
+    correctIndex: 1,
+    explanation: "VLOOKUP търси стойност в първата колона на даден диапазон и връща стойност от другата колона."
+  },
+  {
+    question: "Кой от следните е тип мрежова топология?",
+    options: ["Звезда", "Кръг", "Квадрат", "Триъгълник"],
+    correctIndex: 0,
+    explanation: "Мрежовата топология \"звезда\" описва връзките, при които всички устройства са свързани към централен хъб."
+  },
+  {
+    question: "Какво представлява \"фишинг\" атаката?",
+    options: [
+      "Атака чрез претоварване на мрежата",
+      "Опит за измама чрез имейли или уебсайтове",
+      "Инсталиране на зловреден софтуер",
+      "Прехващане на мрежов трафик"
+    ],
+    correctIndex: 1,
+    explanation: "\"Фишинг\" е измамна практика чрез имейли или фалшиви уебсайтове за кражба на данни."
+  },
+  {
+    question: "Коя от следните е основна характеристика на SSD дисковете в сравнение с HDD?",
+    options: [
+      "По-ниска скорост на четене и запис",
+      "По-висока консумация на енергия",
+      "Липса на подвижни части",
+      "По-голям физически размер"
+    ],
+    correctIndex: 2,
+    explanation: "SSD дисковете нямат подвижни части и обикновено предлагат по-висока производителност."
+  },
+  {
+    question: "Какво е предназначението на командата \"ipconfig\" в Windows?",
+    options: [
+      "Показва мрежовите настройки на системата",
+      "Тества свързаността с отдалечен хост",
+      "Проследява маршрута до даден хост",
+      "Показва активните мрежови връзки"
+    ],
+    correctIndex: 0,
+    explanation: "ipconfig извежда мрежовите настройки на компютъра."
+  },
+  {
+    question: "Коя от следните функции в Excel изчислява средната стойност на даден диапазон от клетки?",
+    options: ["SUM", "AVERAGE", "MEDIAN", "MODE"],
+    correctIndex: 1,
+    explanation: "AVERAGE функцията изчислява средната стойност на даден диапазон от клетки в Excel."
+  },
+  {
+    question: "Какво е основното предназначение на протокола FTP?",
+    options: ["Прехвърляне на електронна поща", "Прехвърляне на файлове между компютри", "Сигурна комуникация в мрежата", "Достъп до уеб страници"],
+    correctIndex: 1,
+    explanation: "FTP е протокол, предназначен за прехвърляне на файлове между компютри."
+  },
+  {
+    question: "Коя от следните технологии е предназначена за създаване на интерактивни уеб страници?",
+    options: ["HTML", "CSS", "JavaScript", "XML"],
+    correctIndex: 2,
+    explanation: "JavaScript добавя интерактивност към уеб страниците."
+  },
+  {
+    question: "Какво представлява \"phishing\" атаката?",
+    options: [
+      "Атака чрез претоварване на мрежата",
+      "Опит за измама чрез фалшиви имейли или уебсайтове",
+      "Инсталиране на зловреден софтуер",
+      "Прехващане на мрежов трафик"
+    ],
+    correctIndex: 1,
+    explanation: "\"Phishing\" атаката цели измама на потребителите чрез фалшиви комуникации."
+  },
+  {
+    question: "Коя от следните команди в операционната система Windows показва мрежовите настройки на системата?",
+    options: ["tracert", "ipconfig", "ping", "netstat"],
+    correctIndex: 1,
+    explanation: "Командата ipconfig показва текущите мрежови настройки на системата."
+  },
+  {
+    question: "Кой от следните е формат за компресия на видео файлове?",
+    options: ["MP3", "JPEG", "MP4", "PNG"],
+    correctIndex: 2,
+    explanation: "MP4 е видео формат, който използва компресия за съхранение на видео."
+  },
+  {
+    question: "Какво е основното предназначение на бисквитките (cookies) в уеб браузърите?",
+    options: [
+      "Съхранение на потребителски настройки и сесии",
+      "Блокиране на нежелани реклами",
+      "Ускоряване на зареждането на уеб страници",
+      "Защита от зловреден софтуер"
+    ],
+    correctIndex: 0,
+    explanation: "Бисквитките се използват за съхранение на потребителски настройки и сесии."
+  },
+  {
+    question: "Коя от следните е мярка за скорост на интернет връзка?",
+    options: ["MB", "GHz", "Mbps", "kHz"],
+    correctIndex: 2,
+    explanation: "Mbps (мегабити в секунда) е стандартна мярка за скорост на интернет връзката."
+  },
+  {
+    question: "Какво представлява \"облачната\" технология?",
+    options: [
+      "Съхранение и достъп до данни и услуги през интернет",
+      "Локално съхранение на данни на твърд диск",
+      "Използване на виртуална реалност",
+      "Създаване на резервни копия на данни"
+    ],
+    correctIndex: 0,
+    explanation: "Облачната технология предоставя достъп до данни и услуги през интернет."
+  },
+  {
+    question: "Коя от следните функции в Excel преброява броя на клетките, които отговарят на дадено условие?",
+    options: ["COUNT", "COUNTA", "COUNTIF", "SUMIF"],
+    correctIndex: 2,
+    explanation: "COUNTIF преброява клетките, които отговарят на определено условие."
+  },
+  {
+    question: "Какво е основното предназначение на протокола HTTPS?",
+    options: ["Прехвърляне на файлове", "Сигурна комуникация при преглед на уеб страници", "Изпращане на електронна поща", "Управление на домейн имена"],
+    correctIndex: 1,
+    explanation: "HTTPS осигурява сигурна комуникация чрез криптирана връзка между браузър и сървър."
+  },
+  {
+    question: "Коя от следните технологии се използва за стилизиране на уеб страници?",
+    options: ["HTML", "CSS", "JavaScript", "PHP"],
+    correctIndex: 1,
+    explanation: "CSS (Cascading Style Sheets) се използва за стилизиране на уеб страници."
+  },
+  {
+    question: "Какво представлява \"firewall\"?",
+    options: [
+      "Софтуер за защита от вируси",
+      "Хардуерно или софтуерно решение за контрол на мрежовия трафик",
+      "Система за архивиране на данни",
+      "Протокол за сигурна комуникация"
+    ],
+    correctIndex: 1,
+    explanation: "Firewall контролира и филтрира мрежовия трафик между различни мрежови зони."
+  },
+  {
+    question: "Коя от следните функции в Excel връща най-голямата стойност в даден диапазон?",
+    options: ["MAX", "MIN", "LARGE", "SUM"],
+    correctIndex: 0,
+    explanation: "MAX връща най-голямата стойност в указан диапазон."
+  },
+  {
+    question: "Какво е основното предназначение на протокола SMTP?",
+    options: ["Прехвърляне на файлове", "Изпращане на електронна поща", "Достъп до уеб страници", "Управление на мрежови устройства"],
+    correctIndex: 1,
+    explanation: "SMTP (Simple Mail Transfer Protocol) се използва за изпращане на електронна поща."
+  },
+  {
+    question: "Коя от следните технологии се използва за създаване на динамични уеб страници на сървърната страна?",
+    options: ["JavaScript", "CSS", "PHP", "HTML"],
+    correctIndex: 2,
+    explanation: "PHP се използва за създаване на динамични уеб страници на сървърната страна."
+  },
+  {
+    question: "Какво представлява \"malware\"?",
+    options: [
+      "Софтуер за защита от вируси",
+      "Зловреден софтуер, предназначен да навреди на системата",
+      "Програма за архивиране на данни",
+      "Инструмент за оптимизация на производителността"
+    ],
+    correctIndex: 1,
+    explanation: "Malware е зловреден софтуер, който има за цел да наруши нормалната работа на системата."
+  },
+  {
+    question: "Кое от изброените е основна функция на операционната система?",
+    options: [
+      "Управление на хардуерните ресурси",
+      "Разработка на софтуерни приложения",
+      "Дизайн на потребителски интерфейс",
+      "Създаване на мрежови протоколи"
+    ],
+    correctIndex: 0,
+    explanation: "Основната функция на операционната система е управлението на хардуерните ресурси."
+  },
+  {
+    question: "Кой от следните файлови формати е предназначен за съхранение на растерни изображения?",
+    options: ["MP3", "WAV", "BMP", "AVI"],
+    correctIndex: 2,
+    explanation: "BMP е файлов формат, предназначен за съхранение на растерни изображения."
+  },
+  {
+    question: "Каква е основната цел на нормализацията в релационните бази данни?",
+    options: [
+      "Увеличаване на излишъка от данни",
+      "Намаляване на излишъка от данни",
+      "Оптимизация на мрежовия трафик",
+      "Подобряване на графичния интерфейс"
+    ],
+    correctIndex: 1,
+    explanation: "Нормализацията намалява излишъка от данни, като структурира данните в свързани таблици."
+  },
+  {
+    question: "Коя от следните технологии се използва за създаване на уеб страници?",
+    options: ["SQL", "HTML", "C++", "Python"],
+    correctIndex: 1,
+    explanation: "HTML е основната технология за създаване на уеб страници."
+  },
+  {
+    question: "Какво представлява IP адресът?",
+    options: [
+      "Хардуерен идентификатор на мрежова карта",
+      "Уникален адрес на устройство в мрежа",
+      "Протокол за сигурност в интернет",
+      "Формат за компресия на изображения"
+    ],
+    correctIndex: 1,
+    explanation: "IP адресът е уникален адрес, присвоен на всяко устройство в мрежа, което позволява идентифициране и комуникация."
+  },
+  {
+    question: "Коя от следните команди в операционната система Windows се използва за проверка на мрежова свързаност?",
+    options: ["tracert", "ipconfig", "ping", "netstat"],
+    correctIndex: 2,
+    explanation: "Командата ping изпраща ICMP ехо заявка към друг хост, за да провери свързаността."
+  },
+  {
+    question: "Каква е функцията на протокола HTTP?",
+    options: [
+      "Прехвърляне на електронна поща",
+      "Прехвърляне на хипертекстови документи",
+      "Управление на домейн имена",
+      "Осигуряване на сигурна комуникация"
+    ],
+    correctIndex: 1,
+    explanation: "HTTP е протокол за предаване на хипертекстови документи в Уеб."
+  },
+  {
+    question: "Кой от следните софтуерни продукти е текстов редактор?",
+    options: ["Microsoft Excel", "Adobe Photoshop", "Microsoft Word", "AutoCAD"],
+    correctIndex: 2,
+    explanation: "Microsoft Word е текстов редактор, използван за създаване и редактиране на текстови документи."
+  },
+  {
+    question: "Какво е основното предназначение на RAM паметта в компютърната система?",
+    options: [
+      "Дългосрочно съхранение на данни",
+      "Временно съхранение на данни за бърз достъп",
+      "Управление на периферни устройства",
+      "Контрол на мрежови връзки"
+    ],
+    correctIndex: 1,
+    explanation: "RAM паметта съхранява данни временно за бърз достъп от процесора."
+  },
+  {
+    question: "Кой от следните протоколи се използва за сигурно прехвърляне на файлове през интернет?",
+    options: ["FTP", "HTTP", "SFTP", "SMTP"],
+    correctIndex: 2,
+    explanation: "SFTP е протокол за сигурно прехвърляне на файлове, използващ SSH за криптографска защита."
+  },
+  {
+    question: "В компютърната графика обектът линия е основен елемент на:",
+    options: [
+      "растерната графика",
+      "фракталната графика",
+      "векторната графика",
+      "пикселната графика"
+    ],
+    correctIndex: 2,
+    explanation: "Линията е основен елемент във векторната графика, тъй като се описва чрез математически формули."
+  },
+  {
+    question: "Редовете на таблица в релационна база от данни се наричат:",
+    options: ["записи", "форми", "полета", "ключове"],
+    correctIndex: 0,
+    explanation: "Всеки ред в таблица на релационна база данни е запис, съдържащ данни за един обект."
+  },
+  {
+    question: "Апаратната част на компютъра се нарича:",
+    options: ["софтуер", "хардуер", "интерфейс", "фриуер"],
+    correctIndex: 1,
+    explanation: "Хардуерът е физическата, апаратна част на компютъра."
+  },
+  {
+    question: "Компютърният вирус може да бъде пренесен чрез:",
+    options: ["принтер", "скенер", "модем", "плотер"],
+    correctIndex: 2,
+    explanation: "Вируси могат да се предават чрез мрежови връзки, така че модемът е най-вероятният избор."
+  },
+  {
+    question: "В графичния файл CAT.GIF е записано изображение на далматинец. Колко цвята най-много може да съдържа то:",
+    options: ["2", "65 536", "256", "8"],
+    correctIndex: 2,
+    explanation: "GIF форматът поддържа до 256 цвята."
+  },
+  {
+    question: "На един компютър, който има 3,5’ флопидисково устройство, но няма мрежова карта и модем, е създадена презентация, чийто размер е 5,24 МВ. За да пренесете тази презентация на друг компютър, ще ви е необходима програмата:",
+    options: ["F-PROT", "WINZIP", "POWER POINT", "MS ACCESS"],
+    correctIndex: 1,
+    explanation: "WINZIP е програма за компресиране и архивиране, която ще позволи лесен трансфер на файла."
+  },
+  {
+    question: "Коя от посочените дейности е форматиране на параграф (абзац) в компютърната текстообработка:",
+    options: [
+      "Промяна цвета на текста",
+      "Даване отстъп на първия му ред",
+      "Смяна шрифта на текста",
+      "Изтриване на параграфа"
+    ],
+    correctIndex: 1,
+    explanation: "Форматирането на параграф включва даване на отстъп, междуредие и други оформления, свързани с подравняване и разстояния."
+  },
+  {
+    question: "При компютърна текстообработка буферът (clipboard) се използва при операцията:",
+    options: ["копиране", "форматиране", "маркиране", "номериране"],
+    correctIndex: 0,
+    explanation: "Clipboard (буферът) се използва за временно съхранение при копиране и поставяне на текст или обекти."
+  },
+  {
+    question: "В компютърната графика, при работа с цветовия модел RGB, всички цветове се образуват чрез смесване на:",
+    options: [
+      "червено, зелено и синьо",
+      "червено, зелено и жълто",
+      "червено, синьо и жълто",
+      "зелено, синьо и жълто"
+    ],
+    correctIndex: 0,
+    explanation: "Цветовият модел RGB комбинира червено, зелено и синьо за създаване на всички видими цветове."
+  },
+  {
+    question: "Кое от изброените е операционна система:",
+    options: ["MS DOS", "MS ACCESS", "MS EXCEL", "MS WORD"],
+    correctIndex: 0,
+    explanation: "MS DOS е операционна система, докато останалите са приложения."
+  },
+  {
+    question: "Кое от изброените е основна функция на операционната система?",
+    options: [
+      "Управление на хардуерните ресурси",
+      "Разработка на софтуерни приложения",
+      "Дизайн на потребителски интерфейс",
+      "Създаване на мрежови протоколи"
+    ],
+    correctIndex: 0,
+    explanation: "Основната функция на ОС е управлението на хардуера и ресурсите."
+  },
+  {
+    question: "Редовете на таблица в релационна база от данни се наричат:",
+    options: ["записи", "форми", "полета", "ключове"],
+    correctIndex: 0,
+    explanation: "Всеки ред в таблицата е запис, съдържащ набор от данни."
+  },
+  {
+    question: "Каква е основната цел на нормализацията в релационните бази данни?",
+    options: [
+      "Увеличаване на излишъка от данни",
+      "Намаляване на излишъка от данни",
+      "Оптимизация на мрежовия трафик",
+      "Подобряване на графичния интерфейс"
+    ],
+    correctIndex: 1,
+    explanation: "Нормализацията намалява излишъка от данни чрез структуриране на таблиците."
+  },
+  {
+    question: "Коя от следните технологии се използва за създаване на уеб страници?",
+    options: ["SQL", "HTML", "C++", "Python"],
+    correctIndex: 1,
+    explanation: "HTML е основният език за създаване на уеб страници."
+  },
+  {
+    question: "Какво представлява IP адресът?",
+    options: [
+      "Хардуерен идентификатор на мрежова карта",
+      "Уникален адрес на устройство в мрежа",
+      "Протокол за сигурност в интернет",
+      "Формат за компресия на изображения"
+    ],
+    correctIndex: 1,
+    explanation: "IP адресът е уникален идентификатор на устройство в дадена мрежа."
+  },
+  {
+    question: "Коя от следните команди в операционната система Windows се използва за проверка на мрежова свързаност?",
+    options: ["tracert", "ipconfig", "ping", "netstat"],
+    correctIndex: 2,
+    explanation: "Командата ping изпраща ICMP пакети към целев адрес, за да провери свързаност."
+  },
+  {
+    question: "Каква е функцията на протокола HTTP?",
+    options: [
+      "Прехвърляне на електронна поща",
+      "Прехвърляне на хипертекстови документи",
+      "Управление на домейн имена",
+      "Осигуряване на сигурна комуникация"
+    ],
+    correctIndex: 1,
+    explanation: "HTTP е протокол за прехвърляне на уеб страници (хипертекстови документи)."
+  },
+  {
+    question: "Кой от следните софтуерни продукти е текстов редактор?",
+    options: ["Microsoft Excel", "Adobe Photoshop", "Microsoft Word", "AutoCAD"],
+    correctIndex: 2,
+    explanation: "Microsoft Word е текстов редактор за създаване и редактиране на текстови документи."
+  },
+  {
+    question: "Какво е основното предназначение на RAM паметта в компютърната система?",
+    options: [
+      "Дългосрочно съхранение на данни",
+      "Временно съхранение на данни за бърз достъп",
+      "Управление на периферни устройства",
+      "Контрол на мрежови връзки"
+    ],
+    correctIndex: 1,
+    explanation: "RAM паметта се използва за временно съхранение на данни, достъпни за процесора."
+  },
+  {
+    question: "Кой от следните протоколи се използва за сигурно прехвърляне на файлове през интернет?",
+    options: ["FTP", "HTTP", "SFTP", "SMTP"],
+    correctIndex: 2,
+    explanation: "SFTP (SSH File Transfer Protocol) осигурява сигурно прехвърляне на файлове."
+  },
+  {
+    question: "В компютърната графика обектът линия е основен елемент на:",
+    options: [
+      "растерната графика",
+      "фракталната графика",
+      "векторната графика",
+      "пикселната графика"
+    ],
+    correctIndex: 2,
+    explanation: "Линията е основен елемент във векторната графика, тъй като се описва чрез математически формули."
+  },
+  {
+    question: "Редовете на таблица в релационна база от данни се наричат:",
+    options: ["записи", "форми", "полета", "ключове"],
+    correctIndex: 0,
+    explanation: "Всеки ред в таблицата е запис, съдържащ набор от данни."
+  },
+  {
+    question: "Апаратната част на компютъра се нарича:",
+    options: ["софтуер", "хардуер", "интерфейс", "фриуер"],
+    correctIndex: 1,
+    explanation: "Хардуерът е физическата част на компютъра."
+  },
+  {
+    question: "Компютърният вирус може да бъде пренесен чрез:",
+    options: ["принтер", "скенер", "модем", "плотер"],
+    correctIndex: 2,
+    explanation: "Вирус може да бъде пренесен чрез интернет връзка, използвайки модем."
+  },
+  {
+    question: "В графичния файл CAT.GIF е записано изображение на далматинец. Колко цвята най-много може да съдържа то:",
+    options: ["2", "65 536", "256", "8"],
+    correctIndex: 2,
+    explanation: "GIF форматът поддържа до 256 цвята."
+  },
+  {
+    question: "На един компютър, който има 3,5’ флопидисково устройство, но няма мрежова карта и модем, е създадена презентация, чийто размер е 5,24 МВ. За да пренесете тази презентация на друг компютър, ще ви е необходима програмата:",
+    options: ["F-PROT", "WINZIP", "POWER POINT", "MS ACCESS"],
+    correctIndex: 1,
+    explanation: "WINZIP е програма за компресиране и архивиране, полезна за трансфер на големи файлове."
+  },
+  {
+    question: "Коя от посочените дейности е форматиране на параграф (абзац) в компютърната текстообработка:",
+    options: [
+      "Промяна цвета на текста",
+      "Даване отстъп на първия му ред",
+      "Смяна шрифта на текста",
+      "Изтриване на параграфа"
+    ],
+    correctIndex: 1,
+    explanation: "Форматиране на параграф включва оформление като отстъп на първия ред."
+  },
+  {
+    question: "При компютърна текстообработка буферът (clipboard) се използва при операцията:",
+    options: ["копиране", "форматиране", "маркиране", "номериране"],
+    correctIndex: 0,
+    explanation: "Clipboard се използва за временно съхранение при копиране и поставяне."
+  },
+  {
+    question: "В компютърната графика, при работа с цветовия модел RGB, всички цветове се образуват чрез смесване на:",
+    options: [
+      "червено, зелено и синьо",
+      "червено, зелено и жълто",
+      "червено, синьо и жълто",
+      "зелено, синьо и жълто"
+    ],
+    correctIndex: 0,
+    explanation: "Цветовият модел RGB използва смесване на червено, зелено и синьо за генериране на други цветове."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за извеждане на информация:",
+    options: ["клавиатура", "мишка", "монитор", "скенер"],
+    correctIndex: 2,
+    explanation: "Мониторът е устройство за извеждане на визуална информация."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за въвеждане на информация:",
+    options: ["принтер", "монитор", "клавиатура", "тонколони"],
+    correctIndex: 2,
+    explanation: "Клавиатурата е устройство за въвеждане на данни в компютъра."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за съхранение на информация:",
+    options: ["процесор", "твърд диск", "монитор", "клавиатура"],
+    correctIndex: 1,
+    explanation: "Твърдият диск служи за дългосрочно съхранение на данни."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за обработка на информация:",
+    options: ["процесор", "твърд диск", "монитор", "клавиатура"],
+    correctIndex: 0,
+    explanation: "Процесорът извършва обработка на информация в компютъра."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за комуникация между компютри:",
+    options: ["принтер", "модем", "скенер", "клавиатура"],
+    correctIndex: 1,
+    explanation: "Модемът позволява комуникация между компютри чрез телефонни или други мрежи."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за защита на компютъра от пренапрежение:",
+    options: ["UPS", "модем", "рутър", "хъб"],
+    correctIndex: 0,
+    explanation: "UPS (безпрекъсваемо захранване) защитава компютъра от пренапрежение и прекъсвания."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за безжична комуникация:",
+    options: ["Bluetooth адаптер", "мрежова карта", "модем", "хъб"],
+    correctIndex: 0,
+    explanation: "Bluetooth адаптерът позволява безжична комуникация между устройства."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за печат на документи:",
+    options: ["скенер", "принтер", "монитор", "клавиатура"],
+    correctIndex: 1,
+    explanation: "Принтерът е устройство за печат на документи."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за дигитализиране на изображения:",
+    options: ["принтер", "скенер", "монитор", "клавиатура"],
+    correctIndex: 1,
+    explanation: "Скенерът преобразува физически изображения в цифров формат."
+  },
+  {
+    question: "Кое от изброените устройства е предназначено за възпроизвеждане на звук:",
+    options: ["микрофон", "тонколони", "скенер", "принтер"],
+    correctIndex: 1,
+    explanation: "Тонколоните възпроизвеждат звук."
+  },
+  {
+    question: "Кое от изброените устройства е основният компонент, отговорен за изпълнението на инструкции в компютърната система?",
+    options: [
+      "Оперативна памет (RAM)",
+      "Твърд диск (HDD)",
+      "Централен процесор (CPU)",
+      "Захранващ блок"
+    ],
+    correctIndex: 2,
+    explanation: "Централният процесор (CPU) изпълнява инструкциите в компютърната система."
+  },
+  {
+    question: "Коя от следните памети е енергозависима и губи съдържанието си при изключване на захранването?",
+    options: ["ROM", "RAM", "SSD", "CMOS"],
+    correctIndex: 1,
+    explanation: "Оперативната памет (RAM) е енергозависима и губи данните си при загуба на захранване."
+  },
+  {
+    question: "Каква е основната функция на дънната платка в компютърната система?",
+    options: [
+      "Съхранение на данни",
+      "Свързване и комуникация между всички хардуерни компоненти",
+      "Охлаждане на процесора",
+      "Захранване на компонентите с електричество"
+    ],
+    correctIndex: 1,
+    explanation: "Дънната платка свързва и позволява комуникация между всички хардуерни компоненти."
+  },
+  {
+    question: "Кое от следните устройства използва лазер за четене и запис на данни?",
+    options: ["Твърд диск", "Оптично устройство (CD/DVD)", "SSD", "Флопи диск"],
+    correctIndex: 1,
+    explanation: "Оптичното устройство използва лазер за четене и запис на данни от/в CD/DVD дискове."
+  },
+  {
+    question: "Какво е предназначението на захранващия блок в компютъра?",
+    options: [
+      "Преобразуване на променлив ток в постоянен и осигуряване на необходимите напрежения за компонентите",
+      "Охлаждане на системата",
+      "Съхранение на данни",
+      "Управление на периферните устройства"
+    ],
+    correctIndex: 0,
+    explanation: "Захранващият блок преобразува AC в DC ток и осигурява необходимите напрежения за компонентите."
+  },
+  {
+    question: "Коя от следните шини е предназначена за свързване на видеокартата с дънната платка?",
+    options: ["PCI", "AGP", "ISA", "SATA"],
+    correctIndex: 1,
+    explanation: "AGP (Accelerated Graphics Port) е шина, предназначена специално за видеокарти."
+  },
+  {
+    question: "Каква е основната функция на BIOS в компютърната система?",
+    options: [
+      "Зареждане на операционната система",
+      "Управление на мрежовите връзки",
+      "Инициализация и тестване на хардуерните компоненти при стартиране",
+      "Управление на потребителските акаунти"
+    ],
+    correctIndex: 2,
+    explanation: "BIOS инициализира и тества хардуера при стартиране на компютъра, преди да зареди ОС."
+  },
+  {
+    question: "Кое от следните устройства е предназначено за дългосрочно съхранение на данни?",
+    options: ["RAM", "Кеш памет", "Твърд диск", "ROM"],
+    correctIndex: 2,
+    explanation: "Твърдият диск (HDD) е устройство за дългосрочно съхранение на данни."
+  },
+  {
+    question: "Какво означава абревиатурата SSD?",
+    options: ["Solid-State Drive", "Super Speed Disk", "Serial Storage Device", "Secure Storage Disk"],
+    correctIndex: 0,
+    explanation: "SSD означава Solid-State Drive – устройство за съхранение без подвижни части."
+  },
+  {
+    question: "Коя от следните компоненти е отговорна за графичната обработка в компютърната система?",
+    options: ["Звукова карта", "Мрежова карта", "Видеокарта", "Чипсет"],
+    correctIndex: 2,
+    explanation: "Видеокартата е компонентът, отговорен за графичната обработка."
+  },
+  {
+    question: "Каква е основната функция на оперативната памет (RAM) в компютъра?",
+    options: [
+      "Съхранение на операционната система",
+      "Временно съхранение на данни и инструкции, необходими за текущите процеси",
+      "Постоянно съхранение на потребителски файлове",
+      "Управление на входно-изходните операции"
+    ],
+    correctIndex: 1,
+    explanation: "RAM служи за временно съхранение на данни и инструкции по време на работа на компютъра."
+  },
+  {
+    question: "Кое от следните твърдения е вярно за твърдите дискове (HDD)?",
+    options: [
+      "Нямат подвижни части",
+      "Използват магнитен запис за съхранение на данни",
+      "Имат по-висока скорост на достъп в сравнение с SSD",
+      "Не се влияят от механични удари"
+    ],
+    correctIndex: 1,
+    explanation: "HDD използва магнитни дискове и чете/записва данни чрез подвижни глави."
+  },
+  {
+    question: "Какво представлява кеш паметта в компютърната система?",
+    options: [
+      "Основната памет за съхранение на данни",
+      "Високоскоростна памет, която съхранява често използвани данни за бърз достъп",
+      "Постоянна памет за съхранение на фърмуер",
+      "Външна памет за архивиране на данни"
+    ],
+    correctIndex: 1,
+    explanation: "Кеш паметта е бърза памет, която съхранява често използвани данни, за да ускори достъпа до тях."
+  },
+  {
+    question: "Коя от следните технологии се използва за свързване на външни устройства към компютъра?",
+    options: ["SATA", "USB", "PCI Express", "AGP"],
+    correctIndex: 1,
+    explanation: "USB (Universal Serial Bus) се използва широко за свързване на външни устройства."
+  },
+  {
+    question: "Каква е ролята на чипсета в дънната платка?",
+    options: [
+      "Управление на захранването",
+      "Контрол на комуникацията между процесора, паметта и периферните устройства",
+      "Охлаждане на компонентите",
+      "Съхранение на BIOS"
+    ],
+    correctIndex: 1,
+    explanation: "Чипсетът контролира комуникациите между процесора, паметта и периферните устройства."
+  },
+  {
+    question: "Кое от следните устройства преобразува аналоговия сигнал в цифров за обработка от компютъра?",
+    options: ["Модем", "Звукова карта", "Мрежова карта", "Видеокарта"],
+    correctIndex: 1,
+    explanation: "Звуковата карта преобразува аналоговия аудио сигнал в цифров за обработка и обратно."
+  },
+  {
+    question: "Кое от изброените устройства е основният компонент, отговорен за изпълнението на инструкции в компютърната система?",
+    options: [
+      "Оперативна памет (RAM)",
+      "Твърд диск (HDD)",
+      "Централен процесор (CPU)",
+      "Захранващ блок"
+    ],
+    correctIndex: 2,
+    explanation: "Централният процесор (CPU) изпълнява инструкциите в компютърната система."
+  },
+  {
+    question: "Коя от следните памети е енергозависима и губи съдържанието си при изключване на захранването?",
+    options: ["ROM", "RAM", "SSD", "CMOS"],
+    correctIndex: 1,
+    explanation: "Оперативната памет (RAM) е енергозависима и губи данните си при загуба на захранване."
+  },
+  {
+    question: "Каква е основната функция на дънната платка в компютърната система?",
+    options: [
+      "Съхранение на данни",
+      "Свързване и комуникация между всички хардуерни компоненти",
+      "Охлаждане на процесора",
+      "Захранване на компонентите с електричество"
+    ],
+    correctIndex: 1,
+    explanation: "Дънната платка свързва и позволява комуникация между всички хардуерни компоненти."
+  },
+  {
+    question: "Кое от следните устройства използва лазер за четене и запис на данни?",
+    options: ["Твърд диск", "Оптично устройство (CD/DVD)", "SSD", "Флопи диск"],
+    correctIndex: 1,
+    explanation: "Оптичното устройство използва лазер за четене и запис на данни от/в CD/DVD дискове."
+  },
+  {
+    question: "Какво е предназначението на захранващия блок в компютъра?",
+    options: [
+      "Преобразуване на променлив ток в постоянен и осигуряване на необходимите напрежения за компонентите",
+      "Охлаждане на системата",
+      "Съхранение на данни",
+      "Управление на периферните устройства"
+    ],
+    correctIndex: 0,
+    explanation: "Захранващият блок преобразува AC в DC ток и осигурява необходимите напрежения за компонентите."
+  },
+  {
+    question: "Коя от следните шини е предназначена за свързване на видеокартата с дънната платка?",
+    options: ["PCI", "AGP", "ISA", "SATA"],
+    correctIndex: 1,
+    explanation: "AGP (Accelerated Graphics Port) е шина, предназначена специално за видеокарти."
+  },
+  {
+    question: "Каква е основната функция на BIOS в компютърната система?",
+    options: [
+      "Зареждане на операционната система",
+      "Управление на мрежовите връзки",
+      "Инициализация и тестване на хардуерните компоненти при стартиране",
+      "Управление на потребителските акаунти"
+    ],
+    correctIndex: 2,
+    explanation: "BIOS инициализира и тества хардуера при стартиране на компютъра, преди да зареди ОС."
+  },
+  {
+    question: "Кое от следните устройства е предназначено за дългосрочно съхранение на данни?",
+    options: ["RAM", "Кеш памет", "Твърд диск", "ROM"],
+    correctIndex: 2,
+    explanation: "Твърдият диск (HDD) е устройство за дългосрочно съхранение на данни."
+  },
+  {
+    question: "Какво означава абревиатурата SSD?",
+    options: ["Solid-State Drive", "Super Speed Disk", "Serial Storage Device", "Secure Storage Disk"],
+    correctIndex: 0,
+    explanation: "SSD означава Solid-State Drive – устройство за съхранение без подвижни части."
+  },
+  {
+    question: "Коя от следните компоненти е отговорна за графичната обработка в компютърната система?",
+    options: ["Звукова карта", "Мрежова карта", "Видеокарта", "Чипсет"],
+    correctIndex: 2,
+    explanation: "Видеокартата е компонентът, отговорен за графичната обработка."
+  },
+  {
+    question: "Каква е основната функция на оперативната памет (RAM) в компютъра?",
+    options: [
+      "Съхранение на операционната система",
+      "Временно съхранение на данни и инструкции, необходими за текущите процеси",
+      "Постоянно съхранение на потребителски файлове",
+      "Управление на входно-изходните операции"
+    ],
+    correctIndex: 1,
+    explanation: "RAM служи за временно съхранение на данни и инструкции по време на работа на компютъра."
+  },
+  {
+    question: "Кое от следните твърдения е вярно за твърдите дискове (HDD)?",
+    options: [
+      "Нямат подвижни части",
+      "Използват магнитен запис за съхранение на данни",
+      "Имат по-висока скорост на достъп в сравнение с SSD",
+      "Не се влияят от механични удари"
+    ],
+    correctIndex: 1,
+    explanation: "HDD използва магнитни дискове и чете/записва данни чрез подвижни глави."
+  },
+  {
+    question: "Какво представлява кеш паметта в компютърната система?",
+    options: [
+      "Основната памет за съхранение на данни",
+      "Високоскоростна памет, която съхранява често използвани данни за бърз достъп",
+      "Постоянна памет за съхранение на фърмуер",
+      "Външна памет за архивиране на данни"
+    ],
+    correctIndex: 1,
+    explanation: "Кеш паметта е бърза памет, която съхранява често използвани данни, за да ускори достъпа до тях."
+  },
+  {
+    question: "Коя от следните технологии се използва за свързване на външни устройства към компютъра?",
+    options: ["SATA", "USB", "PCI Express", "AGP"],
+    correctIndex: 1,
+    explanation: "USB (Universal Serial Bus) се използва широко за свързване на външни устройства."
+  },
+  {
+    question: "Каква е ролята на чипсета в дънната платка?",
+    options: [
+      "Управление на захранването",
+      "Контрол на комуникацията между процесора, паметта и периферните устройства",
+      "Охлаждане на компонентите",
+      "Съхранение на BIOS"
+    ],
+    correctIndex: 1,
+    explanation: "Чипсетът контролира комуникациите между процесора, паметта и периферните устройства."
+  },
+  {
+    question: "Кое от следните устройства преобразува аналоговия сигнал в цифров за обработка от компютъра?",
+    options: ["Модем", "Звукова карта", "Мрежова карта", "Видеокарта"],
+    correctIndex: 1,
+    explanation: "Звуковата карта преобразува аналоговия аудио сигнал в цифров за обработка и обратно."
+  },
+
+  {
+    question: "Каква е ролята на охлаждащата система в компютъра?",
+    options: [
+      "Да захранва компютъра",
+      "Да съхранява данни",
+      "Да намалява температурата на компонентите",
+      "Да обработва графични данни"
+    ],
+    correctIndex: 2,
+    explanation: "Охлаждащата система предотвратява прегряване чрез отнемане на излишната топлина от компонентите."
+  },
+  {
+    question: "Кой порт се използва за свързване на външни устройства като клавиатура и мишка?",
+    options: ["HDMI", "USB", "Ethernet", "VGA"],
+    correctIndex: 1,
+    explanation: "USB портовете са универсални за свързване на клавиатури, мишки и други периферни устройства."
+  },
+  {
+    question: "Какво измерва честотата на процесора?",
+    options: ["Брой инструкции, изпълнени на секунда", "Брой битове в паметта", "Брой свързани устройства", "Размер на твърдия диск"],
+    correctIndex: 0,
+    explanation: "Честотата на процесора, измерена в GHz, показва колко инструкции може да изпълни в секунда."
+  },
+  {
+    question: "Коя технология се използва за свързване на SSD дискове към дънната платка?",
+    options: ["VGA", "SATA", "DVI", "RJ45"],
+    correctIndex: 1,
+    explanation: "SSD дисковете често се свързват към дънната платка чрез SATA интерфейс."
+  },
+  {
+    question: "Какво е предназначението на RAM паметта в компютъра?",
+    options: [
+      "Дългосрочно съхранение на данни",
+      "Временно съхранение на данни и инструкции за бърз достъп",
+      "Подобряване на графичната производителност",
+      "Управление на мрежови връзки"
+    ],
+    correctIndex: 1,
+    explanation: "RAM паметта съхранява данни и инструкции временно за бърз достъп от процесора."
+  },
+  {
+    question: "Коя от следните технологии се използва за свързване на компютър към интернет?",
+    options: ["SATA", "USB", "Ethernet", "HDMI"],
+    correctIndex: 2,
+    explanation: "Ethernet използва кабелна връзка за свързване към интернет."
+  },
+  {
+    question: "Какво представлява SSD дискът?",
+    options: [
+      "Магнитно устройство с подвижни части",
+      "Устройство за съхранение без подвижни части",
+      "Оптично устройство за запис",
+      "Памет за временни данни"
+    ],
+    correctIndex: 1,
+    explanation: "SSD (Solid-State Drive) е устройство за съхранение, което няма подвижни части и е по-бързо от HDD."
+  },
+  {
+    question: "Кой компонент от компютъра конвертира цифров сигнал в аналогов за изход към монитора?",
+    options: ["Процесор", "Звукова карта", "Видеокарта", "Мрежова карта"],
+    correctIndex: 2,
+    explanation: "Видеокартата преобразува цифровия сигнал в аналогов (при нужда) и управлява изхода към монитора."
+  },
+  {
+    question: "Какво означава терминът 'overclocking' в контекста на компютърния хардуер?",
+    options: [
+      "Намаляване на честотата на процесора",
+      "Работа на компонентите с по-висока честота от специфицираната от производителя",
+      "Почивка на системата",
+      "Подмяна на хард диска"
+    ],
+    correctIndex: 1,
+    explanation: "Overclocking е процесът на увеличаване на работната честота на компоненти за по-висока производителност."
+  },
+  {
+    question: "Кое от следните е пример за SSD интерфейс?",
+    options: ["IDE", "SATA", "USB", "FireWire"],
+    correctIndex: 1,
+    explanation: "SATA е често използван интерфейс за свързване на SSD дискове."
+  },
+  {
+    question: "Коя от следните е основна функция на операционната система?",
+    options: [
+      "Разработка на софтуерни приложения",
+      "Управление на хардуерните ресурси",
+      "Дизайн на потребителски интерфейс",
+      "Изпълнение на потребителски сценарии"
+    ],
+    correctIndex: 1,
+    explanation: "Основната функция на ОС е управлението на хардуерните ресурси и осигуряване на среда за изпълнение на софтуера."
+  },
+  {
+    question: "Коя от следните операционни системи е базирана на ядрото Linux?",
+    options: [
+      "Windows 10",
+      "macOS",
+      "Ubuntu",
+      "MS-DOS"
+    ],
+    correctIndex: 2,
+    explanation: "Ubuntu е дистрибуция на Linux, базирана на Linux ядрото."
+  },
+  {
+    question: "Какво представлява Microsoft Excel?",
+    options: [
+      "Операционна система",
+      "Текстообработваща програма",
+      "Програма за електронни таблици",
+      "Уеб браузър"
+    ],
+    correctIndex: 2,
+    explanation: "Microsoft Excel е програма за електронни таблици, част от пакета Microsoft Office."
+  },
+  {
+    question: "Коя функция в Excel се използва за изчисляване на средната стойност на диапазон от клетки?",
+    options: [
+      "SUM",
+      "AVERAGE",
+      "COUNT",
+      "MAX"
+    ],
+    correctIndex: 1,
+    explanation: "Функцията AVERAGE изчислява средната стойност на зададен диапазон от клетки."
+  },
+  {
+    question: "Каква е ролята на операционната система?",
+    options: [
+      "Управление на хардуерни ресурси",
+      "Създаване на презентации",
+      "Обработка на текстови документи",
+      "Проектиране на уебсайтове"
+    ],
+    correctIndex: 0,
+    explanation: "Операционната система управлява хардуерните ресурси и осигурява платформа за изпълнение на приложения."
+  },
+  {
+    question: "Коя функция в Excel позволява търсене на стойност в таблица и връщане на свързана информация?",
+    options: [
+      "SUMIF",
+      "VLOOKUP",
+      "MEDIAN",
+      "CONCATENATE"
+    ],
+    correctIndex: 1,
+    explanation: "VLOOKUP търси стойност в първата колона на диапазон и връща съответстващата стойност от друга колона."
+  },
+  {
+    question: "Коя от следните операционни системи е разработена от Microsoft?",
+    options: [
+      "Ubuntu",
+      "macOS",
+      "Windows",
+      "FreeBSD"
+    ],
+    correctIndex: 2,
+    explanation: "Windows е семейство от операционни системи, разработено от Microsoft."
+  },
+  {
+    question: "Каква е основната употреба на формулите в Microsoft Excel?",
+    options: [
+      "Форматиране на текст",
+      "Извършване на изчисления и анализ на данни",
+      "Създаване на презентации",
+      "Редактиране на изображения"
+    ],
+    correctIndex: 1,
+    explanation: "Формулите в Excel се използват за извършване на изчисления и анализ на данни."
+  },
+  {
+    question: "Как се нарича процесът на стартиране на компютъра, при който се зарежда операционната система?",
+    options: [
+      "Booting",
+      "Overclocking",
+      "Formatting",
+      "Compiling"
+    ],
+    correctIndex: 0,
+    explanation: "Процесът на зареждане на ОС при стартиране на компютър се нарича booting."
+  },
+  {
+    question: "Коя от следните програми е най-подходяща за създаване на диаграми и графики на базата на данни от електронни таблици?",
+    options: [
+      "Microsoft Word",
+      "Microsoft Excel",
+      "Microsoft PowerPoint",
+      "Microsoft Access"
+    ],
+    correctIndex: 1,
+    explanation: "Microsoft Excel предоставя функции за създаване на диаграми и графики въз основа на данни в таблици."
+  }
+
+];
+
+
+    let selectedQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    const startSection = document.getElementById('start-section');
+    const startButton = document.getElementById('start-button');
+    const numQuestionsInput = document.getElementById('num-questions');
+
+    const quizSection = document.getElementById('quiz-section');
+    const progressElement = document.getElementById('progress');
+    const questionElement = document.getElementById('question');
+    const optionsContainer = document.querySelector('.options');
+    const resultElement = document.getElementById('result');
+
+    const finalResultSection = document.getElementById('final-result');
+    const scoreElement = document.getElementById('score');
+    const totalElement = document.getElementById('total');
+    const restartButton = document.getElementById('restart-button');
+
+    const historySection = document.getElementById('history-section');
+    const historyList = document.getElementById('history-list');
+    const historyPagination = document.getElementById('history-pagination');
+    const prevPageButton = document.getElementById('prev-page');
+    const nextPageButton = document.getElementById('next-page');
+    const pageInfo = document.getElementById('page-info');
+
+    const exitButton = document.getElementById('exit-button');
+
+    const recordsPerPage = 5;
+    let currentPage = 1;
+    let totalPages = 1;
+    let historyData = [];
+
+    // Започване на теста
+    function startQuiz() {
+      let numQuestions = parseInt(numQuestionsInput.value);
+
+      if (questions.length === 0) {
+        alert("Няма добавени въпроси.");
+        return;
+      }
+
+      if (isNaN(numQuestions) || numQuestions < 1) {
+        alert("Моля, въведете валиден брой въпроси (поне 1).");
+        return;
+      }
+
+      if (numQuestions > questions.length) {
+        alert(`Можете да изберете максимум ${questions.length} въпроса.`);
+        numQuestions = questions.length;
+        numQuestionsInput.value = numQuestions;
+      }
+
+      // Разбъркваме всички въпроси и избираме указаната бройка
+      selectedQuestions = shuffleArray([...questions]).slice(0, numQuestions);
+      currentQuestionIndex = 0;
+      score = 0;
+
+      startSection.style.display = 'none';
+      historySection.style.display = 'none';
+      finalResultSection.style.display = 'none';
+      quizSection.style.display = 'block';
+
+      exitButton.style.display = 'block';
+
+      loadQuestion();
+    }
+
+    // Зареждане на въпрос
+    function loadQuestion() {
+      if (currentQuestionIndex >= selectedQuestions.length) {
+        showFinalResult();
+        return;
+      }
+
+      const currentQuestion = selectedQuestions[currentQuestionIndex];
+      progressElement.textContent = `Въпрос ${currentQuestionIndex + 1} от ${selectedQuestions.length}`;
+      questionElement.textContent = currentQuestion.question;
+      optionsContainer.innerHTML = '';
+      resultElement.textContent = '';
+
+      currentQuestion.options.forEach((optionText, index) => {
+        const button = document.createElement('button');
+        button.className = 'option';
+        button.textContent = optionText;
+        button.addEventListener('click', () => selectAnswer(index));
+        optionsContainer.appendChild(button);
+      });
+    }
+
+    // При избор на отговор
+    function selectAnswer(selectedIndex) {
+      const currentQuestion = selectedQuestions[currentQuestionIndex];
+      const buttons = document.querySelectorAll('.option');
+
+      // Заключваме всички бутони след избор
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === currentQuestion.correctIndex) {
+          btn.classList.add('correct-answer');
         }
-    ]
-};
-
-        let selectedQuestions = []; // Избраните въпроси за текущата сесия
-        let currentQuestionIndex = 0; // Индекс на текущия въпрос
-        let score = 0; // Брой правилни отговори
-        let selectedCategory = ''; // Избраната категория
-
-        // Елементи от DOM
-        const startSection = document.getElementById('start-section');
-        const startButton = document.getElementById('start-button');
-        const numQuestionsInput = document.getElementById('num-questions');
-        const categorySelect = document.getElementById('category');
-
-        const quizSection = document.getElementById('quiz-section');
-        const progressElement = document.getElementById('progress');
-        const questionElement = document.getElementById('question');
-        const optionsContainer = document.querySelector('.options');
-        const resultElement = document.getElementById('result');
-
-        const finalResultSection = document.getElementById('final-result');
-        const scoreElement = document.getElementById('score');
-        const totalElement = document.getElementById('total');
-        const restartButton = document.getElementById('restart-button');
-
-        const historySection = document.getElementById('history-section');
-        const historyList = document.getElementById('history-list');
-        const historyPagination = document.getElementById('history-pagination');
-        const prevPageButton = document.getElementById('prev-page');
-        const nextPageButton = document.getElementById('next-page');
-        const pageInfo = document.getElementById('page-info');
-
-        const exitButton = document.getElementById('exit-button');
-
-        // Параметри за странициране
-        const recordsPerPage = 5;
-        let currentPage = 1;
-        let totalPages = 1;
-        let historyData = [];
-
-        // Функция за инициализиране на викторината
-        function startQuiz() {
-            selectedCategory = categorySelect.value;
-            let numQuestions = parseInt(numQuestionsInput.value);
-
-            // Валидация на избраната категория
-            if (!allQuestions[selectedCategory] || allQuestions[selectedCategory].length === 0) {
-                alert("Няма въпроси в избраната категория. Моля, изберете друга категория.");
-                return;
-            }
-
-            // Валидация на въведения брой въпроси
-            if (isNaN(numQuestions) || numQuestions < 1) {
-                alert("Моля, въведете валиден брой въпроси (поне 1).");
-                return;
-            }
-
-            if (numQuestions > allQuestions[selectedCategory].length) {
-                alert(`Можете да изберете максимум ${allQuestions[selectedCategory].length} въпроса за избраната категория.`);
-                numQuestions = allQuestions[selectedCategory].length;
-                numQuestionsInput.value = numQuestions;
-            }
-
-            // Рандомизиране и избиране на необходимия брой въпроси
-            selectedQuestions = shuffleArray([...allQuestions[selectedCategory]]).slice(0, numQuestions);
-            currentQuestionIndex = 0;
-            score = 0;
-
-            // Скриване на началната секция и показване на викторината
-            startSection.style.display = 'none';
-            historySection.style.display = 'none'; // Скриване на историята по време на викторината
-            finalResultSection.style.display = 'none';
-            quizSection.style.display = 'block';
-
-            // Показване на "Изход" бутон
-            exitButton.style.display = 'block';
-
-            loadQuestion();
+        if (idx === selectedIndex && selectedIndex !== currentQuestion.correctIndex) {
+          btn.classList.add('wrong-answer');
         }
+      });
 
-        // Функция за зареждане на текущия въпрос
-        function loadQuestion() {
-            const currentQuestion = selectedQuestions[currentQuestionIndex];
-            questionElement.textContent = currentQuestion.question;
-            optionsContainer.innerHTML = ''; // Изчистване на предишните опции
-            resultElement.textContent = '';
-            resultElement.classList.remove('correct', 'incorrect');
+      // Проверка дали е верен отговорът
+      if (selectedIndex === currentQuestion.correctIndex) {
+        score++;
+        resultElement.innerHTML = `
+          <span class="correct">Верен отговор!</span>
+          <div class="explanation">${currentQuestion.explanation}</div>
+        `;
+        // След 1.5 сек. минаваме автоматично напред, само ако е верен
+        setTimeout(() => {
+          currentQuestionIndex++;
+          loadQuestion();
+        }, 1500);
+      } else {
+        // Грешен отговор: показваме пояснение и бутон „Следващ въпрос“
+        resultElement.innerHTML = `
+          <span class="incorrect">Грешен отговор!</span>
+          <div class="explanation">${currentQuestion.explanation}</div>
+        `;
 
-            // Обновяване на индикацията за напредък
-            progressElement.textContent = `Въпрос ${currentQuestionIndex + 1} от ${selectedQuestions.length}`;
-
-            // Рандомизиране на опциите
-            const shuffledOptions = shuffleArray([...currentQuestion.options]);
-
-            // Генериране на бутоните с опции
-            shuffledOptions.forEach(optionText => {
-                const button = document.createElement('button');
-                button.classList.add('option');
-                button.textContent = optionText;
-                button.addEventListener('click', () => selectOption(button, currentQuestion.answer, currentQuestion.explanation));
-                optionsContainer.appendChild(button);
-            });
-
-            // Добавяне на "Не знам" бутон
-            const dontKnowButton = document.createElement('button');
-            dontKnowButton.classList.add('dont-know-button');
-            dontKnowButton.textContent = "Обяснение";
-            dontKnowButton.addEventListener('click', () => showExplanation(currentQuestion.explanation, dontKnowButton));
-            optionsContainer.appendChild(dontKnowButton);
-        }
-
-        // Функция за обработка на избран опция
-        function selectOption(selectedButton, correctAnswer, explanation) {
-            const selectedAnswer = selectedButton.textContent;
-            const buttons = document.querySelectorAll('.option, .dont-know-button');
-
-            // Проверка дали отговорът е правилен
-            if (selectedAnswer === correctAnswer) {
-                resultElement.textContent = "Поздравления! Вярният отговор е правилен.";
-                resultElement.classList.add('correct');
-                score++;
-                selectedButton.classList.add('correct-answer');
-            } else {
-                resultElement.textContent = `Не е правилен. Вярният отговор е "${correctAnswer}".`;
-                resultElement.classList.add('incorrect');
-                selectedButton.classList.add('wrong-answer');
-
-                // Подчертаване на правилния отговор
-                buttons.forEach(btn => {
-                    if (btn.textContent === correctAnswer) {
-                        btn.classList.add('correct-answer');
-                    }
-                });
-            }
-
-            // Показване на обяснението и премахване на "Не знам" бутон
-            showExplanation(explanation);
-            const dontKnowBtn = document.querySelector('.dont-know-button');
-            if (dontKnowBtn) {
-                dontKnowBtn.style.display = 'none';
-            }
-
-            // Деактивиране на бутоните след избор
-            buttons.forEach(btn => btn.disabled = true);
-
-            // Добавяне на бутон за следващ въпрос или финализиране
-            if (currentQuestionIndex < selectedQuestions.length - 1) {
-                const nextButton = document.createElement('button');
-                nextButton.textContent = "Следващ въпрос";
-                nextButton.classList.add('next-button');
-                nextButton.addEventListener('click', () => {
-                    currentQuestionIndex++;
-                    loadQuestion();
-                });
-                optionsContainer.appendChild(nextButton);
-            } else {
-                const finishButton = document.createElement('button');
-                finishButton.textContent = "Край";
-                finishButton.classList.add('next-button');
-                finishButton.addEventListener('click', showFinalResult);
-                optionsContainer.appendChild(finishButton);
-            }
-        }
-
-        // Функция за показване на обяснението
-        function showExplanation(explanation, dontKnowBtn = null) {
-            resultElement.innerHTML += `<br><strong>Обяснение:</strong> ${explanation}`;
-            if (dontKnowBtn) {
-                dontKnowBtn.style.display = 'none';
-            }
-        }
-
-        // Функция за показване на финалния резултат
-        function showFinalResult() {
-            quizSection.style.display = 'none';
-            finalResultSection.style.display = 'block';
-            scoreElement.textContent = score;
-            totalElement.textContent = selectedQuestions.length;
-
-            // Добавяне на резултата към историята
-            addToHistory(score, selectedQuestions.length, selectedCategory);
-            displayHistory(); // Показване на първата страница от историята
-
-            // Скриване на "Изход" бутон след завършване на викторината
-            exitButton.style.display = 'none';
-        }
-
-        // Функция за рестартиране на викторината
-        function restartQuiz() {
-            finalResultSection.style.display = 'none';
-            startSection.style.display = 'block';
-            historySection.style.display = 'block'; // Показване на историята на началната страница
-            numQuestionsInput.value = 5;
-            categorySelect.value = "Excel"; // Възстановяване на избора на категория към първата опция
-        }
-
-        // Функция за добавяне на резултат към историята
-        function addToHistory(score, total, category) {
-            let history = JSON.parse(localStorage.getItem('quizHistory')) || [];
-            const timestamp = new Date().toLocaleString();
-            history.push({ score, total, category, timestamp });
-            localStorage.setItem('quizHistory', JSON.stringify(history));
-        }
-
-        // Функция за показване на историята с странициране
-        function displayHistory(page = 1) {
-            historyData = JSON.parse(localStorage.getItem('quizHistory')) || [];
-            totalPages = Math.ceil(historyData.length / recordsPerPage) || 1; // Минимално 1 страница
-            currentPage = typeof page === 'number' ? page : 1;
-
-            historyList.innerHTML = ''; // Изчистване на предишното съдържание
-
-            if (historyData.length === 0) {
-                historyList.innerHTML = '<li>Няма предишни опити.</li>';
-                historyPagination.style.display = 'none';
-                pageInfo.textContent = '';
-                return;
-            }
-
-            // Определяне на индексите за текущата страница
-            const startIndex = (currentPage - 1) * recordsPerPage;
-            const endIndex = Math.min(startIndex + recordsPerPage, historyData.length);
-
-            // Генериране на списъка за текущата страница
-            for (let i = startIndex; i < endIndex; i++) {
-                const entry = historyData[i];
-                const li = document.createElement('li');
-                li.textContent = `Дата: ${entry.timestamp} - Категория: ${entry.category} - Резултат: ${entry.score} от ${entry.total}`;
-                historyList.appendChild(li);
-            }
-
-            // Обновяване на информацията за страница
-            pageInfo.textContent = `Страница ${currentPage} от ${totalPages}`;
-
-            // Показване или скриване на пагинацията
-            if (totalPages > 1) {
-                historyPagination.style.display = 'flex';
-                prevPageButton.disabled = currentPage === 1;
-                nextPageButton.disabled = currentPage === totalPages;
-            } else {
-                historyPagination.style.display = 'none';
-            }
-        }
-
-        // Слушатели за бутоните за пагинация
-        prevPageButton.addEventListener('click', () => {
-            if (currentPage > 1) {
-                displayHistory(currentPage - 1);
-            }
+        const nextBtn = document.createElement('button');
+        nextBtn.textContent = 'Следващ въпрос';
+        nextBtn.className = 'next-button';
+        nextBtn.addEventListener('click', () => {
+          currentQuestionIndex++;
+          loadQuestion();
         });
+        resultElement.appendChild(nextBtn);
+      }
+    }
 
-        nextPageButton.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                displayHistory(currentPage + 1);
-            }
-        });
+    // Показване на крайния резултат
+    function showFinalResult() {
+      quizSection.style.display = 'none';
+      finalResultSection.style.display = 'block';
+      scoreElement.textContent = score;
+      totalElement.textContent = selectedQuestions.length;
 
-        // Функция за изход
-        function exitQuiz() {
-            window.location.href = 'index.html'; // Пренасочване към главната страница (можете да промените URL-то)
-        }
+      addToHistory(score, selectedQuestions.length);
+      displayHistory();
 
-        // Функция за рандомизиране на масив (Фишер-Йетс алгоритъм)
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+      exitButton.style.display = 'none';
+    }
 
-        // Добавяне на слушатели за бутоните
-        startButton.addEventListener('click', startQuiz);
-        restartButton.addEventListener('click', restartQuiz);
-        exitButton.addEventListener('click', exitQuiz);
+    // Рестартиране на теста
+    function restartQuiz() {
+      finalResultSection.style.display = 'none';
+      startSection.style.display = 'block';
+      historySection.style.display = 'block';
+      numQuestionsInput.value = 5;
+    }
 
-        // Показване на историята при зареждане на страницата
-        window.onload = () => displayHistory(); // Използвайте анонимна функция, за да не предавате събитие
-    </script>
+    // Записване в историята (Local Storage)
+    function addToHistory(score, total) {
+      let history = JSON.parse(localStorage.getItem('quizHistory')) || [];
+      const timestamp = new Date().toLocaleString();
+      history.push({ score, total, timestamp });
+      localStorage.setItem('quizHistory', JSON.stringify(history));
+    }
+
+    // Показване на историята
+    function displayHistory(page = 1) {
+      historyData = JSON.parse(localStorage.getItem('quizHistory')) || [];
+      totalPages = Math.ceil(historyData.length / recordsPerPage) || 1;
+      currentPage = typeof page === 'number' ? page : 1;
+
+      historyList.innerHTML = '';
+
+      if (historyData.length === 0) {
+        historyList.innerHTML = '<li>Няма предишни опити.</li>';
+        historyPagination.style.display = 'none';
+        pageInfo.textContent = '';
+        return;
+      }
+
+      const startIndex = (currentPage - 1) * recordsPerPage;
+      const endIndex = Math.min(startIndex + recordsPerPage, historyData.length);
+
+      for (let i = startIndex; i < endIndex; i++) {
+        const entry = historyData[i];
+        const li = document.createElement('li');
+        li.textContent = `Дата: ${entry.timestamp} - Резултат: ${entry.score} от ${entry.total}`;
+        historyList.appendChild(li);
+      }
+
+      pageInfo.textContent = `Страница ${currentPage} от ${totalPages}`;
+
+      if (totalPages > 1) {
+        historyPagination.style.display = 'flex';
+        prevPageButton.disabled = currentPage === 1;
+        nextPageButton.disabled = currentPage === totalPages;
+      } else {
+        historyPagination.style.display = 'none';
+      }
+    }
+
+    // Логика за бутоните за странициране на историята
+    prevPageButton.addEventListener('click', () => {
+      if (currentPage > 1) {
+        displayHistory(currentPage - 1);
+      }
+    });
+    nextPageButton.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        displayHistory(currentPage + 1);
+      }
+    });
+
+    // Изход (примерно връщане към друга страница)
+    function exitQuiz() {
+      alert("Излязохте от теста. Можете да презаредите страницата или да стартирате пак.");
+    }
+
+    // Разбъркване на масив (Fisher-Yates)
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Събития за бутони
+    startButton.addEventListener('click', startQuiz);
+    restartButton.addEventListener('click', restartQuiz);
+    exitButton.addEventListener('click', exitQuiz);
+
+    // Показване на историята при зареждане
+    window.onload = () => displayHistory();
+  </script>
 </body>
 </html>
